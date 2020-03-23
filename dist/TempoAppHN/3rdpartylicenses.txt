@@ -173,6 +173,8 @@ ng-zorro-antd/form
 
 ng-zorro-antd/input
 
+ng-zorro-antd/input-number
+
 ng-zorro-antd/layout
 
 ng-zorro-antd/menu

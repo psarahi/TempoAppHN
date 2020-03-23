@@ -1,3 +1,146 @@
-<p>
-  equipo works!
-</p>
+<div class="tabla">
+  <h2>Miembros de su equipo</h2>
+
+  <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar Miembro</button>
+  <nz-table #nzTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Usuario</th>
+        <th>Password</th>
+        <th>Correo</th>
+        <th>Costo Hr</th>
+        <th>Perfil</th>
+        <th>Espertis</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+        <td> {{ data.nombre }} </td>
+        <td> {{ data.apellido }} </td>
+        <td> {{ data.usuario }} </td>
+        <td> {{ data.password }} </td>
+        <td> {{ data.correo }} </td>
+        <td> {{ data.costoHr }} </td>
+        <td> {{ data.perfil }} </td>
+        <td> {{ data.expertis }} </td>
+        <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de miembros"
+  (nzOnClose)="close()">
+  <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="nombre" id="nombre" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="apellido">Apellido</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="apellido" id="apellido" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="usuario">Usuario</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="usuario" id="usuario" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" nzHasFeedback [nzXs]="24" nzFor="password" nzRequired>Contraseña</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <nz-input-group [nzSuffix]="suffixTemplate">
+          <input [type]="passwordVisible ? 'text' : 'password'" nz-input nz-input id="password"
+            formControlName="password" />
+        </nz-input-group>
+        <ng-template #suffixTemplate>
+          <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+            (click)="passwordVisible = !passwordVisible"></i>
+        </ng-template>
+        <!-- <input [type]="passwordVisible ? 'text' : 'password'" nz-input id="password" formControlName="password" /> -->
+
+        <!-- <input nz-input type="password" id="password" formControlName="password" /> -->
+      </nz-form-control>
+      <ng-template #suffixTemplate>
+        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
+          (click)="passwordVisible = !passwordVisible"></i>
+      </ng-template>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="correo">Correo</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="correo" id="correo" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="costoHr">Costo Hr</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="costoHr" id="costoHr">
+        </nz-input-number>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="perfil">Perfil</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione perfil" formControlName="perfil" id="perfil">
+          <nz-option *ngFor="let perfil of listaPerfiles" [nzLabel]="perfil.nombre"
+            [nzValue]="perfil._id"></nz-option>
+        </nz-select>
+        <!-- <input nz-input formControlName="responsable" id="responsable" /> -->
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="expertis">Habilidades</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="expertis" id="expertis" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+      <nz-switch formControlName="estado" id="estado">
+      </nz-switch>
+    </nz-form-item>
+
+    <!-- <nz-form-item *ngFor="let control of listOfControl; let i = index">
+      <nz-form-label [nzXs]="24" [nzSm]="4" *ngIf="i == 0" [nzFor]="control.controlInstance">Passengers
+      </nz-form-label>
+      <nz-form-control [nzXs]="24" [nzSm]="20" [nzOffset]="i == 0 ? 0 : 4"
+        nzErrorTip="Please input passenger's name or delete this field.">
+        <input class="passenger-input" nz-input placeholder="placeholder" [attr.id]="control.id"
+          [formControlName]="control.controlInstance" />
+        <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+        <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+          <i nz-icon nzType="plus"></i>
+          Add field
+        </button>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+        <button nz-button nzType="primary">Submit</button>
+      </nz-form-control>
+    </nz-form-item> -->
+
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <!-- <button nz-button nzType="primary">Registrar</button> -->
+      </nz-form-control>
+    </nz-form-item>
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+      <button nz-button nzType="primary" (click)="close()" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+    </div>
+  </form>
+</nz-drawer>
