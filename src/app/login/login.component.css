@@ -1,13 +1,29 @@
+.login-form {
+  max-width: 300px;
+}
 
-      .login-form {
-        max-width: 300px;
-      }
+.login-form-forgot {
+  float: right;
+}
 
-      .login-form-forgot {
-        float: right;
-      }
+.login-form-button {
+  width: 100%;
+}
 
-      .login-form-button {
-        width: 100%;
-      }
-    
+.login-form-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.imagen {
+  margin: 2%;
+}
+
+.texto {
+  font-size: medium;
+  color: black;
+}

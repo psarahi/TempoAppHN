@@ -13,13 +13,18 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component: LoginComponent },
-  { path: 'welcome', component: WelcomeComponent },
-  { path: 'registro', component: RegistroComponent },
-  { path: 'proyecto', component: ProyectoComponent },
-  { path: 'equipo', component: EquipoComponent },
-  { path: 'cuentas', component: CuentasComponent },
-  { path: 'actividades', component: ActividadesComponent },
-  { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
+  {
+    path: '',
+    component: WelcomeComponent,
+    children: [
+      { path: 'registro', component: RegistroComponent },
+      { path: 'proyecto', component: ProyectoComponent },
+      { path: 'equipo', component: EquipoComponent },
+      { path: 'cuentas', component: CuentasComponent },
+      { path: 'actividades', component: ActividadesComponent },
+      { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
+    ]
+  },
 ];
 
 @NgModule({
