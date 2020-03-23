@@ -1,0 +1,92 @@
+.layout {
+    /* height: 100vh; */
+    height: 100%;
+    width: 100%;
+  }
+  
+  .tabla {
+    margin: 0 auto;
+    max-width: 50%;
+  }
+  
+  .headerTable {
+    background-color: rgb(25, 173, 124);
+  }
+  
+  .add {
+    margin: 0 auto;
+  }
+  
+  .title {
+    margin-top: 2%;
+    margin-left: 4%;
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 16px;
+    text-align: right;
+    left: 0px;
+    background: #fff;
+  }
+  
+  [nz-form] {
+    max-width: 800px;
+  }
+  
+  
+  .register-are {
+    margin-bottom: 8px;
+  }
+  
+  .login-form-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nz-select {
+    width: 200px;
+  }
+  
+  nz-input-number {
+    margin-right: 8px;
+  }
+  
+  
+  .dynamic-delete-button {
+    cursor: pointer;
+    position: relative;
+    top: 4px;
+    font-size: 24px;
+    color: #999;
+    transition: all 0.3s;
+  }
+  
+  .dynamic-delete-button:hover {
+    color: #777;
+  }
+  
+  .passenger-input {
+    width: 60%;
+    margin-right: 8px;
+  }
+  
+  [nz-form] {
+    max-width: 600px;
+  }
+  
+  .add-button {
+    width: 60%;
+  }
+  
+  /* nz-content {
+     margin: 24px 16px 0;
+   }  */
+  

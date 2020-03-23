@@ -1,3 +1,45 @@
-<p>
-  actividades works!
-</p>
+<div class="tabla">
+  <h2>Actividades registradas</h2>
+  <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar cuenta</button>
+  <nz-table #nzTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Estado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let data of nzTable.data">
+        <td> {{ data.nombre }} </td>
+        <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
+      </tr>
+    </tbody>
+  </nz-table>
+</div>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
+  [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de actividades"
+  (nzOnClose)="close()">
+  <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+        <input nz-input formControlName="nombre" id="nombre" />
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+      <nz-switch formControlName="estado" id="estado">
+      </nz-switch>
+    </nz-form-item>
+    <nz-form-item nz-row class="register-area">
+      <nz-form-control [nzSpan]="14" [nzOffset]="6">
+        <!-- <button nz-button nzType="primary">Registrar</button> -->
+      </nz-form-control>
+    </nz-form-item>
+    <div class="footer">
+      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+      <button nz-button nzType="primary" (click)="close()" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+    </div>
+  </form>
+</nz-drawer>
