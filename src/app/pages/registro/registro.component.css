@@ -1,0 +1,21 @@
+[nz-form] {
+    max-width: 800px;
+  }
+  
+  .register-are {
+    margin-bottom: 8px;
+  }
+  
+  .login-form-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    i {
+      cursor: pointer;
+    }
+    
