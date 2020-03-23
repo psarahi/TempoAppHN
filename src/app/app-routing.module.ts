@@ -13,11 +13,11 @@ import { LoginComponent } from './login/login.component';
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component: LoginComponent },
+  { path: 'registro', component: RegistroComponent },
   {
     path: '',
     component: WelcomeComponent,
     children: [
-      { path: 'registro', component: RegistroComponent },
       { path: 'proyecto', component: ProyectoComponent },
       { path: 'equipo', component: EquipoComponent },
       { path: 'cuentas', component: CuentasComponent },
