@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 /** config angular i18n **/
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
+import { IconsProviderModule } from './icons-provider.module';
 registerLocaleData(en)
 
 @NgModule({
@@ -25,7 +26,8 @@ registerLocaleData(en)
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    NgZorroAntdModule
+    NgZorroAntdModule,
+    IconsProviderModule
   ],
   providers: [
     { provide: NZ_I18N, useValue: en_US }

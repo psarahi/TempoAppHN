@@ -1,6 +1,3 @@
-ng-zorro-antd
-MIT
-
 undefined
 
 @angular-devkit/build-angular
@@ -131,11 +128,18 @@ date-fns is licensed under the [MIT license](http://kossnocorp.mit-license.org).
 Read more about MIT at [TLDRLegal](https://tldrlegal.com/license/mit-license).
 
 
+ng-zorro-antd
+MIT
+
 ng-zorro-antd/button
 
 ng-zorro-antd/drawer
 
 ng-zorro-antd/dropdown
+
+ng-zorro-antd/layout
+
+ng-zorro-antd/menu
 
 ng-zorro-antd/message
 
