@@ -28,7 +28,7 @@ export class RegistroComponent implements OnInit {
     this.dataCuenta = {
       ...this.validateForm.value,
       fechaRegistro: moment().format('YYYY-MM-DD'),
-      perfil: 'admin',
+      perfil: '5e73eafbd981ab34a0285f42',
       estado: true
     };
 
