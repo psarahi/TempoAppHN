@@ -1,0 +1,104 @@
+.subtitulo {
+    color: rgb(83, 82, 82);
+  }
+  
+  .contenedor {
+    margin: 0 auto;
+    max-width: 90%;
+  }
+  
+  p {
+    margin: 0;
+  }
+  
+  span {
+    font-size: large;
+  }
+  
+  .layout {
+    /* height: 100vh; */
+    height: 100%;
+    width: 100%;
+  }
+  
+  .tabla {
+    margin: 0 auto;
+    max-width: 70%;
+  }
+  
+  .headerTable {
+    background-color: rgb(25, 173, 124);
+  }
+  
+  .add {
+    margin: 0 auto;
+  }
+  
+  .title {
+    margin-top: 2%;
+    margin-left: 4%;
+  }
+  
+  .footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    border-top: 1px solid rgb(232, 232, 232);
+    padding: 10px 16px;
+    text-align: right;
+    left: 0px;
+    background: #fff;
+  }
+  
+  [nz-form] {
+    max-width: 800px;
+  }
+  
+  
+  .register-are {
+    margin-bottom: 8px;
+  }
+  
+  .login-form-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nz-switch {
+    margin-bottom: 8px;
+  }
+  
+  nz-select {
+    width: 200px;
+  }
+  
+  nz-input-number {
+    margin-right: 8px;
+  }
+  
+  /* nz-content {
+   margin: 24px 16px 0;
+  }  */
+  
+  .btn-team {
+    background-color: rgba(22, 138, 22, 0.884);
+    color: white;
+  }
+  
+  .btn-td {
+    text-align: center;
+  }
+  
+  nz-avatar {
+    margin-top: 16px;
+    margin-right: 16px;
+  }
+  
+  .div-equipo {
+    margin: 0 auto;
+  }
+  

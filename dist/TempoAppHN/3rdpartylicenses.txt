@@ -159,7 +159,11 @@ OTHER DEALINGS IN THE SOFTWARE.
 ng-zorro-antd
 MIT
 
+ng-zorro-antd/avatar
+
 ng-zorro-antd/button
+
+ng-zorro-antd/card
 
 ng-zorro-antd/checkbox
 
