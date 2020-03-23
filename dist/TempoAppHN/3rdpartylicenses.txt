@@ -133,9 +133,15 @@ MIT
 
 ng-zorro-antd/button
 
+ng-zorro-antd/checkbox
+
 ng-zorro-antd/drawer
 
 ng-zorro-antd/dropdown
+
+ng-zorro-antd/form
+
+ng-zorro-antd/input
 
 ng-zorro-antd/layout
 

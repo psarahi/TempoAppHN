@@ -1,0 +1,60 @@
+<nz-layout class="app-layout">
+    <nz-sider class="menu-sidebar" nzCollapsible nzWidth="256px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed"
+        [nzTrigger]="null">
+        <div class="sidebar-logo">
+            <a href="https://ng.ant.design/" target="_blank">
+                <img src="assets/time.png" alt="logo">
+                <h1>TempoAppHN</h1>
+            </a>
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <li nz-submenu nzOpen nzTitle="Administración" nzIcon="audit">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/cuentas">Cuentas</a>
+                    </li>
+                </ul>
+            </li>
+            <li nz-submenu nzOpen nzTitle="Mantenimiento" nzIcon="tool">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/proyecto">Tus Proyectos</a>
+                    </li>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/equipo">Tus Miembros</a>
+                    </li>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/actividades">Tus Actividades</a>
+                    </li>
+                </ul>
+            </li>
+            <!-- <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="line-chart">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink='/report'>Reporte</a>
+                    </li>
+                </ul>
+            </li> -->
+            <!-- <li nz-submenu nzOpen nzTitle="Con" nzIcon="line-chart"> -->
+            <li nz-menu-item nzMatchRouter nzIcon="logout">
+                <a (click)="logout()">Cerrar sesión</a>
+            </li>
+
+            <!-- </li> -->
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <div class="app-header">
+                <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
+                    <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
+                </span>
+            </div>
+        </nz-header>
+        <nz-content>
+            <div class="inner-content">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+    </nz-layout>
+</nz-layout>

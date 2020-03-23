@@ -1,7 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
-
+import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
+// import { routes } from './app-routing.module';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,16 +14,16 @@ import { AppComponent } from './app.component';
 import { CuentasComponent } from './pages/cuentas/cuentas.component';
 import { ActividadesComponent } from './pages/actividades/actividades.component';
 import { EquipoComponent } from './pages/equipo/equipo.component';
-import { ProgramacionProyectoComponent } from './pages/programacionProyecto/programacionProyecto.component';
+import { ProgramacionProyectosComponent } from './pages/programacionProyectos/programacionProyectos.component';
 import { ProyectoComponent } from './pages/proyecto/proyecto.component';
 import { RegistroComponent } from './pages/registro/registro.component';
-
+import { WelcomeComponent } from './pages/welcome/welcome.component';
+import { LoginComponent } from './login/login.component';
 
 // config angular i18n
-import { registerLocaleData } from '@angular/common';
+import { registerLocaleData, CommonModule } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { IconsProviderModule } from './icons-provider.module';
-import { LoginComponent } from './login/login.component';
 
 // Importaciones de componentes
 import { NzCardModule } from 'ng-zorro-antd/card';
@@ -53,16 +54,16 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 
-
 registerLocaleData(en);
 
 @NgModule({
    declarations: [
       AppComponent,
+      WelcomeComponent,
       CuentasComponent,
       ActividadesComponent,
       EquipoComponent,
-      ProgramacionProyectoComponent,
+      ProgramacionProyectosComponent,
       ProyectoComponent,
       RegistroComponent,
       LoginComponent,
@@ -70,13 +71,13 @@ registerLocaleData(en);
    imports: [
       BrowserModule,
       AppRoutingModule,
-      BrowserModule,
       FormsModule,
       HttpClientModule,
       BrowserAnimationsModule,
       NgZorroAntdModule,
       IconsProviderModule,
       ReactiveFormsModule,
+      //////////////////////////////
       NzCardModule,
       NzGridModule,
       NzLayoutModule,
@@ -104,6 +105,7 @@ registerLocaleData(en);
       NzListModule,
       NzStatisticModule,
       NzDividerModule,
+      ///////////////////////////
    ],
    providers: [
       { provide: NZ_I18N, useValue: en_US }
