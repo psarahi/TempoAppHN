@@ -9,11 +9,14 @@ import { ProyectoComponent } from './pages/proyecto/proyecto.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
+  { path: 'error', component: ErrorComponent },
+  { path: '**', redirectTo: '/error', pathMatch: 'full' },
   {
     path: '',
     component: WelcomeComponent,
@@ -28,7 +31,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { useHash: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

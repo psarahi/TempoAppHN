@@ -53,6 +53,7 @@ import { NzEmptyModule } from 'ng-zorro-antd/empty';
 import { NzListModule } from 'ng-zorro-antd/list';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
+import { ErrorComponent } from './pages/error/error.component';
 
 registerLocaleData(en);
 
@@ -67,6 +68,7 @@ registerLocaleData(en);
       ProyectoComponent,
       RegistroComponent,
       LoginComponent,
+      ErrorComponent
    ],
    imports: [
       BrowserModule,

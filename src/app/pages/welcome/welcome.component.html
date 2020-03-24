@@ -36,10 +36,13 @@
                 </ul>
             </li> -->
             <!-- <li nz-submenu nzOpen nzTitle="Con" nzIcon="line-chart"> -->
-            <li nz-menu-item nzMatchRouter nzIcon="logout">
-                <a (click)="logout()">Cerrar sesión</a>
+            <li nz-submenu nzOpen nzTitle="Configuración" nzIcon="logout">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a (click)="logout()">Cerrar sesión</a>
+                    </li>
+                </ul>
             </li>
-
             <!-- </li> -->
         </ul>
     </nz-sider>
