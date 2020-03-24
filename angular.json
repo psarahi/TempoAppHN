@@ -25,7 +25,7 @@
               {
                 "glob": "_redirects",
                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
+                "output": "/"
               }
             ],
             "styles": [
@@ -91,9 +91,9 @@
               "src/favicon.ico",
               "src/assets",
               {
-                "glob": "**/*",
+                "glob": "*_redirects",
                 "input": "./node_modules/@ant-design/icons-angular/src/inline-svg/",
-                "output": "/assets/"
+                "output": "/"
               }
             ],
             "styles": [
