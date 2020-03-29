@@ -82,6 +82,7 @@ export class ProgramacionProyectosComponent implements OnInit {
       .then(
         (data: ProgramacionProyectoModel) => {
           this.listOfDisplayData = [...this.listOfDisplayData, data];
+          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.idProyecto === this.detalleProyecto._id)
           this.loadingTable = false;
 
           this.createMessage('success', 'Registro creado con exito');
@@ -169,6 +170,7 @@ export class ProgramacionProyectosComponent implements OnInit {
         (data: ProgramacionProyectoModel[]) => {
           this.listaProgramacionProyectos = data;
           this.listOfDisplayData = [...this.listaProgramacionProyectos];
+          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.idProyecto === this.detalleProyecto._id);
           this.loadingTable = false;
         }
       );
