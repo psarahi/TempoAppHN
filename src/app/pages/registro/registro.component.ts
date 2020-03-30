@@ -25,12 +25,15 @@ export class RegistroComponent implements OnInit {
     }
 
     // debugger;
+    this.validateForm.value.password = btoa(this.validateForm.value.password);
     this.dataCuenta = {
       ...this.validateForm.value,
       fechaRegistro: moment().format('YYYY-MM-DD'),
       perfil: '5e73eafbd981ab34a0285f42',
       estado: true
     };
+    console.log(this.dataCuenta);
+    
 
     this.serviceCuenta.postCuenta(this.dataCuenta).subscribe(
       (data) => {
