@@ -1,32 +1,35 @@
-<div class="fondo">
-  <div class="login-form-container">
-    <img class="imagen" src="assets/time.png" alt="" srcset="">
-    <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
-      <nz-form-item>
-        <nz-form-control nzErrorTip="¡Por favor digite un usuario!">
-          <nz-input-group nzPrefixIcon="user">
-            <input type="text" nz-input formControlName="usuario" placeholder="Usuario" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control nzErrorTip="¡Por favor digite un contraseña!">
-          <nz-input-group nzPrefixIcon="lock">
-            <input type="password" nz-input formControlName="password" placeholder="Contraseña" />
-          </nz-input-group>
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-control>
-          <!-- <label nz-checkbox formControlName="remember">
+<div class="fondo" *ngIf="formulario">
+    <div class="login-form-container">
+        <img class="imagen" src="assets/time.png" alt="" srcset="">
+        <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="¡Por favor digite un usuario!">
+                    <nz-input-group nzPrefixIcon="user">
+                        <input type="text" nz-input formControlName="usuario" placeholder="Usuario" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control nzErrorTip="¡Por favor digite un contraseña!">
+                    <nz-input-group nzPrefixIcon="lock">
+                        <input type="password" nz-input formControlName="password" placeholder="Contraseña" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <!-- <label nz-checkbox formControlName="remember">
             <span>Remember me</span>
           </label> -->
-          <!-- <a class="login-form-forgot" class="login-form-forgot">Forgot password</a> -->
-          <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button>
-          O
-          <a [routerLink]="['/registro']" class="texto"> regístrate ahora!</a>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </div>
+                    <!-- <a class="login-form-forgot" class="login-form-forgot">Forgot password</a> -->
+                    <button nz-button class="login-form-button" [nzType]="'primary'">Log in</button> O
+                    <a [routerLink]="['/registro']" class="texto"> regístrate ahora!</a>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+</div>
+
+<div *ngIf="loading">
+    <nz-spin class="spinner" nzSimple [nzSize]="'large'"></nz-spin>
 </div>

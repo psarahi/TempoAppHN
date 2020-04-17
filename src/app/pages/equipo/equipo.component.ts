@@ -21,6 +21,7 @@ export class EquipoComponent implements OnInit {
   listaPerfiles: PerfilModel[];
   listOfDisplayData: MiembrosModel[];
   dataMiembros;
+  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
 
   constructor(
     private serviceMiembro: MiembrosService,
@@ -63,7 +64,7 @@ export class EquipoComponent implements OnInit {
       password: [null, [Validators.required]],
       correo: [null, [Validators.email, Validators.required]],
       costoHr: [null, [Validators.required]],
-      perfil: [null, [Validators.required]],
+      perfiles: [null, [Validators.required]],
       expertis: [null, [Validators.required]],
       estado: [null, [Validators.required]],
     });
@@ -71,20 +72,19 @@ export class EquipoComponent implements OnInit {
 
   submitForm(): void {
     // debugger;
-    // console.log(this.validateForm.value);
-    this.validateForm.value.password = btoa(this.validateForm.value.password);
+    // this.validateForm.value.password = btoa(this.validateForm.value.password);
     this.dataMiembros = {
       ...this.validateForm.value,
-      idCuenta: localStorage.getItem('infoUser')
+      cuentas: this.infoLogin.idCuenta
     };
 
-    console.log(this.dataMiembros);
     this.serviceMiembro.postMiembros(this.dataMiembros).toPromise().then(
       (data: MiembrosModel) => {
 
         this.listOfDisplayData = [... this.listOfDisplayData, data];
         this.loadingTable = false;
         this.createMessage('success', 'Registro creado con exito');
+        console.log(this.listOfDisplayData);
 
         this.validateForm = this.fb.group({
           nombre: [null, [Validators.required]],
@@ -93,7 +93,7 @@ export class EquipoComponent implements OnInit {
           password: [null, [Validators.required]],
           correo: [null, [Validators.email, Validators.required]],
           costoHr: [null, [Validators.required]],
-          perfil: [null, [Validators.required]],
+          perfiles: [null, [Validators.required]],
           expertis: [null, [Validators.required]],
           estado: [null, [Validators.required]],
         });

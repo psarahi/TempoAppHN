@@ -19,4 +19,8 @@ export class ProgramacionEquipoService {
     return this.http.post(`${apiUrl}/programacionEquipos`, programacionEquipos);
   }
 
+  getProgramacionEquipo_Programacion(programacionProyecto: string) {
+    return this.http.get(`${apiUrl}/programacionEquipos/ProgramacionProyecto/${programacionProyecto}`);
+  }
+
 }

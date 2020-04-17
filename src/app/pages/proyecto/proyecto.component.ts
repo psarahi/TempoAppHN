@@ -21,6 +21,8 @@ export class ProyectoComponent implements OnInit {
   listOfDisplayData: ProyectoModel[];
   dataProyectos;
   dataMiembros: MiembrosModel[];
+  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
+
   constructor(
     private serviceProyecto: ProyectosService,
     private fb: FormBuilder,
@@ -53,7 +55,7 @@ export class ProyectoComponent implements OnInit {
     );
     this.validateForm = this.fb.group({
       nombreProyecto: [null, [Validators.required]],
-      responsable: [null, [Validators.required]],
+      miembros: [null, [Validators.required]],
       tiempoProyectadoPro: [null, [Validators.required]],
       presuProyectadoPro: [null, [Validators.required]],
       estado: [null, [Validators.required]]
@@ -66,7 +68,7 @@ export class ProyectoComponent implements OnInit {
     // localStorage.getItem('infoUser');
     this.dataProyectos = {
       ...this.validateForm.value,
-      idCuenta: localStorage.getItem('infoUser'),
+      cuentas: this.infoLogin.idCuenta,
       tiempoRealPro: 0,
       presupuestoRealPro: 0
     };
@@ -81,7 +83,7 @@ export class ProyectoComponent implements OnInit {
 
         this.validateForm = this.fb.group({
           nombreProyecto: [null, [Validators.required]],
-          responsable: [null, [Validators.required]],
+          miembros: [null, [Validators.required]],
           tiempoProyectadoPro: [null, [Validators.required]],
           presuProyectadoPro: [null, [Validators.required]],
           estado: [null, [Validators.required]]

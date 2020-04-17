@@ -12,10 +12,10 @@ export class CuentaService {
   constructor(private http: HttpClient) { }
 
   postCuenta(cuenta) {
-    return this.http.post(`${apiUrl}/cuentas`, cuenta);
+    return this.http.post(`${apiUrl}/cuentas/`, cuenta);
   }
 
   getCuenta() {
-    return this.http.get(`${apiUrl}/cuentas`);
+    return this.http.get(`${apiUrl}/cuentas/`);
   }
 }

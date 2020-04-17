@@ -1,26 +1,44 @@
 export interface MiembrosModel {
-  _id: string;
-  idCuenta: string;
-  nombre: string;
-  apellido: string;
-  usuario: string;
-  password: string;
-  correo: string;
-  costoHr: number;
-  perfil: string;
+
   expertis: string[];
   estado: boolean;
-}
-
-export interface Miembro {
-  idCuenta: string;
+  _id: string;
+  cuentas: string;
   nombre: string;
   apellido: string;
   usuario: string;
   password: string;
   correo: string;
   costoHr: number;
-  perfil: string;
+  perfiles: Perfiles;
+  __v: number;
+}
+
+export interface Perfiles {
+  _id: string;
+  nombre: string;
+}
+  // _id: string;
+  // cuentas: string;
+  // nombre: string;
+  // apellido: string;
+  // usuario: string;
+  // password: string;
+  // correo: string;
+  // costoHr: number;
+  // perfiles: string;
+  // expertis: string[];
+  // estado: boolean;
+
+export interface Miembro {
+  cuentas: string;
+  nombre: string;
+  apellido: string;
+  usuario: string;
+  password: string;
+  correo: string;
+  costoHr: number;
+  perfiles: string;
   expertis: string[];
   estado: boolean;
 }

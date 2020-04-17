@@ -12,7 +12,7 @@ export class PerfilesService {
   constructor(private http: HttpClient) { }
 
   getPerfiles(){
-    return this.http.get(`${apiUrl}/perfiles`);
+    return this.http.get(`${apiUrl}/perfiles/`);
   }
 
 }

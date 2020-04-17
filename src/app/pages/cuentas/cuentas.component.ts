@@ -37,11 +37,11 @@ export class CuentasComponent implements OnInit {
       this.validateForm.controls[i].updateValueAndValidity();
     }
 
-    this.validateForm.value.password = btoa(this.validateForm.value.password);
+    //  this.validateForm.value.password = btoa(this.validateForm.value.password);
     this.dataCuenta = {
       ...this.validateForm.value,
-      fechaRegistro: moment().format('YYYY-MM-DD'),
-      perfil: '5e73eafbd981ab34a0285f42',
+      // fechaRegistro: moment().format('YYYY-MM-DD'),
+      perfiles: '5e8e2246ce7ae6c0d4926b89',
     };
 
     this.serviceCuenta.postCuenta(this.dataCuenta).subscribe(

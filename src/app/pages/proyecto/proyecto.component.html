@@ -1,88 +1,83 @@
 <div class="tabla">
-  <h2>Proyectos registrados</h2>
-  <div>
+    <h2>Proyectos registrados</h2>
+    <div>
 
-    <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar Proyecto</button>
-    <nz-table #nzTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Nombre</th>
-          <th>Reponsable</th>
-          <th>Tiempo Proyectado (Hrs)</th>
-          <th>Tiempo Real (Hrs)</th>
-          <th>Resupuesto Proyectado</th>
-          <th>Presupuesto Real</th>
-          <th>Estado</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let data of nzTable.data">
-          <td>
-            <button nz-button nzType="primary" (click)="programacion(data)"><i nz-icon nzType="apartment"></i></button>
-          </td>
-          <td> {{ data.nombreProyecto }} </td>
-          <td> {{ data.responsable }} </td>
-          <td> {{ data.tiempoProyectadoPro }} </td>
-          <td> {{ data.tiempoRealPro }} </td>
-          <td> {{ data.presupuestoRealPro }} </td>
-          <td> {{ data.presuProyectadoPro }} </td>
-          <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
-        </tr>
-      </tbody>
-    </nz-table>
-  </div>
+        <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar Proyecto</button>
+        <nz-table #nzTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nombre</th>
+                    <th>Reponsable</th>
+                    <th>Tiempo Proyectado (Hrs)</th>
+                    <th>Tiempo Real (Hrs)</th>
+                    <th>Resupuesto Proyectado</th>
+                    <th>Presupuesto Real</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of nzTable.data">
+                    <td>
+                        <button nz-button nzType="primary" (click)="programacion(data)"><i nz-icon nzType="apartment"></i></button>
+                    </td>
+                    <td> {{ data.nombreProyecto }} </td>
+                    <td> {{ data.miembros.nombre + ' ' + data.miembros.apellido }} </td>
+                    <td> {{ data.tiempoProyectadoPro }} </td>
+                    <td> {{ data.tiempoRealPro }} </td>
+                    <td> {{ data.presupuestoRealPro }} </td>
+                    <td> {{ data.presuProyectadoPro }} </td>
+                    <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
 </div>
 
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
-  [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de proyectos"
-  (nzOnClose)="close()">
-  <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombreProyecto">Nombre</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <input nz-input formControlName="nombreProyecto" id="nombreProyecto" #nombreProyecto />
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="responsable">Responsable</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione persona" formControlName="responsable"
-          id="responsable">
-          <nz-option *ngFor="let miembro of dataMiembros" [nzLabel]="miembro.nombre +' '+ miembro.apellido"
-            [nzValue]="miembro._id"></nz-option>
-        </nz-select>
-        <!-- <input nz-input formControlName="responsable" id="responsable" /> -->
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="tiempoProyectadoPro">Tiempo Proyectado (Hrs)
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-input-number [nzMin]="1" [nzStep]="1" nz-input formControlName="tiempoProyectadoPro"
-          id="tiempoProyectadoPro"></nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presuProyectadoPro">Presupuesto proyectado</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="presuProyectadoPro" id="presuProyectadoPro">
-        </nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
-      <nz-switch formControlName="estado" id="estado">
-      </nz-switch>
-    </nz-form-item>
-    <nz-form-item nz-row class="register-area">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-        <!-- <button nz-button nzType="primary">Registrar</button> -->
-      </nz-form-control>
-    </nz-form-item>
-    <div class="footer">
-      <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
-      <button nz-button (click)="close()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
-    </div>
-  </form>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de proyectos" (nzOnClose)="close()">
+    <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombreProyecto">Nombre</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <input nz-input formControlName="nombreProyecto" id="nombreProyecto" #nombreProyecto />
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Responsable</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione persona" formControlName="miembros" id="miembros">
+                    <nz-option *ngFor="let miembro of dataMiembros" [nzLabel]="miembro.nombre +' '+ miembro.apellido" [nzValue]="miembro._id"></nz-option>
+                </nz-select>
+                <!-- <input nz-input formControlName="miembros" id="miembros" /> -->
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="tiempoProyectadoPro">Tiempo Proyectado (Hrs)
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-input-number [nzMin]="1" [nzStep]="1" nz-input formControlName="tiempoProyectadoPro" id="tiempoProyectadoPro"></nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presuProyectadoPro">Presupuesto proyectado</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="presuProyectadoPro" id="presuProyectadoPro">
+                </nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+            <nz-switch formControlName="estado" id="estado">
+            </nz-switch>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+                <!-- <button nz-button nzType="primary">Registrar</button> -->
+            </nz-form-control>
+        </nz-form-item>
+        <div class="footer">
+            <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+            <button nz-button (click)="close()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+        </div>
+    </form>
 </nz-drawer>

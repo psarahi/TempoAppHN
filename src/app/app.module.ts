@@ -54,6 +54,7 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ErrorComponent } from './pages/error/error.component';
+import { NzSpinModule } from 'ng-zorro-antd/spin';
 
 registerLocaleData(en);
 
@@ -107,6 +108,8 @@ registerLocaleData(en);
       NzListModule,
       NzStatisticModule,
       NzDividerModule,
+      NzSpinModule,
+
       ///////////////////////////
    ],
    providers: [

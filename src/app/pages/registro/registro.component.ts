@@ -25,19 +25,27 @@ export class RegistroComponent implements OnInit {
     }
 
     // debugger;
-    this.validateForm.value.password = btoa(this.validateForm.value.password);
     this.dataCuenta = {
       ...this.validateForm.value,
-      fechaRegistro: moment().format('YYYY-MM-DD'),
-      perfil: '5e73eafbd981ab34a0285f42',
+      // fechaRegistro: moment().format('YYYY-MM-DD'),
+      perfiles: '5e8e2246ce7ae6c0d4926b89',
       estado: true
     };
     console.log(this.dataCuenta);
-    
 
     this.serviceCuenta.postCuenta(this.dataCuenta).subscribe(
       (data) => {
+        this.validateForm = this.fb.group({
+          nombre: [null, [Validators.required]],
+          apellido: [null, [Validators.required]],
+          usuario: [null, [Validators.required]],
+          correo: [null, [Validators.email, Validators.required]],
+          password: [null, [Validators.required]],
+          empresa: [null, [Validators.required]],
+          lugar: [null, [Validators.required]]
+        });
         this.createMessage('success', 'Registro creado con exito');
+
       },
       (error) => {
         console.log(error);

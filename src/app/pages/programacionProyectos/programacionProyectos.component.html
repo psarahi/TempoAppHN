@@ -1,170 +1,160 @@
 <div class="contenedor">
-  <h6 class="subtitulo">Proyecto</h6>
-  <h2> {{ detalleProyecto.nombreProyecto }} </h2>
-  <div style="padding:30px;">
-    <div nz-row [nzGutter]="8">
-      <div nz-col [nzSpan]="8">
-        <nz-card nzTitle="Responsable">
-          <div nz-row>
+    <h4 class="subtitulo">Proyecto</h4>
+    <h2> {{ detalleProyecto.nombreProyecto }} </h2>
+    <div style="padding:30px;">
+        <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="8">
-              <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
+                <nz-card nzTitle="Responsable">
+                    <div nz-row>
+                        <div nz-col [nzSpan]="8">
+                            <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
+                        </div>
+                        <div nz-col [nzSpan]="16">
+                            <p> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </p>
+                        </div>
+                    </div>
+                </nz-card>
             </div>
-            <div nz-col [nzSpan]="16">
-              <p> {{ detalleProyecto.responsable }} </p>
-            </div>
-          </div>
-        </nz-card>
-      </div>
-      <div nz-col [nzSpan]="8">
-        <nz-card nzTitle="Tiempo">
-          <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span> </p>
-          <p> Tiempo Proyectado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p>
+            <div nz-col [nzSpan]="8">
+                <nz-card nzTitle="Tiempo">
+                    <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
+                    </p>
+                    <p> Tiempo Proyectado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p>
 
-        </nz-card>
-      </div>
-      <div nz-col [nzSpan]="8">
-        <nz-card nzTitle="Presupuesto">
-          <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong> </span> </p>
-          <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong> </span> </p>
-        </nz-card>
-      </div>
+                </nz-card>
+            </div>
+            <div nz-col [nzSpan]="8">
+                <nz-card nzTitle="Presupuesto">
+                    <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
+                        </span> </p>
+                    <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
+                        </span> </p>
+                </nz-card>
+            </div>
+        </div>
     </div>
-  </div>
-  <hr>
-  <h4>Actividades</h4>
-  <button nz-button nzType="primary" (click)="openActividad()"><i nz-icon nzType="plus"></i>Agregar actividad</button>
-  <nz-table #actividadesTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5"
-    [nzLoading]="loadingTable">
-    <thead>
-      <tr>
-        <th> </th>
-        <th> </th>
-        <th> Actividad </th>
-        <th> Tiempo Proyectado (Hrs) </th>
-        <th> Tiempo Real (Hrs) </th>
-        <th> Presupuesto Proyectado </th>
-        <th> Presupuesto Real </th>
-        <th> Estado </th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let data of actividadesTable.data">
-        <td class="btn-td">
-          <button nz-button nzType="primary" (click)="openMiembro(data._id)"><i nz-icon nzType="usergroup-add"></i>
-          </button>
-        </td>
-        <td>
-          <button nz-button class="btn-team" (click)="showModal(data._id)"><i nz-icon nzType="team"></i> </button>
-        </td>
-        <td>{{data.idActividad}}</td>
-        <td>{{data.tiempoProyectado}}</td>
-        <td>{{data.tiempoReal}}</td>
-        <td>{{data.presupuestoProyectado}}</td>
-        <td>{{data.presupuestoReal}}</td>
-        <td>{{ data.estado && 'Activo' || 'Inactivo' }}</td>
+    <hr>
+    <h4>Actividades</h4>
+    <button nz-button nzType="primary" (click)="openActividad()"><i nz-icon nzType="plus"></i>Agregar actividad</button>
+    <nz-table #actividadesTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
+        <thead>
+            <tr>
+                <th> </th>
+                <th> </th>
+                <th> Actividad </th>
+                <th> Tiempo Proyectado (Hrs) </th>
+                <th> Tiempo Real (Hrs) </th>
+                <th> Presupuesto Proyectado </th>
+                <th> Presupuesto Real </th>
+                <th> Estado </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of actividadesTable.data">
+                <td class="btn-td">
+                    <button nz-button nzType="primary" (click)="openMiembro(data._id)"><i nz-icon
+                            nzType="usergroup-add"></i>
+                    </button>
+                </td>
+                <td>
+                    <button nz-button class="btn-team" (click)="showModal(data._id)"><i nz-icon nzType="team"></i>
+                    </button>
+                </td>
+                <td>{{data.actividades.nombre}}</td>
+                <td>{{data.tiempoProyectado}}</td>
+                <td>{{data.tiempoReal}}</td>
+                <td>{{data.presupuestoProyectado}}</td>
+                <td>{{data.presupuestoReal}}</td>
+                <td>{{ data.estado && 'Activo' || 'Inactivo' }}</td>
 
-      </tr>
-    </tbody>
-  </nz-table>
+            </tr>
+        </tbody>
+    </nz-table>
 
 </div>
 
 <!-- Informacion de Actividades -->
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
-  [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleActividad" nzTitle="Configuración de actividades"
-  (nzOnClose)="closeActividad()">
-  <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormActividades" (ngSubmit)="submitFormActividades()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="idActividad">Actividad</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione actividad" formControlName="idActividad"
-          id="idActividad">
-          <nz-option *ngFor="let actividad of listaActividades" [nzLabel]="actividad.nombre" [nzValue]="actividad._id">
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="tiempoProyectado">Tiempo Proyectado (Hrs)
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-input-number [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.tiempoProyectadoPro" nz-input
-          formControlName="tiempoProyectado" id="tiempoProyectado">
-        </nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presupuestoProyectado">Presupuesto proyectado
-      </nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-input-number nz-input [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.presuProyectadoPro"
-          formControlName="presupuestoProyectado" id="presupuestoProyectado">
-        </nz-input-number>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
-      <nz-switch formControlName="estado" id="estado">
-      </nz-switch>
-    </nz-form-item>
-    <nz-form-item nz-row class="register-area">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      </nz-form-control>
-    </nz-form-item>
-    <div class="footer">
-      <button type="button" (click)="closeActividad()" class="ant-btn"
-        style="margin-right: 8px;"><span>Cancelar</span></button>
-      <button nz-button (click)="closeActividad()" nzType="primary"
-        class="ant-btn ant-btn-primary"><span>Enviar</span></button>
-    </div>
-  </form>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleActividad" nzTitle="Configuración de actividades" (nzOnClose)="closeActividad()">
+    <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormActividades" (ngSubmit)="submitFormActividades()">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="actividades">Actividad</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione actividad" formControlName="actividades" id="actividades">
+                    <nz-option *ngFor="let actividad of listaActividades" [nzLabel]="actividad.nombre" [nzValue]="actividad._id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="tiempoProyectado">Tiempo Proyectado (Hrs)
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-input-number [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.tiempoProyectadoPro" nz-input formControlName="tiempoProyectado" id="tiempoProyectado">
+                </nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presupuestoProyectado">Presupuesto proyectado
+            </nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-input-number nz-input [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.presuProyectadoPro" formControlName="presupuestoProyectado" id="presupuestoProyectado">
+                </nz-input-number>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+            <nz-switch formControlName="estado" id="estado">
+            </nz-switch>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            </nz-form-control>
+        </nz-form-item>
+        <div class="footer">
+            <button type="button" (click)="closeActividad()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+            <button nz-button (click)="closeActividad()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+        </div>
+    </form>
 </nz-drawer>
 <!-- Informacion de miembros -->
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }"
-  [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad"
-  (nzOnClose)="closeActividad()">
-  <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="idMiembro">Miembro</nz-form-label>
-      <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione un mieembro" formControlName="idMiembro"
-          id="idMiembro">
-          <nz-option *ngFor="let miembro of listaMiembros" [nzLabel]="miembro.nombre + ' '+ miembro.apellido"
-            [nzValue]="miembro._id">
-          </nz-option>
-        </nz-select>
-      </nz-form-control>
-    </nz-form-item>
-    <nz-form-item>
-      <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
-      <nz-switch formControlName="estado" id="estado">
-      </nz-switch>
-    </nz-form-item>
-    <nz-form-item nz-row class="register-area">
-      <nz-form-control [nzSpan]="14" [nzOffset]="6">
-      </nz-form-control>
-    </nz-form-item>
-    <div class="footer">
-      <button type="button" (click)="closeMiembro()" class="ant-btn"
-        style="margin-right: 8px;"><span>Cancelar</span></button>
-      <button nz-button (click)="closeMiembro()" nzType="primary"
-        class="ant-btn ant-btn-primary"><span>Enviar</span></button>
-    </div>
-  </form>
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeActividad()">
+    <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Miembro</nz-form-label>
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione un mieembro" formControlName="miembros" id="miembros">
+                    <nz-option *ngFor="let miembro of listaMiembros" [nzLabel]="miembro.nombre + ' '+ miembro.apellido" [nzValue]="miembro._id">
+                    </nz-option>
+                </nz-select>
+            </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+            <nz-switch formControlName="estado" id="estado">
+            </nz-switch>
+        </nz-form-item>
+        <nz-form-item nz-row class="register-area">
+            <nz-form-control [nzSpan]="14" [nzOffset]="6">
+            </nz-form-control>
+        </nz-form-item>
+        <div class="footer">
+            <button type="button" (click)="closeMiembro()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+            <button nz-button (click)="closeMiembro()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+        </div>
+    </form>
 </nz-drawer>
 
-<nz-modal [(nzVisible)]="isVisible" [nzStyle]="{ top: '20px' }" nzWidth="500" nzTitle="Equipo de la Actividad"
-  (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-  <div class="div-equipo" *ngFor="let equipo of dataEquipoModal">
-    <nz-card class="div-equipo" style="width:300px;">
-      <div nz-row>
-        <div nz-col [nzSpan]="8">
-          <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
-        </div>
-        <div nz-col [nzSpan]="16">
-          <p> {{ equipo.idMiembro }} </p>
-        </div>
-      </div>
-    </nz-card>
-  </div>
+<nz-modal [(nzVisible)]="isVisible" [nzStyle]="{ top: '20px' }" nzWidth="500" nzTitle="Equipo de la Actividad" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <div class="div-equipo" *ngFor="let equipo of dataEquipoModal">
+        <nz-card class="div-equipo" style="width:300px;">
+            <div nz-row>
+                <div nz-col [nzSpan]="8">
+                    <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
+                </div>
+                <div nz-col [nzSpan]="16">
+                    <p> {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </p>
+                </div>
+            </div>
+        </nz-card>
+    </div>
 </nz-modal>

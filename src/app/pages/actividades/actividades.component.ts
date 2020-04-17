@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActividadesModel } from '../../Modelos/actividades';
 import { ActividadesService } from '../../Servicios/actividades.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-
+import { UsuarioLogin } from '../../Modelos/autentificacion';
 
 @Component({
   selector: 'app-actividades',
@@ -19,6 +19,7 @@ export class ActividadesComponent implements OnInit {
   passwordVisible = false;
   listaActividades: ActividadesModel[];
   listOfDisplayData: ActividadesModel[];
+  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
 
   constructor(
     private fb: FormBuilder,
@@ -40,7 +41,7 @@ export class ActividadesComponent implements OnInit {
     // debugger;
     this.dataActividades = {
       ...this.validateForm.value,
-      idCuenta: localStorage.getItem('infoUser')
+      cuentas: this.infoLogin.idCuenta
     };
 
     this.serviceActivades.postActividades(this.dataActividades)
@@ -67,6 +68,7 @@ export class ActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
+
     this.serviceActivades.getActividades()
       .toPromise()
       .then(

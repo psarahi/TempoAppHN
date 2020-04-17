@@ -1,29 +1,38 @@
 .login-form {
-  max-width: 300px;
+    max-width: 300px;
 }
 
 .login-form-forgot {
-  float: right;
+    float: right;
 }
 
 .login-form-button {
-  width: 100%;
+    width: 100%;
 }
 
 .login-form-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .imagen {
-  margin: 2%;
+    margin: 2%;
 }
 
 .texto {
-  font-size: medium;
-  color: black;
+    font-size: medium;
+    color: black;
+}
+
+nz-spin {
+    /* display: inline-block; */
+    margin-right: 16px;
+}
+
+.spinner {
+    margin: 0 auto;
 }

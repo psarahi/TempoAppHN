@@ -34,7 +34,7 @@ export class ProgramacionProyectosComponent implements OnInit {
   dataProgramacionProyecto;
   dataProgramacionEquipo;
   listaProgramacionEquipo: ProgramacionEquipoModel[];
-
+  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
 
   constructor(
     private router: Router,
@@ -71,8 +71,8 @@ export class ProgramacionProyectosComponent implements OnInit {
     }
     this.dataProgramacionProyecto = {
       ...this.validateFormActividades.value,
-      idCuenta: localStorage.getItem('infoUser'),
-      idProyecto: this.detalleProyecto._id,
+      cuentas: this.infoLogin.idCuenta,
+      proyectos: this.detalleProyecto._id,
       tiempoReal: 0,
       presupuestoReal: 0
     };
@@ -82,13 +82,13 @@ export class ProgramacionProyectosComponent implements OnInit {
       .then(
         (data: ProgramacionProyectoModel) => {
           this.listOfDisplayData = [...this.listOfDisplayData, data];
-          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.idProyecto === this.detalleProyecto._id)
+          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.proyectos === this.detalleProyecto._id)
           this.loadingTable = false;
 
           this.createMessage('success', 'Registro creado con exito');
 
           this.validateFormActividades = this.fb.group({
-            idActividad: [null, [Validators.required]],
+            actividades: [null, [Validators.required]],
             tiempoProyectado: [null, [Validators.required]],
             presupuestoProyectado: [null, [Validators.required]],
             estado: [null, [Validators.required]],
@@ -111,7 +111,7 @@ export class ProgramacionProyectosComponent implements OnInit {
     }
     this.dataProgramacionEquipo = {
       ...this.validateFormMiembros.value,
-      idProgramacionProyecto: this.idProgramaAct
+      programacionproyectos: this.idProgramaAct
     };
 
     this.serviceProgramacionMiembro.postProgramacionEquipos(this.dataProgramacionEquipo)
@@ -125,7 +125,7 @@ export class ProgramacionProyectosComponent implements OnInit {
 
           this.idProgramaAct = '';
           this.validateFormMiembros = this.fb.group({
-            idMiembro: [null, [Validators.required]],
+            miembros: [null, [Validators.required]],
             estado: [null, [Validators.required]],
           });
         },
@@ -138,6 +138,7 @@ export class ProgramacionProyectosComponent implements OnInit {
   }
   ngOnInit() {
 
+    console.log(this.detalleProyecto._id);
     this.serviceActividades.getActividades()
       .toPromise()
       .then(
@@ -164,19 +165,18 @@ export class ProgramacionProyectosComponent implements OnInit {
         }
       );
 
-    this.serviceProgramacionProyectos.getProgramacionProyecto()
+    this.serviceProgramacionProyectos.getProgramacionProyecto(this.infoLogin.idCuenta, this.detalleProyecto._id)
       .toPromise()
       .then(
         (data: ProgramacionProyectoModel[]) => {
           this.listaProgramacionProyectos = data;
           this.listOfDisplayData = [...this.listaProgramacionProyectos];
-          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.idProyecto === this.detalleProyecto._id);
           this.loadingTable = false;
         }
       );
 
     this.validateFormActividades = this.fb.group({
-      idActividad: [null, [Validators.required]],
+      actividades: [null, [Validators.required]],
       tiempoProyectado: [null, [Validators.required]],
       tiempoReal: [null, [Validators.required]],
       presupuestoProyectado: [null, [Validators.required]],
@@ -185,7 +185,7 @@ export class ProgramacionProyectosComponent implements OnInit {
     });
 
     this.validateFormMiembros = this.fb.group({
-      idMiembro: [null, [Validators.required]],
+      miembros: [null, [Validators.required]],
       estado: [null, [Validators.required]],
     });
 
@@ -210,7 +210,7 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   showModal(idProAct): void {
 
-    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.idProgramacionProyecto === idProAct);
+    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyectos === idProAct);
     this.isVisible = true;
   }
 

@@ -1,5 +1,6 @@
 
 export interface CuentaModel {
+    estado: boolean;
     _id: string;
     nombre: string;
     apellido: string;
@@ -8,10 +9,26 @@ export interface CuentaModel {
     password: string;
     empresa: string;
     lugar: string;
-    fechaRegistro: any;
-    perfil: string;
-    estado: boolean;
+    perfiles: Perfiles;
+    fechaRegistro: string;
+    __v: number;
 }
+
+export interface Perfiles {
+    _id: string;
+    nombre: string;
+}
+// _id: string;
+// nombre: string;
+// apellido: string;
+// correo: string;
+// usuario: string;
+// password: string;
+// empresa: string;
+// lugar: string;
+// fechaRegistro: any;
+// perfiles: string;
+// estado: boolean;
 
 export interface Cuenta {
     nombre: string;
@@ -22,6 +39,6 @@ export interface Cuenta {
     empresa: string;
     lugar: string;
     fechaRegistro: any;
-    perfil: string;
+    perfiles: string;
     estado: boolean;
 }

@@ -11,8 +11,8 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  validar(user: string, password: string) {
-    return this.http.get(`${apiUrl}/cuentas?filter[where][estado]=true&filter[where][usuario]=${user}&filter[where][password]=${password}`);
+  validar(infoLogin) {
+    return this.http.post(`${apiUrl}/auth/`, infoLogin);
   }
 
 }
