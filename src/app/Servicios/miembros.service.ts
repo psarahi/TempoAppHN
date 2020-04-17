@@ -17,6 +17,10 @@ export class MiembrosService {
     return this.http.get(`${apiUrl}/miembros/cuenta/${this.cuentaLogin}`);
   }
 
+  getMiembrosResponsables() {
+    return this.http.get(`${apiUrl}/miembros/miembrosResponsables/${this.cuentaLogin}`);
+  }
+
   postMiembros(miembro) {
     return this.http.post(`${apiUrl}/miembros/`, miembro);
   }

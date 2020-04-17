@@ -85,7 +85,7 @@
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="perfiles">Perfil</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione perfiles" formControlName="perfiles" id="perfiles">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione perfil" formControlName="perfiles" id="perfiles">
                     <nz-option *ngFor="let perfiles of listaPerfiles" [nzLabel]="perfiles.nombre" [nzValue]="perfiles._id"></nz-option>
                 </nz-select>
                 <!-- <input nz-input formControlName="miembros" id="miembros" /> -->

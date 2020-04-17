@@ -51,7 +51,7 @@ export class EquipoComponent implements OnInit {
       }
     );
 
-    this.servicePerfiles.getPerfiles().toPromise().then(
+    this.servicePerfiles.getPerfilAsignable().toPromise().then(
       (data: PerfilModel[]) => {
         this.listaPerfiles = data;
       }

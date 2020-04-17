@@ -11,8 +11,16 @@ export class PerfilesService {
 
   constructor(private http: HttpClient) { }
 
-  getPerfiles(){
+  getPerfiles() {
     return this.http.get(`${apiUrl}/perfiles/`);
+  }
+
+  getPerfilAsignable() {
+    return this.http.get(`${apiUrl}/perfiles/perfilAsignable`);
+  }
+
+  getPerfilProyecto() {
+    return this.http.get(`${apiUrl}/perfiles/perfilProyecto`);
   }
 
 }

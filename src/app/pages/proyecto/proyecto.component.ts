@@ -38,11 +38,9 @@ export class ProyectoComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.serviceMiembros.getMiembros().toPromise().then(
+    this.serviceMiembros.getMiembrosResponsables().toPromise().then(
       (data: MiembrosModel[]) => {
         this.dataMiembros = data;
-        // console.log(this.dataMiembros);
-
       }
     );
 
@@ -63,9 +61,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   submitForm(): void {
-    // console.log(this.validateForm.get(['estado']).value);
 
-    // localStorage.getItem('infoUser');
     this.dataProyectos = {
       ...this.validateForm.value,
       cuentas: this.infoLogin.idCuenta,
