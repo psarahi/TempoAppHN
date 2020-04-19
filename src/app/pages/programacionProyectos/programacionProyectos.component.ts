@@ -9,6 +9,7 @@ import { MiembrosService } from '../../Servicios/miembros.service';
 import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.service';
 import { ProgramacionEquipoModel } from 'src/app/Modelos/programacionEquipo';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { UserService } from '../../Servicios/user.service';
 
 @Component({
   selector: 'app-programacionProyectos',
@@ -34,7 +35,7 @@ export class ProgramacionProyectosComponent implements OnInit {
   dataProgramacionProyecto;
   dataProgramacionEquipo;
   listaProgramacionEquipo: ProgramacionEquipoModel[];
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
+  infoLogin: any;
 
   constructor(
     private router: Router,
@@ -44,7 +45,8 @@ export class ProgramacionProyectosComponent implements OnInit {
     private fb: FormBuilder,
     private serviceMiembros: MiembrosService,
     private serviceProgramacionMiembro: ProgramacionEquipoService,
-    private notification: NzNotificationService
+    private notification: NzNotificationService,
+    private userService: UserService
 
   ) {
     this.detalleProyecto = this.router.getCurrentNavigation().extras.state;
@@ -137,6 +139,7 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   }
   ngOnInit() {
+    this.infoLogin = this.userService.getInfoLogin();
 
     console.log(this.detalleProyecto._id);
     this.serviceActividades.getActividades()
@@ -152,8 +155,6 @@ export class ProgramacionProyectosComponent implements OnInit {
       .then(
         (data: ProgramacionEquipoModel[]) => {
           this.listaProgramacionEquipo = [...data];
-          console.log(this.listaProgramacionEquipo);
-
         }
       );
 

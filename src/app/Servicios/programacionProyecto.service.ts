@@ -8,11 +8,9 @@ const apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class ProgramacionProyectoService {
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
-  cuentaLogin = this.infoLogin.idCuenta;
 
   constructor(private http: HttpClient) { }
-  // cuenta/${this.cuentaLogin}
+  
   getProgramacionProyecto(cuenta: string, proyecto: string) {
     return this.http.get(`${apiUrl}/programacionProyectos/cuenta/${cuenta}/${proyecto}`);
   }

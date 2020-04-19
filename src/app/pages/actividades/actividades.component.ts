@@ -4,6 +4,7 @@ import { ActividadesModel } from '../../Modelos/actividades';
 import { ActividadesService } from '../../Servicios/actividades.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { UsuarioLogin } from '../../Modelos/autentificacion';
+import { UserService } from '../../Servicios/user.service';
 
 @Component({
   selector: 'app-actividades',
@@ -19,12 +20,13 @@ export class ActividadesComponent implements OnInit {
   passwordVisible = false;
   listaActividades: ActividadesModel[];
   listOfDisplayData: ActividadesModel[];
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
+  infoLogin: any;
 
   constructor(
     private fb: FormBuilder,
     private serviceActivades: ActividadesService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private userService: UserService
   ) { }
 
   createMessage(type: string, mensaje: string): void {
@@ -68,6 +70,7 @@ export class ActividadesComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.infoLogin = this.userService.getInfoLogin();
 
     this.serviceActivades.getActividades()
       .toPromise()

@@ -5,6 +5,7 @@ import { MiembrosService } from '../../Servicios/miembros.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { PerfilesService } from '../../Servicios/perfiles.service';
 import { PerfilModel } from '../../Modelos/perfil';
+import { UserService } from '../../Servicios/user.service';
 
 @Component({
   selector: 'app-equipo',
@@ -21,13 +22,14 @@ export class EquipoComponent implements OnInit {
   listaPerfiles: PerfilModel[];
   listOfDisplayData: MiembrosModel[];
   dataMiembros;
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
+  infoLogin: any;
 
   constructor(
     private serviceMiembro: MiembrosService,
     private fb: FormBuilder,
     private message: NzMessageService,
-    private servicePerfiles: PerfilesService
+    private servicePerfiles: PerfilesService,
+    private userService: UserService
 
   ) { }
 
@@ -36,6 +38,7 @@ export class EquipoComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.infoLogin = this.userService.getInfoLogin();
 
     this.serviceMiembro.getMiembros().toPromise().then(
       (data: MiembrosModel[]) => {
@@ -84,7 +87,6 @@ export class EquipoComponent implements OnInit {
         this.listOfDisplayData = [... this.listOfDisplayData, data];
         this.loadingTable = false;
         this.createMessage('success', 'Registro creado con exito');
-        console.log(this.listOfDisplayData);
 
         this.validateForm = this.fb.group({
           nombre: [null, [Validators.required]],

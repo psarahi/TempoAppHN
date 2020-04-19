@@ -31,7 +31,6 @@ export class RegistroComponent implements OnInit {
       perfiles: '5e8e2246ce7ae6c0d4926b89',
       estado: true
     };
-    console.log(this.dataCuenta);
 
     this.serviceCuenta.postCuenta(this.dataCuenta).subscribe(
       (data) => {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { UserService } from './user.service';
 
 const apiUrl = environment.apiUrl;
 
@@ -8,17 +9,22 @@ const apiUrl = environment.apiUrl;
   providedIn: 'root'
 })
 export class MiembrosService {
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
-  cuentaLogin = this.infoLogin.idCuenta;
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private userService: UserService
+    ) { }
 
   getMiembros() {
-    return this.http.get(`${apiUrl}/miembros/cuenta/${this.cuentaLogin}`);
+    const { idCuenta } = this.userService.getInfoLogin();
+
+    return this.http.get(`${apiUrl}/miembros/cuenta/${idCuenta}`);
   }
 
   getMiembrosResponsables() {
-    return this.http.get(`${apiUrl}/miembros/miembrosResponsables/${this.cuentaLogin}`);
+    const { idCuenta } = this.userService.getInfoLogin();
+
+    return this.http.get(`${apiUrl}/miembros/miembrosResponsables/${idCuenta}`);
   }
 
   postMiembros(miembro) {
