@@ -23,6 +23,8 @@ export class ProyectoComponent implements OnInit {
   dataProyectos;
   dataMiembros: MiembrosModel[];
   infoLogin: any;
+  informacion: boolean;
+  inicial: boolean;
 
   constructor(
     private serviceProyecto: ProyectosService,
@@ -38,16 +40,28 @@ export class ProyectoComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.infoLogin = this.userService.getInfoLogin();
+
     this.serviceMiembros.getMiembrosResponsables().toPromise().then(
       (data: MiembrosModel[]) => {
         this.dataMiembros = data;
       }
     );
 
-    this.serviceProyecto.getProyecto().toPromise().then(
+    this.serviceProyecto.getProyecto().toPromise()
+    .then(
       (data: ProyectoModel[]) => {
+
         this.listaProtectos = data;
+        if (this.listaProtectos.length <= 0) {
+          this.informacion = false;
+          this.inicial = true;
+        } else {
+          this.informacion = true;
+          this.inicial = false;
+        }
+
         this.listOfDisplayData = [...this.listaProtectos];
         this.loadingTable = false;
       }
@@ -74,8 +88,10 @@ export class ProyectoComponent implements OnInit {
       (data: ProyectoModel) => {
 
         this.listOfDisplayData = [...this.listOfDisplayData, data];
-
+        this.informacion = true;
+        this.inicial = false;
         this.loadingTable = false;
+
         this.createMessage('success', 'Registro creado con exito');
 
         this.validateForm = this.fb.group({

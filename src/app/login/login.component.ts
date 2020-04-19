@@ -15,6 +15,7 @@ import { UserService } from '../Servicios/user.service';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+  passwordVisible = false;
   validateForm: FormGroup;
   formulario: boolean = true;
   loading: boolean = true;
@@ -51,7 +52,7 @@ export class LoginComponent implements OnInit {
     this.serviceLogin.validar(this.validateForm.value).toPromise().then(
       (data: UsuarioLogin) => {
 
-        let { nombre,apellido } = this.userService.executeLogin(data);
+        let { nombre, apellido } = this.userService.executeLogin(data);
 
         this.route.navigate(['/proyecto']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
@@ -63,7 +64,7 @@ export class LoginComponent implements OnInit {
           usuario: [null, [Validators.required]],
           password: [null, [Validators.required]]
         });
-         console.log(error);
+        console.log(error);
         this.formulario = true;
         this.loading = false;
       }

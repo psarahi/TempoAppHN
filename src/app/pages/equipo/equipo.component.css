@@ -2,27 +2,27 @@
     /* height: 100vh; */
     height: 100%;
     width: 100%;
-  }
-  
-  .tabla {
+}
+
+.tabla {
     margin: 0 auto;
     max-width: 70%;
-  }
-  
-  .headerTable {
+}
+
+.headerTable {
     background-color: rgb(25, 173, 124);
-  }
-  
-  .add {
+}
+
+.add {
     margin: 0 auto;
-  }
-  
-  .title {
+}
+
+.title {
     margin-top: 2%;
     margin-left: 4%;
-  }
-  
-  .footer {
+}
+
+.footer {
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -31,62 +31,77 @@
     text-align: right;
     left: 0px;
     background: #fff;
-  }
-  
-  [nz-form] {
+}
+
+[nz-form] {
     max-width: 800px;
-  }
-  
-  
-  .register-are {
+}
+
+.register-are {
     margin-bottom: 8px;
-  }
-  
-  .login-form-container {
-    width: 100vw;
+}
+
+.form-container {
+    width: 60vw;
     height: 100vh;
+    flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-  nz-select {
+}
+
+.imagen-miembro {
+    width: 40vw;
+    height: 100vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(101, 198, 255, 0.418);
+}
+
+.imagen {
+    width: 60%;
+    height: 40%;
+}
+
+nz-select {
     width: 200px;
-  }
-  
-  nz-input-number {
+}
+
+nz-input-number {
     margin-right: 8px;
-  }
-  
-  
-  .dynamic-delete-button {
+}
+
+.dynamic-delete-button {
     cursor: pointer;
     position: relative;
     top: 4px;
     font-size: 24px;
     color: #999;
     transition: all 0.3s;
-  }
-  
-  .dynamic-delete-button:hover {
+}
+
+.dynamic-delete-button:hover {
     color: #777;
-  }
-  
-  .passenger-input {
+}
+
+.passenger-input {
     width: 60%;
     margin-right: 8px;
-  }
-  
-  [nz-form] {
+}
+
+[nz-form] {
     max-width: 600px;
-  }
-  
-  .add-button {
+}
+
+.add-button {
     width: 60%;
-  }
-  
-  /* nz-content {
+}
+
+
+/* nz-content {
      margin: 24px 16px 0;
    }  */
-  

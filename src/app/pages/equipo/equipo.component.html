@@ -1,4 +1,113 @@
-<div class="tabla">
+<div style="display: flex;" *ngIf="inicial">
+    <div class="form-container">
+        <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <h1 style="color: rgb(88, 88, 88);">Crea tu <strong>primer <span
+                style="font-size: 40px; color: rgb(39, 39, 39);">miembro </span> </strong></h1>
+            <br>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="nombre" id="nombre" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="apellido">Apellido</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="apellido" id="apellido" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="usuario">Usuario</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="usuario" id="usuario" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" nzHasFeedback [nzXs]="24" nzFor="password" nzRequired>Contraseña</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <nz-input-group [nzSuffix]="suffixTemplate">
+                        <input [type]="passwordVisible ? 'text' : 'password'" nz-input nz-input id="password" formControlName="password" />
+                    </nz-input-group>
+                    <ng-template #suffixTemplate>
+                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+                    </ng-template>
+                </nz-form-control>
+                <ng-template #suffixTemplate>
+                    <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+                </ng-template>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="correo">Correo</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="correo" id="correo" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="costoHr">Costo Hr</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="costoHr" id="costoHr">
+                    </nz-input-number>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="perfiles">Perfil</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione perfil" formControlName="perfiles" id="perfiles">
+                        <nz-option *ngFor="let perfiles of listaPerfiles" [nzLabel]="perfiles.nombre" [nzValue]="perfiles._id"></nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="expertis">Habilidades</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="expertis" id="expertis" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+                <nz-switch formControlName="estado" id="estado">
+                </nz-switch>
+            </nz-form-item>
+
+            <!-- <nz-form-item *ngFor="let control of listOfControl; let i = index">
+          <nz-form-label [nzXs]="24" [nzSm]="4" *ngIf="i == 0" [nzFor]="control.controlInstance">Passengers
+          </nz-form-label>
+          <nz-form-control [nzXs]="24" [nzSm]="20" [nzOffset]="i == 0 ? 0 : 4"
+            nzErrorTip="Please input passenger's name or delete this field.">
+            <input class="passenger-input" nz-input placeholder="placeholder" [attr.id]="control.id"
+              [formControlName]="control.controlInstance" />
+            <i nz-icon nzType="minus-circle-o" class="dynamic-delete-button" (click)="removeField(control, $event)"></i>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+            <button nz-button nzType="dashed" class="add-button" (click)="addField($event)">
+              <i nz-icon nzType="plus"></i>
+              Add field
+            </button>
+          </nz-form-control>
+        </nz-form-item>
+        <nz-form-item>
+          <nz-form-control [nzXs]="{ span: 24, offset: 0 }" [nzSm]="{ span: 20, offset: 4 }">
+            <button nz-button nzType="primary">Submit</button>
+          </nz-form-control>
+        </nz-form-item> -->
+
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control>
+                    <button nz-button nzBlock nzType="primary">Registrar</button>
+                </nz-form-control>
+            </nz-form-item>
+
+        </form>
+    </div>
+
+    <div class="imagen-miembro">
+        <img src="assets/miembro.jpg" alt="" srcset="" class="imagen">
+    </div>
+</div>
+
+<div class="tabla" *ngIf="informacion">
     <h2>Miembros de su equipo</h2>
 
     <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar Miembro</button>

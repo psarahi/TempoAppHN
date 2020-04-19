@@ -21,6 +21,8 @@ export class ActividadesComponent implements OnInit {
   listaActividades: ActividadesModel[];
   listOfDisplayData: ActividadesModel[];
   infoLogin: any;
+  informacion: boolean;
+  inicial: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -51,6 +53,8 @@ export class ActividadesComponent implements OnInit {
       .then(
         (data: ActividadesModel) => {
           this.listOfDisplayData = [...this.listOfDisplayData, data];
+          this.informacion = true;
+          this.inicial = false;
           this.loadingTable = false;
 
           this.createMessage('success', 'Registro creado con exito');
@@ -77,6 +81,13 @@ export class ActividadesComponent implements OnInit {
       .then(
         (data: ActividadesModel[]) => {
           this.listaActividades = data;
+          if (this.listaActividades.length <= 0) {
+            this.informacion = false;
+            this.inicial = true;
+          } else {
+            this.informacion = true;
+            this.inicial = false;
+          }
           this.listOfDisplayData = [...this.listaActividades];
           this.loadingTable = false;
         }

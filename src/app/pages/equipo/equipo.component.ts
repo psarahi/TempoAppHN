@@ -23,6 +23,8 @@ export class EquipoComponent implements OnInit {
   listOfDisplayData: MiembrosModel[];
   dataMiembros;
   infoLogin: any;
+  informacion: boolean;
+  inicial: boolean;
 
   constructor(
     private serviceMiembro: MiembrosService,
@@ -43,6 +45,13 @@ export class EquipoComponent implements OnInit {
     this.serviceMiembro.getMiembros().toPromise().then(
       (data: MiembrosModel[]) => {
         this.listaMiembros = data;
+        if (this.listaMiembros.length <= 0) {
+          this.informacion = false;
+          this.inicial = true;
+        } else {
+          this.informacion = true;
+          this.inicial = false;
+        }
         this.listOfDisplayData = [...this.listaMiembros];
         this.loadingTable = false;
 
@@ -74,8 +83,7 @@ export class EquipoComponent implements OnInit {
   }
 
   submitForm(): void {
-    // debugger;
-    // this.validateForm.value.password = btoa(this.validateForm.value.password);
+
     this.dataMiembros = {
       ...this.validateForm.value,
       cuentas: this.infoLogin.idCuenta
@@ -85,6 +93,8 @@ export class EquipoComponent implements OnInit {
       (data: MiembrosModel) => {
 
         this.listOfDisplayData = [... this.listOfDisplayData, data];
+        this.informacion = true;
+        this.inicial = false
         this.loadingTable = false;
         this.createMessage('success', 'Registro creado con exito');
 

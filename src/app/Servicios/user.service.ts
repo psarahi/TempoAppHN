@@ -6,7 +6,9 @@ import { Injectable } from '@angular/core';
 export class UserService {
   infoLogin: any;
 
-  constructor() {}
+  constructor() {
+    this.infoLogin = JSON.parse(localStorage.getItem('infoUser'));
+  }
 
   getInfoLogin() {
     return this.infoLogin;
@@ -17,7 +19,7 @@ export class UserService {
     localStorage.clear();
   }
 
-  executeLogin( data) {
+  executeLogin(data) {
     localStorage.setItem('infoUser', JSON.stringify(data));
     this.infoLogin = JSON.parse(localStorage.getItem('infoUser'));
     return this.infoLogin;

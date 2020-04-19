@@ -1,4 +1,34 @@
-<div class="tabla">
+<div style="display: flex;" *ngIf="inicial">
+    <div class="form-container">
+        <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+            <h1 style="color: rgb(88, 88, 88);">Crea tu <strong>primera <span
+                style="font-size: 40px; color: rgb(39, 39, 39);">actividad </span> </strong></h1>
+            <br>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                    <input nz-input formControlName="nombre" id="nombre" />
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+                <nz-switch formControlName="estado" id="estado">
+                </nz-switch>
+            </nz-form-item>
+            <nz-form-item nz-row class="register-area">
+                <nz-form-control>
+                    <button nz-button nzBlock nzType="primary">Registrar</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
+
+    <div class="imagen-actividades">
+        <img src="assets/actividades.png" alt="" srcset="" class="imagen">
+    </div>
+</div>
+
+<div class="tabla" *ngIf="informacion">
     <h2>Actividades registradas</h2>
     <button nz-button nzType="primary" (click)="open()"><i nz-icon nzType="plus"></i>Agregar actividad</button>
     <nz-table #nzTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
