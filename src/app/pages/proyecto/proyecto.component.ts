@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProyectosService } from '../../Servicios/proyectos.service';
 import { ProyectoModel } from 'src/app/Modelos/proyecto';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { MiembrosModel } from '../../Modelos/miembros';
 import { MiembrosService } from '../../Servicios/miembros.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router, NavigationExtras } from '@angular/router';
+import { UserService } from '../../Servicios/user.service';
 
 @Component({
   selector: 'app-proyecto',
@@ -21,15 +22,15 @@ export class ProyectoComponent implements OnInit {
   listOfDisplayData: ProyectoModel[];
   dataProyectos;
   dataMiembros: MiembrosModel[];
-  infoLogin: any = JSON.parse(localStorage.getItem('infoUser'));
+  infoLogin: any;
 
   constructor(
     private serviceProyecto: ProyectosService,
     private fb: FormBuilder,
     private serviceMiembros: MiembrosService,
     private message: NzMessageService,
-    private router: Router
-
+    private router: Router,
+    private userService: UserService
   ) { }
 
   createMessage(type: string, mensaje: string): void {
@@ -37,7 +38,7 @@ export class ProyectoComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
+    this.infoLogin = this.userService.getInfoLogin();
     this.serviceMiembros.getMiembrosResponsables().toPromise().then(
       (data: MiembrosModel[]) => {
         this.dataMiembros = data;
@@ -105,10 +106,9 @@ export class ProyectoComponent implements OnInit {
   }
 
   programacion(detalleProyecto: ProyectoModel) {
-    let navigationExtras: NavigationExtras = {
+    const navigationExtras: NavigationExtras = {
       state: detalleProyecto
     };
-    // console.log(navigationExtras);
     this.router.navigate(['programacionProyectos'], navigationExtras);
   }
 

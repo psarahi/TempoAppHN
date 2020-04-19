@@ -19,6 +19,17 @@ import { ProyectoComponent } from './pages/proyecto/proyecto.component';
 import { RegistroComponent } from './pages/registro/registro.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
+import { PruebasComponent } from './pages/pruebas/pruebas.component';
+
+// Servicios
+import { ActividadesService } from './Servicios/actividades.service';
+import { CuentaService } from './Servicios/cuenta.service';
+import { LoginService } from './Servicios/login.service';
+import { MiembrosService } from './Servicios/miembros.service';
+import { PerfilesService } from './Servicios/perfiles.service';
+import { ProgramacionProyectoService } from './Servicios/programacionProyecto.service';
+import { ProgramacionEquipoService } from './Servicios/programacionEquipo.service';
+import { ProyectosService } from './Servicios/proyectos.service';
 
 // config angular i18n
 import { registerLocaleData, CommonModule } from '@angular/common';
@@ -69,7 +80,8 @@ registerLocaleData(en);
       ProyectoComponent,
       RegistroComponent,
       LoginComponent,
-      ErrorComponent
+      ErrorComponent,
+      PruebasComponent
    ],
    imports: [
       BrowserModule,
@@ -113,7 +125,15 @@ registerLocaleData(en);
       ///////////////////////////
    ],
    providers: [
-      { provide: NZ_I18N, useValue: en_US }
+      { provide: NZ_I18N, useValue: en_US },
+      ActividadesService,
+      CuentaService,
+      LoginService,
+      MiembrosService,
+      PerfilesService,
+      ProgramacionProyectoService,
+      ProgramacionEquipoService,
+      ProyectosService
    ],
    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
    bootstrap: [

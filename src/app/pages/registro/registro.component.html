@@ -1,67 +1,78 @@
-<div>
-  <div class="login-form-container">
-    <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input formControlName="nombre" id="nombre" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="apellido">Apellido</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input formControlName="apellido" id="apellido" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="usuario">Usuario</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input formControlName="usuario" id="usuario" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="correo">Correo</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input formControlName="correo" id="correo" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" nzHasFeedback [nzXs]="24" nzFor="password" nzRequired>Contraseña</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <nz-input-group [nzSuffix]="suffixTemplate">
-            <input [type]="passwordVisible ? 'text' : 'password'" nz-input nz-input
-              id="password" formControlName="password" />
-          </nz-input-group>
-          <ng-template #suffixTemplate>
-            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-              (click)="passwordVisible = !passwordVisible"></i>
-          </ng-template>
-          <!-- <input [type]="passwordVisible ? 'text' : 'password'" nz-input id="password" formControlName="password" /> -->
+<div nz-row>
+    <div nz-col nzSpan="12" class="imagen">
+        <div class="login-form-container">
+            <img src="assets/start.png" class="imagen-registro">
+        </div>
+    </div>
+    <div nz-col nzSpan="12">
+        <div class="login-form-container">
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
+                <button routerLink="/login" nz-button nzType="primary"><i nz-icon nzType="login"></i> Login</button>
+                <br>
+                <br>
+                <h2>Registrate</h2>
+                <h4 style="color: rgb(102, 102, 102);">Registrate con tus datos y crea tu cuenta en TempoappHN</h4>
+                <br>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input formControlName="nombre" id="nombre" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="apellido">Apellido</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input formControlName="apellido" id="apellido" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="usuario">Usuario</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input formControlName="usuario" id="usuario" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="correo">Correo</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input formControlName="correo" id="correo" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" nzHasFeedback [nzXs]="24" nzFor="password" nzRequired>Contraseña</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <nz-input-group [nzSuffix]="suffixTemplate">
+                            <input [type]="passwordVisible ? 'text' : 'password'" nz-input nz-input id="password" formControlName="password" />
+                        </nz-input-group>
+                        <ng-template #suffixTemplate>
+                            <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+                        </ng-template>
+                        <!-- <input [type]="passwordVisible ? 'text' : 'password'" nz-input id="password" formControlName="password" /> -->
 
-          <!-- <input nz-input type="password" id="password" formControlName="password" /> -->
-        </nz-form-control>
-        <ng-template #suffixTemplate>
-          <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'"
-            (click)="passwordVisible = !passwordVisible"></i>
-        </ng-template>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="empresa" nzRequired>Empresa</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input id="empresa" formControlName="empresa" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item>
-        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="lugar">Lugar</nz-form-label>
-        <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-          <input nz-input formControlName="lugar" id="lugar" />
-        </nz-form-control>
-      </nz-form-item>
-      <nz-form-item nz-row class="register-area">
-        <nz-form-control [nzSpan]="14" [nzOffset]="6">
-          <button nz-button nzType="primary">Registrar</button>
-        </nz-form-control>
-      </nz-form-item>
-    </form>
-  </div>
+                        <!-- <input nz-input type="password" id="password" formControlName="password" /> -->
+                    </nz-form-control>
+                    <ng-template #suffixTemplate>
+                        <i nz-icon [nzType]="passwordVisible ? 'eye-invisible' : 'eye'" (click)="passwordVisible = !passwordVisible"></i>
+                    </ng-template>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzFor="empresa" nzRequired>Empresa</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input id="empresa" formControlName="empresa" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="lugar">Lugar</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <input nz-input formControlName="lugar" id="lugar" />
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item nz-row class="register-area">
+                    <nz-form-control>
+                        <button nz-button nzBlock nzType="primary">Crear cuenta</button>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+    </div>
+
 </div>

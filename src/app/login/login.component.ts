@@ -7,6 +7,7 @@ import { UsuarioLogin } from '../Modelos/autentificacion';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { duration } from 'moment';
 import { animate } from '@angular/animations';
+import { UserService } from '../Servicios/user.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ export class LoginComponent implements OnInit {
     private route: Router,
     private serviceLogin: LoginService,
     private notification: NzNotificationService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private userService: UserService
   ) { }
 
   createNotification(type: string): void {
@@ -48,28 +50,20 @@ export class LoginComponent implements OnInit {
 
     this.serviceLogin.validar(this.validateForm.value).toPromise().then(
       (data: UsuarioLogin) => {
-        // console.log(data);
-        localStorage.setItem('infoUser', JSON.stringify(data));
-        //console.log(localStorage.getItem('infoUser'));
-        this.route.navigate(['/proyecto']);
-        this.createMessage('success', 'Bienvenido');
 
-        //  console.log(data);
-        // if (data.length === 0) {
-        //   this.createNotification('error');
-        // } else {
-        //   localStorage.setItem('infoUser', data[0]._id);
-        //  // this.route.navigate(['/proyecto']);
-        //   console.log(localStorage.getItem('infoUser'));
-        // }
+        let { nombre,apellido } = this.userService.executeLogin(data);
+
+        this.route.navigate(['/proyecto']);
+        this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
       },
       (error) => {
-        this.createNotification('error');
+        // this.createNotification('error');
+        this.createMessage('error', 'Credenciales invalidas');
         this.validateForm = this.fb.group({
           usuario: [null, [Validators.required]],
           password: [null, [Validators.required]]
         });
-        // console.log(error);
+         console.log(error);
         this.formulario = true;
         this.loading = false;
       }

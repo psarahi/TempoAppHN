@@ -1,21 +1,36 @@
 [nz-form] {
     max-width: 800px;
-  }
-  
-  .register-are {
-    margin-bottom: 8px;
-  }
-  
-  .login-form-container {
-      width: 100vw;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-    
-    i {
-      cursor: pointer;
-    }
-    
+}
+
+.register-are {
+    margin-bottom: 25px;
+}
+
+.login-form-container {
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.imagen-registro {
+    width: 70%;
+    height: 70%;
+}
+
+.imagen {
+    background-color: rgb(157, 225, 252);
+}
+
+.logo {
+    width: 10%;
+    height: 10%;
+    margin-top: 3%;
+    margin-left: 3%;
+}
+
+i {
+    cursor: pointer;
+}

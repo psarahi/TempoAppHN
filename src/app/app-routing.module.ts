@@ -10,6 +10,7 @@ import { RegistroComponent } from './pages/registro/registro.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { PruebasComponent } from './pages/pruebas/pruebas.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -26,6 +27,7 @@ const routes: Routes = [
       { path: 'cuentas', component: CuentasComponent },
       { path: 'actividades', component: ActividadesComponent },
       { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
+      { path: 'pruebas', component: PruebasComponent },
     ]
   },
 ];
