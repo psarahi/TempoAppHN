@@ -1,3 +1,7 @@
+:host {
+    width: 100%;
+}
+
 [nz-form] {
     max-width: 800px;
 }
@@ -7,20 +11,35 @@
 }
 
 .login-form-container {
-    width: 50vw;
+    width: 50%;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    position: relative;
 }
 
-.imagen-registro {
+.imagen-start {
     width: 70%;
     height: 70%;
 }
 
-.imagen {
+.imagen-logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 8%;
+    height: 7%;
+}
+
+.imagen-registro {
+    width: 50%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     background-color: rgb(157, 225, 252);
 }
 
