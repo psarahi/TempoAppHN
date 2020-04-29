@@ -14,7 +14,7 @@ export class ActividadesService {
     private http: HttpClient,
     private userService: UserService
 
-    ) { }
+  ) { }
 
   postActividades(actividade) {
     return this.http.post(`${apiUrl}/actividades/`, actividade);
@@ -23,7 +23,10 @@ export class ActividadesService {
   getActividades() {
     const { idCuenta } = this.userService.getInfoLogin();
     return this.http.get(`${apiUrl}/actividades/cuenta/${idCuenta}`);
+  }
 
+  getAllActividades() {
+    return this.http.get(`${apiUrl}/actividades/`);
   }
 
 }

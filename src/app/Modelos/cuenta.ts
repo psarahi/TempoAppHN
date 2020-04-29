@@ -10,7 +10,7 @@ export interface CuentaModel {
     empresa: string;
     lugar: string;
     perfiles: Perfiles;
-    fechaRegistro: string;
+    fechaRegistro: any;
     __v: number;
 }
 

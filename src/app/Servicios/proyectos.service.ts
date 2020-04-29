@@ -21,9 +21,7 @@ export class ProyectosService {
   }
 
   getProyecto() {
-
     const { idCuenta } = this.userService.getInfoLogin();
-
     return this.http.get(`${apiUrl}/proyectos/cuenta/${idCuenta}`);
   }
 

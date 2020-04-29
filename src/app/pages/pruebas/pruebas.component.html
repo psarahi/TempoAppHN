@@ -1,8 +1,63 @@
-<div>
-    <div nz-col nzSpan="12">
-
+<!-- <div class="chronometer">
+    <div id="screen"> {{ hh }} : {{ mm }} : {{ ss }} </div>
+    <div class="buttons">
+         <button class="emerald" (click)="start()">START &#9658;</button>
+        <button class="emerald" (click)="stop()">STOP &#8718;</button>
+        <button class="emerald" (click)="resume()">RESUME &#8634;</button>
+        <button class="emerald" (click)="reset()">RESET &#8635;</button> 
+        <button nz-button nzType="primary" (click)="start()" nzDanger="true" nzSize="large" nzShape="circle"><i nz-icon
+                nzType="play-circle"></i></button>
+        <button nz-button nzType="primary" (click)="resume()" nzSize="large" nzShape="circle"><i nz-icon
+                nzType="pause-circle"></i></button>
+        <button nz-button nzType="primary" (click)="stop()" nzSize="large" nzShape="circle"><i nz-icon
+                nzType="stop"></i></button>
     </div>
-    <div nz-col nzSpan="12">
+</div>  -->
 
+<div style="display: flex; justify-content: flex-end;">
+    <div class="tiempo">
+        <div class="buttons">
+            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" nzSize="large" nzShape="circle"><i
+                    nz-icon nzTheme="fill" nzType="play-circle"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle"><i nz-icon
+                    nzType="redo"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnPause" (click)="start()" nzSize="large" nzShape="circle"><i
+                    nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle"><i nz-icon
+                    nzTheme="fill" nzType="stop"></i></button>
+        </div>
+        <div class="timer">
+            <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
+        </div>
     </div>
 </div>
+
+<br>
+<br>
+<h1>Detalle de mis actividades</h1>
+<full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" [header]="{
+        left: 'prev,next today',
+        center: 'title',
+        right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+      }" (eventClick)="handleEventClick($event)" [events]="calendarEvents">
+</full-calendar>
+
+<!-- <nz-list nzItemLayout="horizontal" [nzLoading]="loading" nzSplit="true" nzHeader="Detalle de mis actividades">
+        <nz-list-item *ngFor="let actividad of detalleActividades">
+            <div>
+                <span> {{ actividad.descripcion }} </span>
+                <span> {{ actividad.fecha }} </span>
+                <span> {{ actividad.inicio }} <span> - </span> {{actividad.fin }}</span>
+
+
+            </div>
+
+            < <nz-list-item-meta>
+                <nz-list-item-meta-title>
+                    <p>actividad.descripcion </p>
+                </nz-list-item-meta-title>
+            </nz-list-item-meta> -
+        </nz-list-item>
+         Hacer algo luego -
+        <nz-list-empty *ngIf="data.length === 0"></nz-list-empty>
+    </nz-list> -->

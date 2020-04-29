@@ -17,8 +17,11 @@ export class MiembrosService {
 
   getMiembros() {
     const { idCuenta } = this.userService.getInfoLogin();
-
     return this.http.get(`${apiUrl}/miembros/cuenta/${idCuenta}`);
+  }
+
+  getAllMiembros() {
+    return this.http.get(`${apiUrl}/miembros/`);
   }
 
   getMiembrosResponsables() {

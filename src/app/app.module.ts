@@ -2,13 +2,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-// import { routes } from './app-routing.module';
-
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { AppComponent } from './app.component';
+
+import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 
 // Importaciones de componentes
 import { CuentasComponent } from './pages/cuentas/cuentas.component';
@@ -66,6 +66,7 @@ import { NzStatisticModule } from 'ng-zorro-antd/statistic';
 import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ErrorComponent } from './pages/error/error.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
+import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 
 registerLocaleData(en);
 
@@ -92,6 +93,7 @@ registerLocaleData(en);
       NgZorroAntdModule,
       IconsProviderModule,
       ReactiveFormsModule,
+      FullCalendarModule, // for FullCalendar!
       //////////////////////////////
       NzCardModule,
       NzGridModule,
@@ -121,6 +123,7 @@ registerLocaleData(en);
       NzStatisticModule,
       NzDividerModule,
       NzSpinModule,
+      NzCalendarModule
 
       ///////////////////////////
    ],

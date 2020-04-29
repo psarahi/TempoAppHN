@@ -1,3 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-@import "~ng-zorro-antd/style/index.min.css"; /* Import basic styles */
-@import "~ng-zorro-antd/button/style/index.min.css"; /* Import styles of the component */
+
+@import "~ng-zorro-antd/style/index.min.css";
+
+/* Import basic styles */
+
+@import "~ng-zorro-antd/button/style/index.min.css";
+
+/* full calendar*/
+
+@import '~@fullcalendar/core/main.css';
+@import '~@fullcalendar/daygrid/main.css';
+
+/* Import styles of the component */
+
+.ant-list-header {
+    border-bottom: 4px solid #e8e8e8;
+    font-size: x-large;
+    color: black;
+}

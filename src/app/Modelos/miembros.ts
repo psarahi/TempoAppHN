@@ -10,6 +10,7 @@ export interface MiembrosModel {
   password: string;
   correo: string;
   costoHr: number;
+  fecha: any;
   perfiles: Perfiles;
   __v: number;
 }

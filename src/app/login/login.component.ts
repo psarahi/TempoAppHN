@@ -52,6 +52,8 @@ export class LoginComponent implements OnInit {
     this.serviceLogin.validar(this.validateForm.value).toPromise().then(
       (data: UsuarioLogin) => {
 
+        console.log(data);
+
         let { nombre, apellido } = this.userService.executeLogin(data);
 
         this.route.navigate(['/proyecto']);
