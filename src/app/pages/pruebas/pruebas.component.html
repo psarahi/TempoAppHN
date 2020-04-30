@@ -14,7 +14,7 @@
     </div>
 </div>  -->
 
-<div style="display: flex; justify-content: flex-end;">
+<div class="timer">
     <div class="tiempo">
         <div class="buttons">
             <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" nzSize="large" nzShape="circle"><i
@@ -26,16 +26,29 @@
             <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle"><i nz-icon
                     nzTheme="fill" nzType="stop"></i></button>
         </div>
-        <div class="timer">
+        <div class="cronometro">
             <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
         </div>
+    </div>
+    <div class="detalle">
+        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+            <nz-form-item>
+                <nz-form-label nzFor="gender" nzRequired>Proyecto-Actividad</nz-form-label>
+                <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!">
+                    <nz-select id="programacionequipos" formControlName="programacionequipos" nzPlaceHolder="Seleccione una actividad">
+                        <nz-option *ngFor="let programacionequipos of listaProgramacion" [nzValue]="programacionequipos._id" [nzLabel]="programacionequipos.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacionequipos.programacionproyecto.actividades.nombre">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
     </div>
 </div>
 
 <br>
 <br>
 <h1>Detalle de mis actividades</h1>
-<full-calendar defaultView="dayGridMonth" [plugins]="calendarPlugins" [header]="{
+<full-calendar #calendarEl defaultView="dayGridMonth" [plugins]="calendarPlugins" [locales]="locales" [header]="{
         left: 'prev,next today',
         center: 'title',
         right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'

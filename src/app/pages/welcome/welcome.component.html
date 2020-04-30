@@ -14,6 +14,10 @@
                     </li>
                 </ul>
             </li>
+            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzMatchRouter routerLink="/dashboard" [nzTitle]="isCollapsed ? 'Dashboard' : ''">
+                <i nz-icon nzType="dashboard"></i>
+                <span>Dashboard</span>
+            </li>
             <li nz-submenu nzOpen nzTitle="Mantenimiento" nzIcon="tool">
                 <ul>
                     <li nz-menu-item nzMatchRouter>

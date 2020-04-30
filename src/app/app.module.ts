@@ -21,6 +21,7 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { PruebasComponent } from './pages/pruebas/pruebas.component';
 
+
 // Servicios
 import { ActividadesService } from './Servicios/actividades.service';
 import { CuentaService } from './Servicios/cuenta.service';
@@ -30,6 +31,7 @@ import { PerfilesService } from './Servicios/perfiles.service';
 import { ProgramacionProyectoService } from './Servicios/programacionProyecto.service';
 import { ProgramacionEquipoService } from './Servicios/programacionEquipo.service';
 import { ProyectosService } from './Servicios/proyectos.service';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 
 // config angular i18n
 import { registerLocaleData, CommonModule } from '@angular/common';
@@ -82,7 +84,8 @@ registerLocaleData(en);
       RegistroComponent,
       LoginComponent,
       ErrorComponent,
-      PruebasComponent
+      PruebasComponent,
+      DashboardComponent
    ],
    imports: [
       BrowserModule,
