@@ -8,13 +8,16 @@ moment.locale('es');
 import * as goldenColors from 'golden-colors';
 import esLocale from '@fullcalendar/core/locales/es-us';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DetalleActividadModel } from 'src/app/Modelos/detalleActividad';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
+import { UserService } from '../../Servicios/user.service';
+
 
 interface Event {
+  id: number;
   title: string;
   // date: any;
   start: any;
@@ -31,6 +34,17 @@ interface Event {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
+  // detalle: Event[] = [];
+  up: boolean = false;
+  down: boolean = true;
+  modoManual: boolean = true;
+  modoReloj: boolean = false
+  duracion;
+  inicioDetalle;
+  finDetalle;
+  descripcionDetalle;
+  detalleProyecto;
+  detalleActividad;
   calendarPlugins = [dayGridPlugin, timeGrigPlugin, interactionPlugin]; // important!
   calendarEvents: Event[] = [];
   locales = [esLocale];
@@ -50,29 +64,86 @@ export class DashboardComponent implements OnInit {
   mm: any = '00';
   ss: any = '00';
   // cc: any = '00';
-  loading = false;
+  visible = false;
+  dataDetalleActividad;
 
+  programacionequipos: string = '';
+  descripcion: string = '';
+  inicio: any;
+  fin: any;
+  infoLogin: any;
+  time: Date | null = null;
+  //defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   detalleActividades: DetalleActividadModel[];
+  dataDetalleActividades;
 
-  validateForm: FormGroup;
+  // validateForm: FormGroup;
 
-  submitForm(): void {
-    // tslint:disable-next-line: forin
-    for (const i in this.validateForm.controls) {
-      this.validateForm.controls[i].markAsDirty();
-      this.validateForm.controls[i].updateValueAndValidity();
-    }
-  }
+  // submitForm(): void {
+  //   // tslint:disable-next-line: forin
+  //   for (const i in this.validateForm.controls) {
+  //     this.validateForm.controls[i].markAsDirty();
+  //     this.validateForm.controls[i].updateValueAndValidity();
+  //   }
+  // }
 
   constructor(
     private detalleActividadService: DetalleActividadService,
-    private fb: FormBuilder,
-    private serviceProgramacionEquipos: ProgramacionEquipoService
+    // private fb: FormBuilder,
+    private serviceProgramacionEquipos: ProgramacionEquipoService,
+    private userService: UserService
+
     // private datePipe: DatePipe
   ) { }
 
-  handleEventClick(arg) { // handler method
-    console.log(arg.event);
+
+  handleEventClick(arg): void {
+    this.visible = true;
+    this.duracion = arg.event.title;
+    this.inicioDetalle = moment(arg.event.start).format('HH:mm:ss');
+    this.finDetalle = moment(arg.event.end).format('HH:mm:ss');
+    this.descripcionDetalle = arg.event.extendedProps.descripcion;
+    this.detalleProyecto = arg.event.extendedProps.nombreProyecto;
+    this.detalleActividad = arg.event.extendedProps.nombreAct;
+
+    console.log(arg);
+
+  }
+
+  close() {
+    this.visible = false;
+  }
+
+  guardar() {
+
+    this.dataDetalleActividad = {
+      inicio: this.inicio,
+      fin: this.fin,
+      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
+      cuentas: this.infoLogin.idCuenta,
+      programacionequipos: this.programacionequipos,
+      descripcion: this.descripcion,
+      costo: 0,
+      estado: true
+    };
+
+    console.log(this.dataDetalleActividad);
+    
+
+    this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
+      .toPromise()
+      .then(
+        (data: DetalleActividadModel[]) => {
+          console.log(data);
+
+        },
+        (error) => {
+          console.log(error);
+
+          // this.createMessage('error', 'Opps!!! Algo salio mal');
+        }
+
+    );
 
   }
 
@@ -81,6 +152,21 @@ export class DashboardComponent implements OnInit {
     this.btnStop = true;
     this.btnPause = true;
     this.btnResumen = false;
+
+    this.dataDetalleActividad = {
+
+      estado: true,
+
+    }
+
+    console.log(this.programacionequipos);
+
+    // this.detalleActividadService.postDetalleActividad('')
+    //   .toPromise()
+    //   .then(
+
+    //   );
+
     if (this.isMarch === false) {
       this.timeInicial = new Date();
       this.control = setInterval(this.cronometro.bind(this), 1000);
@@ -107,10 +193,23 @@ export class DashboardComponent implements OnInit {
   }
 
   stop() {
-    this.btnStart = false;
+    this.btnStart = true;
     this.btnStop = false;
-    this.btnPause = true;
+    this.btnPause = false;
     this.btnResumen = false;
+
+    if (this.isMarch === true) {
+      clearInterval(this.control);
+      this.isMarch = false;
+    }
+  }
+
+  pause() {
+    this.btnStart = false;
+    this.btnStop = true;
+    this.btnPause = false;
+    this.btnResumen = true;
+
     if (this.isMarch === true) {
       clearInterval(this.control);
       this.isMarch = false;
@@ -118,6 +217,10 @@ export class DashboardComponent implements OnInit {
   }
 
   resume() {
+    this.btnStart = false;
+    this.btnStop = true;
+    this.btnPause = true;
+    this.btnResumen = false;
     let timeActu2;
     let acumularResume;
     if (this.isMarch == false) {
@@ -145,15 +248,41 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  mostrar() {
+    this.up = true;
+    this.down = false;
+  }
+
+  ocultar() {
+    this.up = false;
+    this.down = true;
+  }
+
+  manual() {
+    this.modoReloj = false;
+    this.modoManual = true;
+  }
+
+  reloj() {
+    this.modoReloj = true;
+    this.modoManual = false;
+  }
   ngOnInit() {
+    this.up = false;
+    this.down = true;
+
+    this.modoManual = false;
+    this.modoReloj = true;
+
     this.btnResumen = false;
     this.btnPause = false;
     this.btnStop = false;
     this.btnStart = true;
+    this.infoLogin = this.userService.getInfoLogin();
 
-    this.validateForm = this.fb.group({
-      programacionequipos: [null, [Validators.required]]
-    });
+    // this.validateForm = this.fb.group({
+    //   programacionequipos: [null, [Validators.required]]
+    // });
 
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
@@ -171,7 +300,7 @@ export class DashboardComponent implements OnInit {
           let inicio;
           let fin;
           let dif;
-
+          let id = 1;
           data.forEach(x => {
             inicio = moment([
               moment(x.inicio).get('year'),
@@ -194,6 +323,7 @@ export class DashboardComponent implements OnInit {
             dif = fin.diff(inicio, 'minutes');
 
             this.calendarEvents = [...this.calendarEvents, {
+              id,
               title: `${dif} minutos`,
               // date: moment(x.fecha).format('YYYY-MM-DD'),
               start: moment(x.inicio).format('YYYY-MM-DD HH:mm:ss'),
@@ -205,6 +335,7 @@ export class DashboardComponent implements OnInit {
               nombreAct: x.programacionequipos.programacionproyecto.actividades.nombre
 
             }];
+            id++;
           }
           );
 

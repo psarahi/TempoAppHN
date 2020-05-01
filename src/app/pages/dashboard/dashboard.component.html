@@ -1,32 +1,50 @@
 <div class="timer">
     <div class="tiempo">
-        <div class="buttons">
-            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" nzSize="large" nzShape="circle"><i nz-icon
-          nzTheme="fill" nzType="play-circle"></i></button>
+        <div class="buttons" *ngIf="modoReloj">
+            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" nzSize="large" nzShape="circle"><i
+                    nz-icon nzTheme="fill" nzType="play-circle"></i></button>
             <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle"><i nz-icon
-          nzType="redo"></i></button>
-            <button nz-button nzType="primary" *ngIf="btnPause" (click)="start()" nzSize="large" nzShape="circle"><i nz-icon
-          nzTheme="fill" nzType="pause-circle"></i></button>
-            <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle"><i nz-icon nzTheme="fill"
-          nzType="stop"></i></button>
+                    nzType="redo"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle"><i
+                    nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle"><i nz-icon
+                    nzTheme="fill" nzType="stop"></i></button>
         </div>
-        <div class="cronometro">
+        <div class="cronometro" *ngIf="modoReloj">
             <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
         </div>
+        <div class="manual" *ngIf="modoManual">
+            <nz-time-picker [(ngModel)]="inicio" nzPlaceHolder="Inicio"></nz-time-picker>
+            <i class="icon-time" nz-icon nzType="arrow-right" nzTheme="outline"></i>
+            <nz-time-picker [(ngModel)]="fin" nzPlaceHolder="Fin"></nz-time-picker>
+            <button nz-button nzType="primary" (click)="guardar()" nzShape="circle"><i
+                nz-icon nzTheme="fill" nzType="check-circle"></i></button>
+        </div>
+        <div class="modos">
+            <i class="icon-time" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill"></i>
+            <i class="icon-time" nz-icon nzType="menu" (click)="manual()" nzTheme="outline"></i>
+        </div>
     </div>
-    <div class="detalle">
-        <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
+
+    <div *ngIf="up" class="detalle">
+        <!-- <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
             <nz-form-item>
                 <nz-form-label nzFor="gender" nzRequired>Proyecto-Actividad</nz-form-label>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!">
-                    <nz-select id="programacionequipos" formControlName="programacionequipos" nzPlaceHolder="Seleccione una actividad">
-                        <nz-option *ngFor="let programacionequipos of listaProgramacion" [nzValue]="programacionequipos._id" [nzLabel]="programacionequipos.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacionequipos.programacionproyecto.actividades.nombre">
-                        </nz-option>
-                    </nz-select>
-                </nz-form-control>
+                <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!"> -->
+        <hr style="width: 85%; opacity: 0.2;">
+        <label class="labe-datos"> Programación </label>
+        <nz-select [(ngModel)]="programacionequipos" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
+            <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
+            </nz-option>
+        </nz-select>
+        <label class="labe-datos"> Descripción </label>
+        <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="41" rows="2"></textarea>
+        <!-- </nz-form-control>
             </nz-form-item>
-        </form>
+        </form> -->
     </div>
+    <i *ngIf="down" (click)="mostrar()" nz-icon nzType="down" nzTheme="outline"></i>
+    <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
 </div>
 
 <br>
@@ -38,3 +56,22 @@
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     }" (eventClick)="handleEventClick($event)" [events]="calendarEvents">
 </full-calendar>
+
+<!-- ---------------------------- -->
+<nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzWidth="450px" nzTitle="Detalle de actividad" (nzOnClose)="close()">
+    <div style="text-align: center; display: flex;flex-direction: column;">
+        <label><span class="etiquetas"> Duración </span> <span style="font-size: 30px; color: black;"> {{ duracion }}
+            </span></label>
+        <span style="font-size: large; color: #000000ed;"> {{ inicioDetalle }} - {{ finDetalle }} </span>
+        <br>
+        <label><span class="etiquetas">Proyecto</span> <span style="font-size: x-large; color: black;">
+                {{ detalleProyecto }}</span></label>
+        <label> <span class="etiquetas">Actividad</span> <span style="    font-size: large; color: #484444;">
+                {{ detalleActividad }}</span></label>
+        <br>
+        <hr>
+        <p style="    color: black;
+ text-align: initial;
+        font-size: medium;">{{ descripcionDetalle }}</p>
+    </div>
+</nz-drawer>

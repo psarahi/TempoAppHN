@@ -378,6 +378,8 @@ ng-zorro-antd/switch
 
 ng-zorro-antd/table
 
+ng-zorro-antd/time-picker
+
 ng-zorro-antd/tooltip
 
 regenerator-runtime
