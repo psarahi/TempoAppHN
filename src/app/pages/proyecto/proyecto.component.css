@@ -42,7 +42,7 @@
 }
 
 .form-container {
-    width: 60%;
+    width: 50%;
     height: 100vh;
     /* flex: 1; */
     display: flex;
@@ -64,7 +64,7 @@ nz-input-number {
 }
 
 .imagen-proyecto {
-    width: 40%;
+    width: 50%;
     height: 100vh;
     /* flex: 1; */
     display: flex;

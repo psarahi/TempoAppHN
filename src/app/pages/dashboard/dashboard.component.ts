@@ -128,7 +128,7 @@ export class DashboardComponent implements OnInit {
     };
 
     console.log(this.dataDetalleActividad);
-    
+
 
     this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
       .toPromise()
@@ -143,7 +143,7 @@ export class DashboardComponent implements OnInit {
           // this.createMessage('error', 'Opps!!! Algo salio mal');
         }
 
-    );
+      );
 
   }
 
@@ -299,7 +299,7 @@ export class DashboardComponent implements OnInit {
         (data: DetalleActividadModel[]) => {
           let inicio;
           let fin;
-          let dif;
+          let dif = 0;
           let id = 1;
           data.forEach(x => {
             inicio = moment([
@@ -321,6 +321,8 @@ export class DashboardComponent implements OnInit {
             ]);
 
             dif = fin.diff(inicio, 'minutes');
+            console.log(dif, inicio, fin);
+
 
             this.calendarEvents = [...this.calendarEvents, {
               id,
@@ -338,6 +340,7 @@ export class DashboardComponent implements OnInit {
             id++;
           }
           );
+          console.log(this.calendarEvents);
 
           this.detalleActividades = data;
 
