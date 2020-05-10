@@ -117,9 +117,9 @@ export class DashboardComponent implements OnInit {
   guardar() {
 
     this.dataDetalleActividad = {
-      inicio: this.inicio,
-      fin: this.fin,
-      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(this.inicio).format('YYYY-MM-DD HH:mm:ss'),
+      fin: moment(this.fin).format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment(this.inicio).format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: this.programacionequipos,
       descripcion: this.descripcion,
@@ -302,6 +302,7 @@ export class DashboardComponent implements OnInit {
           let dif = 0;
           let id = 1;
           data.forEach(x => {
+            //  debugger;
             inicio = moment([
               moment(x.inicio).get('year'),
               moment(x.inicio).get('month'),
@@ -328,8 +329,8 @@ export class DashboardComponent implements OnInit {
               id,
               title: `${dif} minutos`,
               // date: moment(x.fecha).format('YYYY-MM-DD'),
-              start: moment(x.inicio).format('YYYY-MM-DD HH:mm:ss'),
-              end: moment(x.fin).format('YYYY-MM-DD HH:mm:ss'),
+              start: moment(x.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+              end: moment(x.fin).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
               allDay: false,
               color: goldenColors.getHsvGolden(0.5, 0.95),
               descripcion: x.descripcion,

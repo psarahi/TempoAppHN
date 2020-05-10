@@ -1,6 +1,6 @@
 export interface ProgramacionEquipoModel {
     _id: string;
-    programacionproyectos: string;
+    programacionproyecto: string;
     miembros: Miembros;
     estado: boolean;
     __v: number;

@@ -113,8 +113,10 @@ export class ProgramacionProyectosComponent implements OnInit {
     }
     this.dataProgramacionEquipo = {
       ...this.validateFormMiembros.value,
-      programacionproyectos: this.idProgramaAct
+      programacionproyecto: this.idProgramaAct
     };
+
+    console.log(this.dataProgramacionEquipo);
 
     this.serviceProgramacionMiembro.postProgramacionEquipos(this.dataProgramacionEquipo)
       .toPromise()
@@ -211,7 +213,7 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   showModal(idProAct): void {
 
-    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyectos === idProAct);
+    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
     this.isVisible = true;
   }
 
