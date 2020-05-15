@@ -8,16 +8,15 @@ moment.locale('es');
 import * as goldenColors from 'golden-colors';
 import esLocale from '@fullcalendar/core/locales/es-us';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DetalleActividadModel } from 'src/app/Modelos/detalleActividad';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
 import { UserService } from '../../Servicios/user.service';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 
 interface Event {
-  id: number;
   title: string;
   // date: any;
   start: any;
@@ -35,6 +34,7 @@ interface Event {
 })
 export class DashboardComponent implements OnInit {
   // detalle: Event[] = [];
+  enviar: boolean = true;
   up: boolean = false;
   down: boolean = true;
   modoManual: boolean = true;
@@ -66,36 +66,28 @@ export class DashboardComponent implements OnInit {
   // cc: any = '00';
   visible = false;
   dataDetalleActividad;
+  putDetalleActividad;
 
   programacionequipos: string = '';
   descripcion: string = '';
-  inicio: any;
-  fin: any;
+  inicio: any = new Date();
+  fin: any = new Date();
   infoLogin: any;
   time: Date | null = null;
-  //defaultOpenValue = new Date(0, 0, 0, 0, 0, 0);
   detalleActividades: DetalleActividadModel[];
   dataDetalleActividades;
-
-  // validateForm: FormGroup;
-
-  // submitForm(): void {
-  //   // tslint:disable-next-line: forin
-  //   for (const i in this.validateForm.controls) {
-  //     this.validateForm.controls[i].markAsDirty();
-  //     this.validateForm.controls[i].updateValueAndValidity();
-  //   }
-  // }
+  actividadActiva: DetalleActividadModel;
 
   constructor(
     private detalleActividadService: DetalleActividadService,
-    // private fb: FormBuilder,
     private serviceProgramacionEquipos: ProgramacionEquipoService,
-    private userService: UserService
-
-    // private datePipe: DatePipe
+    private userService: UserService,
+    private message: NzMessageService
   ) { }
 
+  createBasicMessage(type: string, message: string): void {
+    this.message.create(type, message);
+  }
 
   handleEventClick(arg): void {
     this.visible = true;
@@ -105,46 +97,69 @@ export class DashboardComponent implements OnInit {
     this.descripcionDetalle = arg.event.extendedProps.descripcion;
     this.detalleProyecto = arg.event.extendedProps.nombreProyecto;
     this.detalleActividad = arg.event.extendedProps.nombreAct;
-
-    console.log(arg);
-
   }
 
-  close() {
-    this.visible = false;
-  }
-
-  guardar() {
-
+  postDetalle(inicio, fin, programacionEquipo, descripcion, estado, manual) {
     this.dataDetalleActividad = {
-      inicio: moment(this.inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment(this.fin).format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment(this.inicio).format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
+      fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
-      programacionequipos: this.programacionequipos,
-      descripcion: this.descripcion,
+      programacionequipos: programacionEquipo,
+      descripcion,
       costo: 0,
-      estado: true
+      estado
     };
 
     console.log(this.dataDetalleActividad);
 
+    if (manual === true) {
+      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
+        .toPromise()
+        .then(
+          (data: DetalleActividadModel) => {
+            this.eventosCalendario(data);
+            this.inicio = new Date();
+            this.fin = new Date();
+            this.descripcion = '';
+            this.programacionequipos = '';
+            this.ocultar();
+            console.log(data, 'post db');
 
-    this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
-      .toPromise()
-      .then(
-        (data: DetalleActividadModel[]) => {
-          console.log(data);
+          },
+          (error) => {
+            console.log(error);
 
-        },
-        (error) => {
-          console.log(error);
+            // this.createMessage('error', 'Opps!!! Algo salio mal');
+          }
+        );
+    } else {
+      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
+        .toPromise()
+        .then(
+          (data: DetalleActividadModel) => {
 
-          // this.createMessage('error', 'Opps!!! Algo salio mal');
-        }
+            this.actividadActiva = data;
+            console.log(this.actividadActiva, ' Actividad Activa');
+            if (this.isMarch === false) {
+              this.timeInicial = new Date();
+              this.control = setInterval(this.cronometro.bind(this), 1000);
+              this.isMarch = true;
+            }
+            console.log(data, 'post db');
+          },
+          (error) => {
+            console.log(error);
 
-      );
+            // this.createMessage('error', 'Opps!!! Algo salio mal');
+          }
+        );
+    }
 
+
+  }
+  guardar() {
+    this.postDetalle(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
   }
 
   start() {
@@ -153,26 +168,16 @@ export class DashboardComponent implements OnInit {
     this.btnPause = true;
     this.btnResumen = false;
 
-    this.dataDetalleActividad = {
-
-      estado: true,
-
-    }
-
-    console.log(this.programacionequipos);
-
-    // this.detalleActividadService.postDetalleActividad('')
-    //   .toPromise()
-    //   .then(
-
-    //   );
-
-    if (this.isMarch === false) {
-      this.timeInicial = new Date();
-      this.control = setInterval(this.cronometro.bind(this), 1000);
-      this.isMarch = true;
-    }
+    this.postDetalle(
+      new Date(),
+      new Date(),
+      this.programacionequipos,
+      this.descripcion,
+      true,
+      false);
   }
+
+
 
   cronometro() {
     this.timeActual = new Date();
@@ -198,10 +203,30 @@ export class DashboardComponent implements OnInit {
     this.btnPause = false;
     this.btnResumen = false;
 
-    if (this.isMarch === true) {
-      clearInterval(this.control);
-      this.isMarch = false;
-    }
+    this.putDetalleActividad = {
+      inicio: moment(this.actividadActiva.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      fin: moment().format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
+      cuentas: this.infoLogin.idCuenta,
+      programacionequipos: this.programacionequipos,
+      descripcion: this.descripcion,
+      costo: 0,
+      estado: false
+    };
+    console.log(this.actividadActiva._id);
+
+    this.detalleActividadService.putDetalleActividad(this.actividadActiva._id, this.putDetalleActividad)
+      .toPromise()
+      .then((data: DetalleActividadModel) => {
+
+        this.eventosCalendario(data);
+        if (this.isMarch === true) {
+          clearInterval(this.control);
+          this.isMarch = false;
+          this.reset();
+        }
+      }
+      );
   }
 
   pause() {
@@ -248,6 +273,14 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  changeProgramacion() {
+    this.enviar = false;
+  }
+
+  close() {
+    this.visible = false;
+  }
+
   mostrar() {
     this.up = true;
     this.down = false;
@@ -267,7 +300,48 @@ export class DashboardComponent implements OnInit {
     this.modoReloj = true;
     this.modoManual = false;
   }
+
+  eventosCalendario(dataEvento: DetalleActividadModel) {
+    let inicio;
+    let fin;
+    let dif = 0;
+
+    inicio = moment([
+      moment(dataEvento.inicio).get('year'),
+      moment(dataEvento.inicio).get('month'),
+      moment(dataEvento.inicio).get('day'),
+      moment(dataEvento.inicio).get('hour'),
+      moment(dataEvento.inicio).get('minute'),
+      moment(dataEvento.inicio).get('second')
+    ]);
+
+    fin = moment([
+      moment(dataEvento.fin).get('year'),
+      moment(dataEvento.fin).get('month'),
+      moment(dataEvento.fin).get('day'),
+      moment(dataEvento.fin).get('hour'),
+      moment(dataEvento.fin).get('minute'),
+      moment(dataEvento.fin).get('second')
+    ]);
+
+    dif = fin.diff(inicio, 'minutes');
+
+    this.calendarEvents = [...this.calendarEvents, {
+      title: `${dif} minutos`,
+      // date: moment(x.fecha).format('YYYY-MM-DD'),
+      start: moment(dataEvento.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(dataEvento.fin).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      allDay: false,
+      color: goldenColors.getHsvGolden(0.5, 0.95),
+      descripcion: dataEvento.descripcion,
+      nombreProyecto: dataEvento.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
+      nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre
+    }];
+
+  }
+
   ngOnInit() {
+    this.enviar = true;
     this.up = false;
     this.down = true;
 
@@ -280,15 +354,11 @@ export class DashboardComponent implements OnInit {
     this.btnStart = true;
     this.infoLogin = this.userService.getInfoLogin();
 
-    // this.validateForm = this.fb.group({
-    //   programacionequipos: [null, [Validators.required]]
-    // });
-
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
         this.listaProgramacion = data;
-        console.log(this.listaProgramacion);
+        //  console.log(this.listaProgramacion);
       }
 
       );
@@ -297,54 +367,31 @@ export class DashboardComponent implements OnInit {
       .toPromise()
       .then(
         (data: DetalleActividadModel[]) => {
-          let inicio;
-          let fin;
-          let dif = 0;
-          let id = 1;
           data.forEach(x => {
-            //  debugger;
-            inicio = moment([
-              moment(x.inicio).get('year'),
-              moment(x.inicio).get('month'),
-              moment(x.inicio).get('day'),
-              moment(x.inicio).get('hour'),
-              moment(x.inicio).get('minute'),
-              moment(x.inicio).get('second')
-            ]);
-
-            fin = moment([
-              moment(x.fin).get('year'),
-              moment(x.fin).get('month'),
-              moment(x.fin).get('day'),
-              moment(x.fin).get('hour'),
-              moment(x.fin).get('minute'),
-              moment(x.fin).get('second')
-            ]);
-
-            dif = fin.diff(inicio, 'minutes');
-            console.log(dif, inicio, fin);
-
-
-            this.calendarEvents = [...this.calendarEvents, {
-              id,
-              title: `${dif} minutos`,
-              // date: moment(x.fecha).format('YYYY-MM-DD'),
-              start: moment(x.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
-              end: moment(x.fin).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
-              allDay: false,
-              color: goldenColors.getHsvGolden(0.5, 0.95),
-              descripcion: x.descripcion,
-              nombreProyecto: x.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
-              nombreAct: x.programacionequipos.programacionproyecto.actividades.nombre
-
-            }];
-            id++;
+            this.eventosCalendario(x);
           }
           );
-          console.log(this.calendarEvents);
+          //  console.log(this.calendarEvents);
 
-          this.detalleActividades = data;
+        }
+      );
 
+    this.detalleActividadService.getAllDetalleActividadActivas()
+      .toPromise()
+      .then(
+        (data: DetalleActividadModel) => {
+          this.actividadActiva = data;
+
+          console.log(data);
+          // if (data) {
+          //   this.btnStart = false;
+          //   this.btnStop = true;
+          //   this.btnPause = true;
+          //   this.btnResumen = false;
+
+          //   this.timeInicial = new Date(data[0].inicio);
+          //   this.control = setInterval(this.cronometro.bind(this), 1000);
+          // }
         }
       );
 

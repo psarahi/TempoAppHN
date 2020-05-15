@@ -69,6 +69,7 @@ import { NzDividerModule } from 'ng-zorro-antd/divider';
 import { ErrorComponent } from './pages/error/error.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
+import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 
 registerLocaleData(en);
 
@@ -126,7 +127,8 @@ registerLocaleData(en);
       NzStatisticModule,
       NzDividerModule,
       NzSpinModule,
-      NzCalendarModule
+      NzCalendarModule,
+      NzToolTipModule
 
       ///////////////////////////
    ],

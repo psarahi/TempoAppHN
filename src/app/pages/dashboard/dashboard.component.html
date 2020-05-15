@@ -1,8 +1,7 @@
 <div class="timer">
     <div class="tiempo">
         <div class="buttons" *ngIf="modoReloj">
-            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" nzSize="large" nzShape="circle"><i
-                    nz-icon nzTheme="fill" nzType="play-circle"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle"><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
             <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle"><i nz-icon
                     nzType="redo"></i></button>
             <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle"><i
@@ -14,15 +13,17 @@
             <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
         </div>
         <div class="manual" *ngIf="modoManual">
-            <nz-time-picker [(ngModel)]="inicio" nzPlaceHolder="Inicio"></nz-time-picker>
+            <nz-time-picker [(ngModel)]="inicio" nzTooltipTitle="Hora inicio" nzTooltipPlacement="top" nz-tooltip>
+            </nz-time-picker>
             <i class="icon-time" nz-icon nzType="arrow-right" nzTheme="outline"></i>
-            <nz-time-picker [(ngModel)]="fin" nzPlaceHolder="Fin"></nz-time-picker>
-            <button nz-button nzType="primary" (click)="guardar()" nzShape="circle"><i
-                nz-icon nzTheme="fill" nzType="check-circle"></i></button>
+            <nz-time-picker [(ngModel)]="fin" nzTooltipTitle="Hora fin" nzTooltipPlacement="top" nz-tooltip>
+            </nz-time-picker>
+            <button nz-button nzType="primary" [disabled]="enviar" (click)="guardar()" nzShape="circle"><i nz-icon
+                    nzTheme="fill" nzType="check-circle"></i></button>
         </div>
         <div class="modos">
-            <i class="icon-time" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill"></i>
-            <i class="icon-time" nz-icon nzType="menu" (click)="manual()" nzTheme="outline"></i>
+            <i class="icon-time" nzTooltipTitle="Cronometro" nzTooltipPlacement="topLeft" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill" nz-tooltip></i>
+            <i class="icon-time" nzTooltipTitle="Tiempo manual" nzTooltipPlacement="topLeft" nz-icon nzType="menu" (click)="manual()" nzTheme="outline" nz-tooltip></i>
         </div>
     </div>
 
@@ -33,7 +34,7 @@
                 <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!"> -->
         <hr style="width: 85%; opacity: 0.2;">
         <label class="labe-datos"> Programación </label>
-        <nz-select [(ngModel)]="programacionequipos" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
+        <nz-select [(ngModel)]="programacionequipos" (ngModelChange)="changeProgramacion()" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
             <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
             </nz-option>
         </nz-select>

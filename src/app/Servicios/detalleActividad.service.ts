@@ -24,12 +24,16 @@ export class DetalleActividadService {
     return this.http.get(`${apiUrl}/detalleActividad/`);
   }
 
+  getAllDetalleActividadActivas() {
+    return this.http.get(`${apiUrl}/detalleActividad/activo`);
+  }
+
   postDetalleActividad(detalleActividad) {
     return this.http.post(`${apiUrl}/detalleActividad/`, detalleActividad);
   }
 
-  putDetalleActividad(detalleActividad) {
-    return this.http.post(`${apiUrl}/detalleActividad/`, detalleActividad);
+  putDetalleActividad(_id, detalleActividad) {
+    return this.http.put(`${apiUrl}/detalleActividad/${_id}`, detalleActividad);
   }
 
   getDetalleActividadMiembros() {
