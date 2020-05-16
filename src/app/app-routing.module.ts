@@ -12,6 +12,7 @@ import { LoginComponent } from './login/login.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { PruebasComponent } from './pages/pruebas/pruebas.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -30,6 +31,7 @@ const routes: Routes = [
       { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'dashboard', component: DashboardComponent },
+      { path: 'actividad', component: ActividadActivasComponent },
 
     ]
   },

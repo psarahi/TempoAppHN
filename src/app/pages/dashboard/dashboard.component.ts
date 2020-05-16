@@ -76,7 +76,7 @@ export class DashboardComponent implements OnInit {
   time: Date | null = null;
   detalleActividades: DetalleActividadModel[];
   dataDetalleActividades;
-  actividadActiva: DetalleActividadModel;
+  actividadActiva: DetalleActividadModel[];
 
   constructor(
     private detalleActividadService: DetalleActividadService,
@@ -111,8 +111,6 @@ export class DashboardComponent implements OnInit {
       estado
     };
 
-    console.log(this.dataDetalleActividad);
-
     if (manual === true) {
       this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
         .toPromise()
@@ -137,16 +135,14 @@ export class DashboardComponent implements OnInit {
       this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
         .toPromise()
         .then(
-          (data: DetalleActividadModel) => {
+          (data: DetalleActividadModel[]) => {
 
             this.actividadActiva = data;
-            console.log(this.actividadActiva, ' Actividad Activa');
             if (this.isMarch === false) {
               this.timeInicial = new Date();
               this.control = setInterval(this.cronometro.bind(this), 1000);
               this.isMarch = true;
             }
-            console.log(data, 'post db');
           },
           (error) => {
             console.log(error);
@@ -177,8 +173,6 @@ export class DashboardComponent implements OnInit {
       false);
   }
 
-
-
   cronometro() {
     this.timeActual = new Date();
     this.acumularTime = this.timeActual - this.timeInicial;
@@ -188,7 +182,8 @@ export class DashboardComponent implements OnInit {
     // this.cc = Math.round(this.acumularTime2.getMilliseconds() / 10);
     this.ss = this.acumularTime2.getSeconds();
     this.mm = this.acumularTime2.getMinutes();
-    this.hh = this.acumularTime2.getHours() - 18;
+    this.hh = this.acumularTime2.getHours();
+    // this.hh = this.acumularTime2.getHours() - 18;
     // if (this.cc < 10) { this.cc = '0' + this.cc; }
     if (this.ss < 10) { this.ss = '0' + this.ss; }
     if (this.mm < 10) { this.mm = '0' + this.mm; }
@@ -204,7 +199,7 @@ export class DashboardComponent implements OnInit {
     this.btnResumen = false;
 
     this.putDetalleActividad = {
-      inicio: moment(this.actividadActiva.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(this.actividadActiva[0].inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
       fin: moment().format('YYYY-MM-DD HH:mm:ss'),
       fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
@@ -213,9 +208,9 @@ export class DashboardComponent implements OnInit {
       costo: 0,
       estado: false
     };
-    console.log(this.actividadActiva._id);
+    console.log(this.actividadActiva[0]._id);
 
-    this.detalleActividadService.putDetalleActividad(this.actividadActiva._id, this.putDetalleActividad)
+    this.detalleActividadService.putDetalleActividad(this.actividadActiva[0]._id, this.putDetalleActividad)
       .toPromise()
       .then((data: DetalleActividadModel) => {
 
@@ -379,19 +374,35 @@ export class DashboardComponent implements OnInit {
     this.detalleActividadService.getAllDetalleActividadActivas()
       .toPromise()
       .then(
-        (data: DetalleActividadModel) => {
+        (data: DetalleActividadModel[]) => {
+          console.log(data);
           this.actividadActiva = data;
 
-          console.log(data);
-          // if (data) {
-          //   this.btnStart = false;
-          //   this.btnStop = true;
-          //   this.btnPause = true;
-          //   this.btnResumen = false;
+          if (this.actividadActiva.length !== 0) {
+            this.timeActual = new Date();
+            this.timeInicial = new Date(this.actividadActiva[0].inicio);
+            this.descripcion = this.actividadActiva[0].descripcion;
+            this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
+            console.log(data);
+            this.btnStart = false;
+            this.btnStop = true;
+            this.btnPause = true;
+            this.btnResumen = false;
+            this.acumularTime = this.timeActual - this.timeInicial;
 
-          //   this.timeInicial = new Date(data[0].inicio);
-          //   this.control = setInterval(this.cronometro.bind(this), 1000);
-          // }
+            let timeActu2;
+            let acumularResume;
+            // if (this.isMarch == false) {
+            timeActu2 = new Date();
+            timeActu2 = timeActu2.getTime();
+            acumularResume = timeActu2 - this.acumularTime;
+
+            this.timeInicial.setTime(acumularResume);
+            this.control = setInterval(this.cronometro.bind(this), 10);
+            this.isMarch = true;
+            // }
+          }
+
         }
       );
 

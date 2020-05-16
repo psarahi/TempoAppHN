@@ -32,7 +32,7 @@
                     <!-- <a class="login-form-forgot" class="login-form-forgot">Forgot password</a> -->
                     <button *ngIf="loading" class="login-form-button" nz-button nzType="primary" nzLoading nzBlock><i
                             nz-icon nzType="poweroff"></i>Comprobando</button>
-                    <button nz-button *ngIf="formulario" class="login-form-button" [nzType]="'primary'">Iniciar</button> o
+                    <button nz-button *ngIf="formulario" [disabled]="!validateForm.valid" class="login-form-button" [nzType]="'primary'">Iniciar</button> o
                     <a [routerLink]="['/registro']" class="texto"> regístrate ahora!</a>
                 </nz-form-control>
             </nz-form-item>

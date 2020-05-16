@@ -67,7 +67,7 @@
             </nz-form-item>
             <nz-form-item nz-row class="register-area">
                 <nz-form-control>
-                    <button nz-button nzBlock nzType="primary">Crear cuenta</button>
+                    <button nz-button nzBlock [disabled]="!validateForm.valid" nzType="primary">Crear cuenta</button>
                 </nz-form-control>
             </nz-form-item>
         </form>

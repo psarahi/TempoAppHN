@@ -32,6 +32,7 @@ import { ProgramacionProyectoService } from './Servicios/programacionProyecto.se
 import { ProgramacionEquipoService } from './Servicios/programacionEquipo.service';
 import { ProyectosService } from './Servicios/proyectos.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
+import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
 
 // config angular i18n
 import { registerLocaleData, CommonModule } from '@angular/common';
@@ -86,7 +87,8 @@ registerLocaleData(en);
       LoginComponent,
       ErrorComponent,
       PruebasComponent,
-      DashboardComponent
+      DashboardComponent,
+      ActividadActivasComponent
    ],
    imports: [
       BrowserModule,

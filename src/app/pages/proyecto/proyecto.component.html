@@ -132,7 +132,7 @@
         </nz-form-item>
         <div class="footer">
             <button type="button" (click)="close()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
-            <button nz-button (click)="close()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+            <button nz-button (click)="close()" [disabled]="!validateForm.valid" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
         </div>
     </form>
 </nz-drawer>

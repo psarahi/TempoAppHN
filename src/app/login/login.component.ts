@@ -56,14 +56,14 @@ export class LoginComponent implements OnInit {
 
         let { nombre, apellido } = this.userService.executeLogin(data);
 
-        this.route.navigate(['/equipo']);
+        this.route.navigate(['/dashboard']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
       },
       (error) => {
         // this.createNotification('error');
         this.createMessage('error', 'Credenciales invalidas');
         this.validateForm = this.fb.group({
-          usuario: [null, [Validators.required]],
+          usuario: [null],
           password: [null, [Validators.required]]
         });
         console.log(error);

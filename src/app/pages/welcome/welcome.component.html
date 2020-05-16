@@ -7,18 +7,28 @@
             <!-- </a> -->
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-            <li nz-submenu nzOpen nzTitle="Administración" nzIcon="audit">
+            <li nz-submenu nzTitle="Administración" nzIcon="audit">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/cuentas">Cuentas</a>
                     </li>
                 </ul>
             </li>
-            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzMatchRouter routerLink="/dashboard" [nzTitle]="isCollapsed ? 'Dashboard' : ''">
+            <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzMatchRouter routerLink="/dashboard" [nzTitle]="isCollapsed ? 'Dashboard' : ''">
                 <i nz-icon nzType="dashboard"></i>
                 <span>Dashboard</span>
+            </li> -->
+            <li nz-submenu nzOpen nzTitle="Tablero" nzIcon="dashboard">
+                <ul>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/actividad">Actividad</a>
+                    </li>
+                    <li nz-menu-item nzMatchRouter>
+                        <a routerLink="/dashboard">Reporte</a>
+                    </li>
+                </ul>
             </li>
-            <li nz-submenu nzOpen nzTitle="Mantenimiento" nzIcon="tool">
+            <li nz-submenu nzTitle="Mantenimiento" nzIcon="tool">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/equipo">Tus Miembros</a>
@@ -43,7 +53,7 @@
                 </ul>
             </li> -->
             <!-- <li nz-submenu nzOpen nzTitle="Con" nzIcon="line-chart"> -->
-            <li nz-submenu nzOpen nzTitle="Configuración" nzIcon="setting">
+            <li nz-submenu nzTitle="Configuración" nzIcon="setting">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
                         <a (click)="logout()">Cerrar sesión</a>
