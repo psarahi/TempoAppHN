@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ProgramacionEquipoDetalladoModel } from './../../Modelos/programacionEquipo';
 import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.service';
 import * as moment from 'moment';
-moment().utcOffset(-420);
 moment.locale('es');
 
 import * as goldenColors from 'golden-colors';
@@ -174,6 +173,7 @@ export class DashboardComponent implements OnInit {
   }
 
   cronometro() {
+    //debugger;
     this.timeActual = new Date();
     this.acumularTime = this.timeActual - this.timeInicial;
     this.acumularTime2 = new Date();
@@ -182,7 +182,7 @@ export class DashboardComponent implements OnInit {
     // this.cc = Math.round(this.acumularTime2.getMilliseconds() / 10);
     this.ss = this.acumularTime2.getSeconds();
     this.mm = this.acumularTime2.getMinutes();
-    this.hh = this.acumularTime2.getHours();
+    this.hh = this.acumularTime2.getHours() - 18;
     // this.hh = this.acumularTime2.getHours() - 18;
     // if (this.cc < 10) { this.cc = '0' + this.cc; }
     if (this.ss < 10) { this.ss = '0' + this.ss; }
@@ -375,33 +375,40 @@ export class DashboardComponent implements OnInit {
       .toPromise()
       .then(
         (data: DetalleActividadModel[]) => {
-          console.log(data);
+         // console.log(data);
           this.actividadActiva = data;
+          // if (this.actividadActiva.length !== 0) {
+          //   let inicio = moment(this.actividadActiva[0].inicio).add(6, 'hour');
+          //   this.timeActual = new Date();
+          //   this.timeInicial = new Date(
+          //     inicio.get('year'),
+          //     inicio.get('month'),
+          //     inicio.get('day'),
+          //     inicio.get('hour'),
+          //     inicio.get('minute'),
+          //     inicio.get('second')
+          //   );
+          //   this.descripcion = this.actividadActiva[0].descripcion;
+          //   this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
+          //   console.log(data);
+          //   this.btnStart = false;
+          //   this.btnStop = true;
+          //   this.btnPause = true;
+          //   this.btnResumen = false;
+          //   this.acumularTime = this.timeActual - this.timeInicial;
 
-          if (this.actividadActiva.length !== 0) {
-            this.timeActual = new Date();
-            this.timeInicial = new Date(this.actividadActiva[0].inicio);
-            this.descripcion = this.actividadActiva[0].descripcion;
-            this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
-            console.log(data);
-            this.btnStart = false;
-            this.btnStop = true;
-            this.btnPause = true;
-            this.btnResumen = false;
-            this.acumularTime = this.timeActual - this.timeInicial;
+          //   let timeActu2;
+          //   let acumularResume;
+          //   // if (this.isMarch == false) {
+          //   timeActu2 = new Date();
+          //   timeActu2 = timeActu2.getTime();
+          //   acumularResume = timeActu2 - this.acumularTime;
 
-            let timeActu2;
-            let acumularResume;
-            // if (this.isMarch == false) {
-            timeActu2 = new Date();
-            timeActu2 = timeActu2.getTime();
-            acumularResume = timeActu2 - this.acumularTime;
-
-            this.timeInicial.setTime(acumularResume);
-            this.control = setInterval(this.cronometro.bind(this), 10);
-            this.isMarch = true;
-            // }
-          }
+          //   this.timeInicial.setTime(acumularResume);
+          //   this.control = setInterval(this.cronometro.bind(this), 10);
+          //   this.isMarch = true;
+          //   // }
+          // }
 
         }
       );

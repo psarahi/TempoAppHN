@@ -1,0 +1,8 @@
+.cronometro {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 8px 10px 8px 15px;
+    font-size: xx-large;
+}
