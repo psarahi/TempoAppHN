@@ -4,7 +4,7 @@ import { RouterModule } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgZorroAntdModule, NZ_I18N, en_US } from 'ng-zorro-antd';
 import { AppComponent } from './app.component';
 
@@ -33,6 +33,7 @@ import { ProgramacionEquipoService } from './Servicios/programacionEquipo.servic
 import { ProyectosService } from './Servicios/proyectos.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
+import { LoginGuard } from './Servicios/Guards/login.guard';
 
 // config angular i18n
 import { registerLocaleData, CommonModule } from '@angular/common';
@@ -71,6 +72,7 @@ import { ErrorComponent } from './pages/error/error.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { InterceptorServicervice } from './Servicios/interceptor.service';
 
 registerLocaleData(en);
 
@@ -136,6 +138,11 @@ registerLocaleData(en);
    ],
    providers: [
       { provide: NZ_I18N, useValue: en_US },
+      {
+         provide: HTTP_INTERCEPTORS,
+         useClass: InterceptorServicervice,
+         multi: true
+      },
       ActividadesService,
       CuentaService,
       LoginService,
@@ -143,7 +150,8 @@ registerLocaleData(en);
       PerfilesService,
       ProgramacionProyectoService,
       ProgramacionEquipoService,
-      ProyectosService
+      ProyectosService,
+      LoginGuard
    ],
    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
    bootstrap: [

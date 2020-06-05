@@ -1,8 +1,15 @@
 .cronometro {
     align-items: center;
     display: flex;
-    flex-direction: row;
-    justify-content: center;
+    flex-direction: column;
     margin: 8px 10px 8px 15px;
     font-size: xx-large;
+}
+
+label {
+    font-size: medium;
+}
+
+.inicio {
+    font-size: small;
 }

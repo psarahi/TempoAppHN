@@ -1,7 +1,12 @@
 <nz-card nzTitle="Actividades activas" nzBordered="false">
-    <div nz-card-grid [ngStyle]="gridStyle" *ngFor="let actividad of actividadesActivas">
+    <div nz-card-grid [ngStyle]="gridStyle" *ngFor="let actividad of actividades">
         <div class="cronometro">
-            <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
+            <div> {{ actividad.hh }} : {{ actividad.mm }} : {{ actividad.ss }} </div>
+            <hr style="width: 85%; opacity: 0.2;">
+            <label class="inicio">{{ actividad.inicio }}</label>
+            <h6>{{ actividad.miembro }}</h6>
+            <label><strong> Proyecto - Actividad </strong></label>
+            <label>{{ actividad.proyecto +' - '+ actividad.actividad}}</label>
         </div>
     </div>
 </nz-card>

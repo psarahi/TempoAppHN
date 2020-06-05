@@ -1,12 +1,12 @@
 <div class="timer">
     <div class="tiempo">
         <div class="buttons" *ngIf="modoReloj">
-            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle"><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
-            <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle"><i nz-icon
+            <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
+            <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle" nzTooltipTitle="Resumen" nzTooltipPlacement="top" nz-tooltip><i nz-icon
                     nzType="redo"></i></button>
-            <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle"><i
+            <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i
                     nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
-            <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle"><i nz-icon
+            <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon
                     nzTheme="fill" nzType="stop"></i></button>
         </div>
         <div class="cronometro" *ngIf="modoReloj">
@@ -33,12 +33,12 @@
                 <nz-form-label nzFor="gender" nzRequired>Proyecto-Actividad</nz-form-label>
                 <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!"> -->
         <hr style="width: 85%; opacity: 0.2;">
-        <label class="labe-datos"> Programación </label>
+        <label class="label-datos"> Programación </label>
         <nz-select [(ngModel)]="programacionequipos" (ngModelChange)="changeProgramacion()" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
             <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
             </nz-option>
         </nz-select>
-        <label class="labe-datos"> Descripción </label>
+        <label class="label-datos"> Descripción </label>
         <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="41" rows="2"></textarea>
         <!-- </nz-form-control>
             </nz-form-item>

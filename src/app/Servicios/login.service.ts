@@ -11,7 +11,7 @@ export class LoginService {
 
   constructor(private http: HttpClient) { }
 
-  validar(infoLogin) {
+  validar(infoLogin) {    
     return this.http.post(`${apiUrl}/auth/`, infoLogin);
   }
 

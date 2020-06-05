@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActividadesModel } from '../../Modelos/actividades';
 import { ActividadesService } from '../../Servicios/actividades.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { UsuarioLogin } from '../../Modelos/autentificacion';
 import { UserService } from '../../Servicios/user.service';
 
 @Component({
@@ -90,6 +89,10 @@ export class ActividadesComponent implements OnInit {
           }
           this.listOfDisplayData = [...this.listaActividades];
           this.loadingTable = false;
+        },
+        (error) => {
+          console.log(error.error);
+
         }
       );
 

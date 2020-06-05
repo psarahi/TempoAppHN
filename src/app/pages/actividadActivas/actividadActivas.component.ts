@@ -3,6 +3,18 @@ import { DetalleActividadService } from '../../Servicios/detalleActividad.servic
 import { DetalleActividadModel } from '../../Modelos/detalleActividad';
 import * as moment from 'moment';
 moment.locale('es');
+
+interface cronometro {
+  hh: number;
+  mm: number;
+  ss: number;
+  inicio: any;
+  miembro: string;
+  proyecto: string;
+  actividad: string;
+  // descripcion: string;
+}
+
 @Component({
   selector: 'app-actividadActivas',
   templateUrl: './actividadActivas.component.html',
@@ -15,7 +27,6 @@ export class ActividadActivasComponent implements OnInit {
     margin: '1%'
   };
 
-  isMarch: boolean = false;
   acumularTime: number = 0;
   timeInicial;
   control: any;
@@ -25,6 +36,8 @@ export class ActividadActivasComponent implements OnInit {
   hh: any = '00';
   mm: any = '00';
   ss: any = '00';
+  actividades: cronometro[] = [];
+  contador = 0;
 
   actividadesActivas: DetalleActividadModel[] = [];
 
@@ -33,23 +46,36 @@ export class ActividadActivasComponent implements OnInit {
 
   ) { }
 
-  cronometro() {
+  cronometro(inicio, num, miembro, proyecto, actividad) {
     this.timeActual = new Date();
-    this.acumularTime = this.timeActual - this.timeInicial;
+    this.acumularTime = this.timeActual - inicio;
     this.acumularTime2 = new Date();
     this.acumularTime2.setTime(this.acumularTime);
 
-    // this.cc = Math.round(this.acumularTime2.getMilliseconds() / 10);
     this.ss = this.acumularTime2.getSeconds();
     this.mm = this.acumularTime2.getMinutes();
     this.hh = this.acumularTime2.getHours() - 18;
-    // if (this.cc < 10) { this.cc = '0' + this.cc; }
     if (this.ss < 10) { this.ss = '0' + this.ss; }
     if (this.mm < 10) { this.mm = '0' + this.mm; }
     if (this.hh < 10) { this.hh = '0' + this.hh; }
 
-    // pantalla.innerHTML = this.hh + ' : ' + this.mm + ' : ' + this.ss + ' : ' + this.cc;
+    this.actividades[num] = {  
+      hh: this.hh, 
+      mm: this.mm, 
+      ss: this.ss, 
+      inicio: moment(inicio).format('LLL'), 
+      miembro, 
+      proyecto, 
+      actividad 
+    };
+
+    // this.rellenarArreglo(this.hh, this.mm, this.ss, num);
+
   }
+
+  // rellenarArreglo(hora, min, seg, num) {
+  //   this.actividades[num] = { num: this.contador, hh: hora, mm: min, ss: seg };
+  // }
 
   ngOnInit() {
 
@@ -58,34 +84,36 @@ export class ActividadActivasComponent implements OnInit {
       .then(
         (data: DetalleActividadModel[]) => {
           this.actividadesActivas = data;
+          console.log(this.actividadesActivas);
 
           if (this.actividadesActivas.length !== 0) {
-            let inicio = moment(this.actividadesActivas[0].inicio).add(6, 'hour');
-            this.timeActual = new Date();
-            this.timeInicial = new Date(
-              inicio.get('year'),
-              inicio.get('month'),
-              inicio.get('day'),
-              inicio.get('hour'),
-              inicio.get('minute'),
-              inicio.get('second')
-            );
-            console.log(data);
-            this.acumularTime = this.timeActual - this.timeInicial;
 
-            let timeActu2;
-            let acumularResume;
-            // if (this.isMarch == false) {
-            timeActu2 = new Date();
-            timeActu2 = timeActu2.getTime();
-            acumularResume = timeActu2 - this.acumularTime;
+            for (let index = 0; index < this.actividadesActivas.length; index++) {
+              let nombre = `${this.actividadesActivas[index].programacionequipos.miembros.nombre}
+               ${this.actividadesActivas[index].programacionequipos.miembros.apellido}`;
+              // console.log(nombre);
 
-            this.timeInicial.setTime(acumularResume);
-            this.control = setInterval(this.cronometro.bind(this), 10);
-            this.isMarch = true;
-            // }
+              let proyecto = this.actividadesActivas[index].programacionequipos.programacionproyecto.proyectos.nombreProyecto;
+              let actividad = this.actividadesActivas[index].programacionequipos.programacionproyecto.actividades.nombre;
+
+              let inicio = moment(this.actividadesActivas[index].inicio);
+              this.timeActual = new Date();
+              this.timeInicial = new Date(
+                inicio.get('year'),
+                inicio.get('month'),
+                inicio.get('day'),
+                inicio.get('hour'),
+                inicio.get('minute'),
+                inicio.get('second')
+              );
+
+              this.control = setInterval(() => {
+                this.cronometro(inicio, index, nombre, proyecto, actividad);
+                // this.rellenarArreglo(this.hh, this.mm, this.ss, index);
+              }, 10);
+            }
+
           }
-
         }
       );
 

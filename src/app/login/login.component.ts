@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../Servicios/login.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { UsuarioLogin } from '../Modelos/autentificacion';
+// import { UsuarioLogin } from '../Modelos/autentificacion';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { duration } from 'moment';
 import { animate } from '@angular/animations';
@@ -50,11 +50,10 @@ export class LoginComponent implements OnInit {
     }
 
     this.serviceLogin.validar(this.validateForm.value).toPromise().then(
-      (data: UsuarioLogin) => {
+      (data: any) => {
 
-        console.log(data);
-
-        let { nombre, apellido } = this.userService.executeLogin(data);
+        const { nombre, apellido } = this.userService.executeLogin(data);
+        //  console.log(data);
 
         this.route.navigate(['/dashboard']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);

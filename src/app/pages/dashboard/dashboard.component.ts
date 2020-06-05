@@ -201,7 +201,7 @@ export class DashboardComponent implements OnInit {
     this.btnResumen = false;
 
     this.putDetalleActividad = {
-      inicio: moment(this.actividadActiva.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(this.actividadActiva.inicio).format('YYYY-MM-DD HH:mm:ss'),
       fin: moment().format('YYYY-MM-DD HH:mm:ss'),
       fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
@@ -216,7 +216,9 @@ export class DashboardComponent implements OnInit {
       .toPromise()
       .then((data: DetalleActividadModel) => {
 
-         this.eventosCalendario(data);
+        this.programacionequipos = '';
+        this.descripcion = '';
+        this.eventosCalendario(data);
         if (this.isMarch === true) {
           clearInterval(this.control);
           this.isMarch = false;
@@ -326,8 +328,8 @@ export class DashboardComponent implements OnInit {
     this.calendarEvents = [...this.calendarEvents, {
       title: `${dif} minutos`,
       // date: moment(x.fecha).format('YYYY-MM-DD'),
-      start: moment(dataEvento.inicio).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
-      end: moment(dataEvento.fin).add(6, 'hour').format('YYYY-MM-DD HH:mm:ss'),
+      start: moment(dataEvento.inicio).format('YYYY-MM-DD HH:mm:ss'),
+      end: moment(dataEvento.fin).format('YYYY-MM-DD HH:mm:ss'),
       allDay: false,
       color: goldenColors.getHsvGolden(0.5, 0.95),
       descripcion: dataEvento.descripcion,
@@ -378,7 +380,7 @@ export class DashboardComponent implements OnInit {
       .then(
         (data: DetalleActividadModel) => {
           // console.log(data);
-        //  this.actividadActiva = data;
+          //  this.actividadActiva = data;
           // if (this.actividadActiva.length !== 0) {
           //   let inicio = moment(this.actividadActiva[0].inicio).add(6, 'hour');
           //   this.timeActual = new Date();

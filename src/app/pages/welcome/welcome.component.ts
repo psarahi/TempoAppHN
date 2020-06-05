@@ -9,6 +9,8 @@ import { UserService } from '../../Servicios/user.service';
 })
 export class WelcomeComponent implements OnInit {
   isCollapsed = false;
+  menu: any[] = [];
+
 
   constructor(
     private route: Router,
@@ -16,10 +18,13 @@ export class WelcomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const infoUser = this.userService.getInfoLogin();
+    this.menu = infoUser.menu;
+    console.log(this.menu);
+    
   }
 
   logout() {
     this.userService.clearInfoLogin();
-    this.route.navigate(['/']);
   }
 }

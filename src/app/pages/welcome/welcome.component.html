@@ -7,10 +7,10 @@
             <!-- </a> -->
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-            <li nz-submenu nzTitle="Administración" nzIcon="audit">
+            <li *ngFor="let itemMenu of menu" nz-submenu [nzTitle]="itemMenu.titulo" [nzIcon]="itemMenu.icon">
                 <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/cuentas">Cuentas</a>
+                    <li *ngFor="let itemSub of itemMenu.submenu" nz-menu-item nzMatchRouter>
+                        <a [routerLink]="itemSub.url">{{ itemSub.titulo }} </a>
                     </li>
                 </ul>
             </li>
@@ -18,10 +18,10 @@
                 <i nz-icon nzType="dashboard"></i>
                 <span>Dashboard</span>
             </li> -->
-            <li nz-submenu nzOpen nzTitle="Tablero" nzIcon="dashboard">
+            <!-- <li nz-submenu nzOpen nzTitle="Tablero" nzIcon="dashboard">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/actividad">Actividad</a>
+                        <a routerLink="/actividadActiva">Actividad</a>
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/dashboard">Reporte</a>
@@ -38,13 +38,13 @@
                     </li>
                     <li nz-menu-item nzMatchRouter>
                         <a routerLink="/proyecto">Tus Proyectos</a>
-                    </li>
+                    </li> -->
 
-                    <!-- <li nz-menu-item nzMatchRouter>
+            <!-- <li nz-menu-item nzMatchRouter>
                         <a routerLink="/pruebas">PRUEBAS</a>
                     </li> -->
-                </ul>
-            </li>
+            <!-- </ul>
+            </li> -->
             <!-- <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="line-chart">
                 <ul>
                     <li nz-menu-item nzMatchRouter>

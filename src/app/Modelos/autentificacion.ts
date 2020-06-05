@@ -4,4 +4,5 @@ export interface UsuarioLogin {
     apellido: string;
     idCuenta: string;
     perfil: string;
+    token: string;
 }

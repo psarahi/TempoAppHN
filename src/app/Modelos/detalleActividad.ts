@@ -15,7 +15,7 @@ export interface Programacionequipos {
     estado: boolean;
     _id: string;
     programacionproyecto: Programacionproyecto;
-    miembros: string;
+    miembros: Miembros;
     __v: number;
 }
 
@@ -35,3 +35,8 @@ export interface Proyectos {
     nombreProyecto: string;
 }
 
+export interface Miembros {
+  _id: string;
+  nombre: string;
+  apellido: string;
+}

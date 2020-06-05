@@ -13,6 +13,7 @@ import { ErrorComponent } from './pages/error/error.component';
 import { PruebasComponent } from './pages/pruebas/pruebas.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
+import { LoginGuard } from './Servicios/Guards/login.guard';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -23,15 +24,16 @@ const routes: Routes = [
   {
     path: '',
     component: WelcomeComponent,
+    canActivate: [LoginGuard],
     children: [
-      { path: 'proyecto', component: ProyectoComponent },
+      { path: 'proyecto', component: ProyectoComponent},
       { path: 'equipo', component: EquipoComponent },
       { path: 'cuentas', component: CuentasComponent },
       { path: 'actividades', component: ActividadesComponent },
       { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'actividad', component: ActividadActivasComponent },
+      { path: 'actividadActiva', component: ActividadActivasComponent },
 
     ]
   },
