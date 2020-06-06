@@ -1,4 +1,4 @@
-<div class="timer">
+<!-- <div class="timer">
     <div class="tiempo">
         <div class="buttons" *ngIf="modoReloj">
             <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
@@ -28,10 +28,7 @@
     </div>
 
     <div *ngIf="up" class="detalle">
-        <!-- <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()" nzLayout="vertical">
-            <nz-form-item>
-                <nz-form-label nzFor="gender" nzRequired>Proyecto-Actividad</nz-form-label>
-                <nz-form-control [nzSpan]="24" nzErrorTip="Please select your gender!"> -->
+       
         <hr style="width: 85%; opacity: 0.2;">
         <label class="label-datos"> Programación </label>
         <nz-select [(ngModel)]="programacionequipos" (ngModelChange)="changeProgramacion()" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
@@ -39,17 +36,12 @@
             </nz-option>
         </nz-select>
         <label class="label-datos"> Descripción </label>
-        <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="41" rows="2"></textarea>
-        <!-- </nz-form-control>
-            </nz-form-item>
-        </form> -->
+        <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="43" rows="2"></textarea>
     </div>
     <i *ngIf="down" (click)="mostrar()" nz-icon nzType="down" nzTheme="outline"></i>
     <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
-</div>
+</div> -->
 
-<br>
-<br>
 <h1>Detalle de mis actividades</h1>
 <full-calendar #calendarEl defaultView="dayGridMonth" [plugins]="calendarPlugins" [locales]="locales" [header]="{
       left: 'prev,next today',

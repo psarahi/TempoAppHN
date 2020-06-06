@@ -69,6 +69,10 @@
                 <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
                     <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
                 </span>
+                <span class="header-trigger-time" (click)="showModal()">
+                    <label class="label-inicio-tiempo">Inicia tu tiempo</label>
+                    <i class="trigger" nz-icon nzType="clock-circle" nzTheme="outline"></i>
+                </span>
             </div>
         </nz-header>
         <nz-content>
@@ -78,3 +82,49 @@
         </nz-content>
     </nz-layout>
 </nz-layout>
+
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Registra tu tiempo" nzFooter="." nzOkDisabled="false" (nzOnCancel)="handleCancel()">
+    <div class="timer">
+        <div class="tiempo">
+            <div class="buttons" *ngIf="modoReloj">
+                <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle" nzTooltipTitle="Resumen" nzTooltipPlacement="top" nz-tooltip><i nz-icon
+                        nzType="redo"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i
+                        nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon
+                        nzTheme="fill" nzType="stop"></i></button>
+            </div>
+            <div class="cronometro" *ngIf="modoReloj">
+                <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
+            </div>
+            <div class="manual" *ngIf="modoManual">
+                <nz-time-picker [(ngModel)]="inicio" nzTooltipTitle="Hora inicio" nzTooltipPlacement="top" nz-tooltip>
+                </nz-time-picker>
+                <i class="icon-time" nz-icon nzType="arrow-right" nzTheme="outline"></i>
+                <nz-time-picker [(ngModel)]="fin" nzTooltipTitle="Hora fin" nzTooltipPlacement="top" nz-tooltip>
+                </nz-time-picker>
+                <button nz-button nzType="primary" [disabled]="enviar" (click)="guardar()" nzShape="circle"><i nz-icon
+                        nzTheme="fill" nzType="check-circle"></i></button>
+            </div>
+            <div class="modos">
+                <i class="icon-time" nzTooltipTitle="Cronometro" nzTooltipPlacement="topLeft" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill" nz-tooltip></i>
+                <i class="icon-time" nzTooltipTitle="Tiempo manual" nzTooltipPlacement="topLeft" nz-icon nzType="menu" (click)="manual()" nzTheme="outline" nz-tooltip></i>
+            </div>
+        </div>
+
+        <div *ngIf="up" class="detalle">
+
+            <hr style="width: 85%; opacity: 0.2;">
+            <label class="label-datos"> Programación </label>
+            <nz-select [(ngModel)]="programacionequipos" (ngModelChange)="changeProgramacion()" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
+                <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
+                </nz-option>
+            </nz-select>
+            <label class="label-datos"> Descripción </label>
+            <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="43" rows="2"></textarea>
+        </div>
+        <i *ngIf="down" (click)="mostrar()" nz-icon nzType="down" nzTheme="outline"></i>
+        <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
+    </div>
+</nz-modal>

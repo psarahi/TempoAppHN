@@ -25,8 +25,21 @@
     transition: all .3s, padding 0s;
 }
 
+.header-trigger-time {
+    height: 64px;
+    padding: 20px 24px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all .3s, padding 0s;
+}
+
 .trigger:hover {
     color: #1890ff;
+}
+
+.label-inicio-tiempo {
+    font-size: initial;
+    margin-right: 10px;
 }
 
 .sidebar-logo {
@@ -78,4 +91,133 @@ nz-content {
     padding: 24px;
     background: #fff;
     height: 100%;
+}
+
+.anticon,
+button,
+select {
+    text-transform: none;
+    margin-bottom: 9px;
+}
+
+[nz-button] {
+    margin: 2%;
+    width: 46px;
+    height: 43px;
+}
+
+.ant-btn>.anticon {
+    line-height: 0;
+    font-size: 30px;
+    margin: 1%;
+}
+
+.buttons {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 8px 0px 8px 8px;
+}
+
+.cronometro {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin: 8px 10px 8px 15px;
+    font-size: xx-large;
+}
+
+.timer {
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: column;
+}
+
+.detalle {
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    /* align-items: center; */
+}
+
+.demo-infinite-container {
+    height: 300px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+nz-list {
+    padding: 24px;
+}
+
+nz-select {
+    margin: 0 8px 10px 0;
+    width: 120px;
+}
+
+.tiempo {
+    display: flex;
+    justify-content: flex-end;
+    margin: auto;
+    margin-top: 5%;
+}
+
+.ant-drawer-title {
+    margin: 0;
+    color: #003875;
+    font-weight: 500;
+    font-size: 30px;
+    line-height: 60px;
+}
+
+.etiquetas {
+    font-size: large;
+    margin-right: 3%;
+}
+
+nz-select {
+    /* margin: 0 8px 10px 0; */
+    width: 280px;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+.label-datos {
+    /* color: #00000094; */
+    font-size: small;
+    margin-bottom: 7px;
+    margin-left: 36px;
+    color: #969696;
+}
+
+textarea {
+    border-color: #0000002e;
+    max-width: 85%;
+    min-width: 50%;
+    margin: auto;
+}
+
+.anticon.icon-time {
+    line-height: 2;
+    font-size: 23px;
+    margin: 1%;
+}
+
+.modos {
+    display: flex;
+    flex-direction: column;
+}
+
+.manual {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+:hover {
+    Cursor: pointer;
 }

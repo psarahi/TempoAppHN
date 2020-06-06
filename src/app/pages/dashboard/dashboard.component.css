@@ -91,7 +91,8 @@ nz-select {
     /* color: #00000094; */
     font-size: small;
     margin-bottom: 7px;
-    margin-left: 18px;
+    margin-left: 36px;
+    color: #969696;
 }
 
 textarea {

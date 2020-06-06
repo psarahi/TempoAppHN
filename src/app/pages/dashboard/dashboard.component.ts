@@ -375,48 +375,6 @@ export class DashboardComponent implements OnInit {
         }
       );
 
-    this.detalleActividadService.getAllDetalleActividadActivas()
-      .toPromise()
-      .then(
-        (data: DetalleActividadModel) => {
-          // console.log(data);
-          //  this.actividadActiva = data;
-          // if (this.actividadActiva.length !== 0) {
-          //   let inicio = moment(this.actividadActiva[0].inicio).add(6, 'hour');
-          //   this.timeActual = new Date();
-          //   this.timeInicial = new Date(
-          //     inicio.get('year'),
-          //     inicio.get('month'),
-          //     inicio.get('day'),
-          //     inicio.get('hour'),
-          //     inicio.get('minute'),
-          //     inicio.get('second')
-          //   );
-          //   this.descripcion = this.actividadActiva[0].descripcion;
-          //   this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
-          //   console.log(data);
-          //   this.btnStart = false;
-          //   this.btnStop = true;
-          //   this.btnPause = true;
-          //   this.btnResumen = false;
-          //   this.acumularTime = this.timeActual - this.timeInicial;
-
-          //   let timeActu2;
-          //   let acumularResume;
-          //   // if (this.isMarch == false) {
-          //   timeActu2 = new Date();
-          //   timeActu2 = timeActu2.getTime();
-          //   acumularResume = timeActu2 - this.acumularTime;
-
-          //   this.timeInicial.setTime(acumularResume);
-          //   this.control = setInterval(this.cronometro.bind(this), 10);
-          //   this.isMarch = true;
-          //   // }
-          // }
-
-        }
-      );
-
   }
 
 }

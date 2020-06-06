@@ -27,8 +27,8 @@ export class ActividadActivasComponent implements OnInit {
     margin: '1%'
   };
 
+  sinTrabajar: boolean = true;
   acumularTime: number = 0;
-  timeInicial;
   control: any;
   acumularTime2: any;
   timetest;
@@ -59,14 +59,14 @@ export class ActividadActivasComponent implements OnInit {
     if (this.mm < 10) { this.mm = '0' + this.mm; }
     if (this.hh < 10) { this.hh = '0' + this.hh; }
 
-    this.actividades[num] = {  
-      hh: this.hh, 
-      mm: this.mm, 
-      ss: this.ss, 
-      inicio: moment(inicio).format('LLL'), 
-      miembro, 
-      proyecto, 
-      actividad 
+    this.actividades[num] = {
+      hh: this.hh,
+      mm: this.mm,
+      ss: this.ss,
+      inicio: moment(inicio).format('LLL'),
+      miembro,
+      proyecto,
+      actividad
     };
 
     // this.rellenarArreglo(this.hh, this.mm, this.ss, num);
@@ -87,7 +87,7 @@ export class ActividadActivasComponent implements OnInit {
           console.log(this.actividadesActivas);
 
           if (this.actividadesActivas.length !== 0) {
-
+            this.sinTrabajar = false;
             for (let index = 0; index < this.actividadesActivas.length; index++) {
               let nombre = `${this.actividadesActivas[index].programacionequipos.miembros.nombre}
                ${this.actividadesActivas[index].programacionequipos.miembros.apellido}`;
@@ -98,14 +98,6 @@ export class ActividadActivasComponent implements OnInit {
 
               let inicio = moment(this.actividadesActivas[index].inicio);
               this.timeActual = new Date();
-              this.timeInicial = new Date(
-                inicio.get('year'),
-                inicio.get('month'),
-                inicio.get('day'),
-                inicio.get('hour'),
-                inicio.get('minute'),
-                inicio.get('second')
-              );
 
               this.control = setInterval(() => {
                 this.cronometro(inicio, index, nombre, proyecto, actividad);

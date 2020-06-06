@@ -30,3 +30,14 @@
 .fc-event {
     color: #000 !important;
 }
+
+.ant-card-head-title {
+    font-size: xx-large;
+}
+
+.anticon,
+button,
+select {
+    text-transform: none;
+    margin-bottom: 9px;
+}
