@@ -223,7 +223,9 @@ export class WelcomeComponent implements OnInit {
       acumularResume = timeActu2 - this.acumularTime;
 
       this.timeInicial.setTime(acumularResume);
-      this.control = setInterval(this.cronometro.bind(this), 10);
+      this.control = setInterval(() => {
+        this.cronometro(this.timeInicial);
+      }, 10);
       this.isMarch = true;
     }
   }
