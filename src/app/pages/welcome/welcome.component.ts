@@ -305,7 +305,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   revisarActividades() {
-    this.detalleActividadService.getAllDetalleActividadActivas()
+    this.detalleActividadService.getDetalleActividadActivoMiembros()
       .toPromise()
       .then(
         (data: DetalleActividadModel[]) => {

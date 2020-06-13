@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
 import { DetalleActividadModel } from '../../Modelos/detalleActividad';
 import * as moment from 'moment';
+import { WebSocketService } from '../../Servicios/webSocket.service';
+
 moment.locale('es');
 
 interface cronometro {
@@ -43,6 +45,7 @@ export class ActividadActivasComponent implements OnInit {
 
   constructor(
     private detalleActividadService: DetalleActividadService,
+    private webSoketService: WebSocketService
 
   ) { }
 
@@ -68,14 +71,7 @@ export class ActividadActivasComponent implements OnInit {
       proyecto,
       actividad
     };
-
-    // this.rellenarArreglo(this.hh, this.mm, this.ss, num);
-
   }
-
-  // rellenarArreglo(hora, min, seg, num) {
-  //   this.actividades[num] = { num: this.contador, hh: hora, mm: min, ss: seg };
-  // }
 
   ngOnInit() {
 
@@ -108,6 +104,16 @@ export class ActividadActivasComponent implements OnInit {
           }
         }
       );
+
+    this.escucharSoket();
+
+  }
+
+  escucharSoket() {
+
+    this.webSoketService.listen('actividades-activas')
+      .toPromise()
+      .then(data => console.log(data));
 
   }
 
