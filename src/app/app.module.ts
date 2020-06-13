@@ -74,7 +74,12 @@ import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
 import { InterceptorServicervice } from './Servicios/interceptor.service';
 
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { environment } from '../environments/environment';
 registerLocaleData(en);
+
+const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
+
 
 @NgModule({
    declarations: [
@@ -101,6 +106,7 @@ registerLocaleData(en);
       NgZorroAntdModule,
       IconsProviderModule,
       ReactiveFormsModule,
+      SocketIoModule.forRoot(config),
       FullCalendarModule, // for FullCalendar!
       //////////////////////////////
       NzCardModule,

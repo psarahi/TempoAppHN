@@ -171,8 +171,9 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = false;
     this.btnPause = false;
     this.btnResumen = false;
-
+    console.log(this.actividadActiva[0].inicio , ' inicio inicio');
     this.putDetalleActividad = {
+
       inicio: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),
       fin: moment().format('YYYY-MM-DD HH:mm:ss'),
       fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
@@ -189,11 +190,15 @@ export class WelcomeComponent implements OnInit {
       .then((data: DetalleActividadModel) => {
         this.programacionequipos = '';
         this.descripcion = '';
-        if (this.isMarch === true) {
-          clearInterval(this.control);
-          this.isMarch = false;
-          this.reset();
-        }
+        clearInterval(this.control);
+        this.isMarch = false;
+        this.reset();
+
+        // if (this.isMarch === true) {
+        //   clearInterval(this.control);
+        //   this.isMarch = false;
+        //   this.reset();
+        // }
       }
       );
   }
