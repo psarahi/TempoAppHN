@@ -90,12 +90,10 @@ export class ActividadActivasComponent implements OnInit {
         (data: any) => {
           // this.actividadesActuales = data;
           let test = data;
-          console.log(data);
+          //  console.log(data);
 
           if (test.length > 0) {
             this.actividadesEnCurso(data);
-            console.log(this.sinTrabajar);
-
           }
 
         }
@@ -107,7 +105,13 @@ export class ActividadActivasComponent implements OnInit {
   actividadesEnCurso(actividadesData: any) {
     // debugger;
     this.sinTrabajar = false;
-    this.actividadesActuales = actividadesData;
+    if (actividadesData.length === undefined) {
+      this.actividadesActuales.push({ ...actividadesData });
+
+    } else {
+      this.actividadesActuales = actividadesData;
+
+    }
 
     for (let index = 0; index < this.actividadesActuales.length; index++) {
       let nombre = `${this.actividadesActuales[index].programacionequipos.miembros.nombre}

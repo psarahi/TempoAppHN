@@ -329,7 +329,7 @@ export class DashboardComponent implements OnInit {
 
     dif = fin.diff(inicio, 'minutes');
 
-    console.log(dif);
+    // console.log(dif);
 
     this.calendarEvents = [...this.calendarEvents, {
       title: `${dif} minutos`,
