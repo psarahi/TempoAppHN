@@ -18,16 +18,21 @@ export class WebSocketService {
   checkStatus() {
 
     this.socket.on('connect', () => {
+      console.log('Servidor conectado');
+
       this.socketStatus = true;
     });
 
     this.socket.on('disconnect', () => {
+      console.log('Servidor desconectado');
+
       this.socketStatus = false;
     });
   }
 
-  emit(evento, actvidad?) {
-    this.socket.emit(evento, actvidad);
+  emit(evento, data?) {
+    // debugger;
+    this.socket.emit(evento, data);
   }
 
 

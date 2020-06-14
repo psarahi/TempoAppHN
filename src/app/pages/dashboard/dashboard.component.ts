@@ -305,6 +305,9 @@ export class DashboardComponent implements OnInit {
     let fin;
     let dif = 0;
 
+    //console.log(moment(dataEvento.inicio).get('quarters'));
+
+
     inicio = moment([
       moment(dataEvento.inicio).get('year'),
       moment(dataEvento.inicio).get('month'),
@@ -312,6 +315,7 @@ export class DashboardComponent implements OnInit {
       moment(dataEvento.inicio).get('hour'),
       moment(dataEvento.inicio).get('minute'),
       moment(dataEvento.inicio).get('second')
+      ,
     ]);
 
     fin = moment([
@@ -320,10 +324,12 @@ export class DashboardComponent implements OnInit {
       moment(dataEvento.fin).get('day'),
       moment(dataEvento.fin).get('hour'),
       moment(dataEvento.fin).get('minute'),
-      moment(dataEvento.fin).get('second')
+      moment(dataEvento.fin).get('second'),
     ]);
 
     dif = fin.diff(inicio, 'minutes');
+
+    console.log(dif);
 
     this.calendarEvents = [...this.calendarEvents, {
       title: `${dif} minutos`,

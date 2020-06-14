@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProgramacionEquipoDetalladoModel } from '../../Modelos/programacionEquipo';
+import { WebSocketService } from '../../Servicios/webSocket.service';
 
 moment.locale('es');
 
@@ -82,7 +83,9 @@ export class WelcomeComponent implements OnInit {
     private userService: UserService,
     private detalleActividadService: DetalleActividadService,
     private serviceProgramacionEquipos: ProgramacionEquipoService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private webSoketService: WebSocketService
+
   ) { }
 
   createBasicMessage(type: string, message: string): void {
@@ -93,7 +96,7 @@ export class WelcomeComponent implements OnInit {
     this.dataDetalleActividad = {
       inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
       fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: programacionEquipo,
       descripcion,
@@ -126,8 +129,10 @@ export class WelcomeComponent implements OnInit {
         .then(
           (data: DetalleActividadModel[]) => {
 
+          //  this.escucharSoket(this.dataDetalleActividad);
+            console.log('Envio desde welcome');
+
             this.actividadActiva = data;
-            console.log(this.actividadActiva);
 
             if (this.isMarch === false) {
               this.timeInicial = new Date();
@@ -147,6 +152,12 @@ export class WelcomeComponent implements OnInit {
 
 
   }
+
+
+  escucharSoket(actividad) {
+    this.webSoketService.emit('actividades-enCurso', actividad);
+  }
+
   guardar() {
     this.postDetalle(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
   }
@@ -171,7 +182,7 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = false;
     this.btnPause = false;
     this.btnResumen = false;
-    console.log(this.actividadActiva[0].inicio , ' inicio inicio');
+    console.log(this.actividadActiva[0].inicio, ' inicio inicio');
     this.putDetalleActividad = {
 
       inicio: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),

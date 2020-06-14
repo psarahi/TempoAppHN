@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
 import { DetalleActividadModel } from '../../Modelos/detalleActividad';
 import * as moment from 'moment';
 import { WebSocketService } from '../../Servicios/webSocket.service';
+import { isEmpty } from 'ng-zorro-antd';
 
 moment.locale('es');
 
@@ -39,9 +40,8 @@ export class ActividadActivasComponent implements OnInit {
   mm: any = '00';
   ss: any = '00';
   actividades: cronometro[] = [];
+  actividadesActuales: any[] = [];
   contador = 0;
-
-  actividadesActivas: DetalleActividadModel[] = [];
 
   constructor(
     private detalleActividadService: DetalleActividadService,
@@ -58,6 +58,7 @@ export class ActividadActivasComponent implements OnInit {
     this.ss = this.acumularTime2.getSeconds();
     this.mm = this.acumularTime2.getMinutes();
     this.hh = this.acumularTime2.getHours() - 18;
+
     if (this.ss < 10) { this.ss = '0' + this.ss; }
     if (this.mm < 10) { this.mm = '0' + this.mm; }
     if (this.hh < 10) { this.hh = '0' + this.hh; }
@@ -71,6 +72,14 @@ export class ActividadActivasComponent implements OnInit {
       proyecto,
       actividad
     };
+
+    // console.log(this.actividades);
+
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.control);
+
   }
 
   ngOnInit() {
@@ -78,42 +87,57 @@ export class ActividadActivasComponent implements OnInit {
     this.detalleActividadService.getAllDetalleActividadActivas()
       .toPromise()
       .then(
-        (data: DetalleActividadModel[]) => {
-          this.actividadesActivas = data;
-          console.log(this.actividadesActivas);
+        (data: any) => {
+          // this.actividadesActuales = data;
+          let test = data;
+          console.log(data);
 
-          if (this.actividadesActivas.length !== 0) {
-            this.sinTrabajar = false;
-            for (let index = 0; index < this.actividadesActivas.length; index++) {
-              let nombre = `${this.actividadesActivas[index].programacionequipos.miembros.nombre}
-               ${this.actividadesActivas[index].programacionequipos.miembros.apellido}`;
-              // console.log(nombre);
-
-              let proyecto = this.actividadesActivas[index].programacionequipos.programacionproyecto.proyectos.nombreProyecto;
-              let actividad = this.actividadesActivas[index].programacionequipos.programacionproyecto.actividades.nombre;
-
-              let inicio = moment(this.actividadesActivas[index].inicio);
-              this.timeActual = new Date();
-
-              this.control = setInterval(() => {
-                this.cronometro(inicio, index, nombre, proyecto, actividad);
-                // this.rellenarArreglo(this.hh, this.mm, this.ss, index);
-              }, 10);
-            }
+          if (test.length > 0) {
+            this.actividadesEnCurso(data);
+            console.log(this.sinTrabajar);
 
           }
+
         }
       );
 
     this.escucharSoket();
 
   }
+  actividadesEnCurso(actividadesData: any) {
+    // debugger;
+    this.sinTrabajar = false;
+    this.actividadesActuales = actividadesData;
+
+    for (let index = 0; index < this.actividadesActuales.length; index++) {
+      let nombre = `${this.actividadesActuales[index].programacionequipos.miembros.nombre}
+       ${this.actividadesActuales[index].programacionequipos.miembros.apellido}`;
+
+      let proyecto = this.actividadesActuales[index].programacionequipos.programacionproyecto.proyectos.nombreProyecto;
+      let actividad = this.actividadesActuales[index].programacionequipos.programacionproyecto.actividades.nombre;
+
+      let inicio = moment(this.actividadesActuales[index].inicio);
+      this.timeActual = new Date();
+
+      this.control = setInterval(() => {
+        this.cronometro(inicio, index, nombre, proyecto, actividad);
+      }, 10);
+    }
+  }
 
   escucharSoket() {
 
-    this.webSoketService.listen('actividades-activas')
-      .toPromise()
-      .then(data => console.log(data));
+    this.webSoketService.listen('actividades-enCurso')
+      .subscribe((data: any) => {
+
+        this.actividadesEnCurso(data);
+        console.log(this.actividades);
+
+      },
+        (err) => {
+          console.log(err);
+
+        });
 
   }
 
