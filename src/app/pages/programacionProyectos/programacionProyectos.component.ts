@@ -140,6 +140,40 @@ export class ProgramacionProyectosComponent implements OnInit {
       );
 
   }
+
+  openActividad(): void {
+    this.visibleActividad = true;
+  }
+
+  closeActividad(): void {
+    this.visibleActividad = false;
+  }
+
+  openMiembro(idProAct): void {
+    this.idProgramaAct = idProAct;
+    this.visibleMiembro = true;
+  }
+
+  closeMiembro(): void {
+    this.visibleMiembro = false;
+  }
+
+  showModal(idProAct): void {
+
+    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
+    this.isVisible = true;
+  }
+
+  handleOk(): void {
+    console.log('Button ok clicked!');
+    this.isVisible = false;
+  }
+
+  handleCancel(): void {
+    console.log('Button cancel clicked!');
+    this.isVisible = false;
+  }
+
   ngOnInit() {
     this.infoLogin = this.userService.getInfoLogin();
 
@@ -194,36 +228,4 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   }
 
-  openActividad(): void {
-    this.visibleActividad = true;
-  }
-
-  closeActividad(): void {
-    this.visibleActividad = false;
-  }
-
-  openMiembro(idProAct): void {
-    this.idProgramaAct = idProAct;
-    this.visibleMiembro = true;
-  }
-
-  closeMiembro(): void {
-    this.visibleMiembro = false;
-  }
-
-  showModal(idProAct): void {
-
-    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
-    this.isVisible = true;
-  }
-
-  handleOk(): void {
-    console.log('Button ok clicked!');
-    this.isVisible = false;
-  }
-
-  handleCancel(): void {
-    console.log('Button cancel clicked!');
-    this.isVisible = false;
-  }
 }

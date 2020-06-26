@@ -44,7 +44,7 @@ export class DetalleActividadService {
   getDetalleActividadActivoMiembros() {
     const { idCuenta, id } = this.userService.getInfoLogin();
     console.log(`${apiUrl}/detalleActividad/miembrosDetalleActivos/${idCuenta}/${id}`);
-    
+
     return this.http.get(`${apiUrl}/detalleActividad/miembrosDetalleActivos/${idCuenta}/${id}`);
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../Servicios/user.service';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
@@ -74,7 +74,7 @@ export class WelcomeComponent implements OnInit {
   time: Date | null = null;
   detalleActividades: DetalleActividadModel[];
   dataDetalleActividades;
-  actividadActiva: DetalleActividadModel[] = [];;
+  actividadActiva: DetalleActividadModel;
 
   actividadesActivas: DetalleActividadModel[] = [];
 
@@ -127,10 +127,7 @@ export class WelcomeComponent implements OnInit {
       this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
         .toPromise()
         .then(
-          (data: DetalleActividadModel[]) => {
-
-          //  this.escucharSoket(this.dataDetalleActividad);
-            console.log('Envio desde welcome');
+          (data: DetalleActividadModel) => {
 
             this.actividadActiva = data;
 
@@ -138,7 +135,9 @@ export class WelcomeComponent implements OnInit {
               this.timeInicial = new Date();
               this.control = setInterval(() => {
                 this.cronometro(this.timeInicial);
-              }, 10);
+              }, 1000);
+              console.log(this.control);
+
               this.isMarch = true;
             }
           },
@@ -178,38 +177,33 @@ export class WelcomeComponent implements OnInit {
   }
 
   stop() {
-    this.btnStart = true;
-    this.btnStop = false;
-    this.btnPause = false;
-    this.btnResumen = false;
-    console.log(this.actividadActiva[0].inicio, ' inicio inicio');
+    console.log(this.actividadActiva);
     this.putDetalleActividad = {
-
       inicio: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),
       fin: moment().format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: this.programacionequipos,
       descripcion: this.descripcion,
       costo: 0,
       estado: false
     };
+    console.log(this.putDetalleActividad);
     console.log(this.actividadActiva[0]._id);
 
     this.detalleActividadService.putDetalleActividad(this.actividadActiva[0]._id, this.putDetalleActividad)
       .toPromise()
       .then((data: DetalleActividadModel) => {
+
         this.programacionequipos = '';
         this.descripcion = '';
-        clearInterval(this.control);
-        this.isMarch = false;
-        this.reset();
+        this.enviar = true;
+        this.btnStart = true;
+        this.btnStop = false;
+        this.btnPause = false;
+        this.btnResumen = false;
 
-        // if (this.isMarch === true) {
-        //   clearInterval(this.control);
-        //   this.isMarch = false;
-        //   this.reset();
-        // }
+        this.reset();
       }
       );
   }
@@ -233,6 +227,7 @@ export class WelcomeComponent implements OnInit {
     this.btnResumen = false;
     let timeActu2;
     let acumularResume;
+
     if (this.isMarch == false) {
       timeActu2 = new Date();
       timeActu2 = timeActu2.getTime();
@@ -241,13 +236,13 @@ export class WelcomeComponent implements OnInit {
       this.timeInicial.setTime(acumularResume);
       this.control = setInterval(() => {
         this.cronometro(this.timeInicial);
-      }, 10);
+      }, 1000);
       this.isMarch = true;
     }
   }
 
   reset() {
-    if (this.isMarch === true) {
+    if (this.isMarch == true) {
       clearInterval(this.control);
       this.isMarch = false;
     }
@@ -291,6 +286,8 @@ export class WelcomeComponent implements OnInit {
     this.acumularTime2 = new Date();
     this.acumularTime2.setTime(this.acumularTime);
 
+    console.log('crono');
+
     this.ss = this.acumularTime2.getSeconds();
     this.mm = this.acumularTime2.getMinutes();
     this.hh = this.acumularTime2.getHours() - 18;
@@ -313,17 +310,17 @@ export class WelcomeComponent implements OnInit {
   handleCancel(): void {
     console.log('Button cancel clicked!');
     this.isVisible = false;
+    this.reset();
   }
 
   revisarActividades() {
     this.detalleActividadService.getDetalleActividadActivoMiembros()
       .toPromise()
       .then(
-        (data: DetalleActividadModel[]) => {
+        (data: DetalleActividadModel) => {
           this.actividadActiva = data;
-          console.log(this.actividadActiva);
 
-          if (this.actividadActiva.length > 0) {
+          if (this.actividadActiva[0]) {
 
             this.btnStart = false;
             this.btnStop = true;
@@ -347,14 +344,19 @@ export class WelcomeComponent implements OnInit {
 
             this.control = setInterval(() => {
               this.cronometro(this.inicio);
-            }, 10);
+            }, 1000);
 
           }
         }
       );
   }
 
+  logout() {
+    this.userService.clearInfoLogin();
+  }
+
   ngOnInit() {
+    // this.revisarActividades();
     this.enviar = true;
     this.up = false;
     this.down = true;
@@ -380,7 +382,4 @@ export class WelcomeComponent implements OnInit {
 
   }
 
-  logout() {
-    this.userService.clearInfoLogin();
-  }
 }

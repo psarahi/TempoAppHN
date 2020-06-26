@@ -33,10 +33,9 @@ const routes: Routes = [
       { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'actividadActiva', component: ActividadActivasComponent },
-
+      { path: 'actividadActiva', component: ActividadActivasComponent }
     ]
-  },
+  }
 ];
 
 @NgModule({

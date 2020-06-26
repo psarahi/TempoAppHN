@@ -72,6 +72,16 @@ export class CuentasComponent implements OnInit {
     );
 
   }
+
+
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
+
   ngOnInit() {
     // debugger;
     this.serviceCuenta.getCuenta().toPromise().then(
@@ -98,11 +108,4 @@ export class CuentasComponent implements OnInit {
 
   }
 
-  open(): void {
-    this.visible = true;
-  }
-
-  close(): void {
-    this.visible = false;
-  }
 }

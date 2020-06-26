@@ -23,7 +23,7 @@ interface cronometro {
   templateUrl: './actividadActivas.component.html',
   styleUrls: ['./actividadActivas.component.css']
 })
-export class ActividadActivasComponent implements OnInit {
+export class ActividadActivasComponent implements OnInit, OnDestroy {
   gridStyle = {
     width: '25%',
     textAlign: 'center',
@@ -63,6 +63,8 @@ export class ActividadActivasComponent implements OnInit {
     if (this.mm < 10) { this.mm = '0' + this.mm; }
     if (this.hh < 10) { this.hh = '0' + this.hh; }
 
+    console.log('test');
+
     this.actividades[num] = {
       hh: this.hh,
       mm: this.mm,
@@ -72,36 +74,8 @@ export class ActividadActivasComponent implements OnInit {
       proyecto,
       actividad
     };
-
-    // console.log(this.actividades);
-
   }
 
-  ngOnDestroy(): void {
-    clearInterval(this.control);
-
-  }
-
-  ngOnInit() {
-
-    this.detalleActividadService.getAllDetalleActividadActivas()
-      .toPromise()
-      .then(
-        (data: any) => {
-          // this.actividadesActuales = data;
-          let test = data;
-          //  console.log(data);
-
-          if (test.length > 0) {
-            this.actividadesEnCurso(data);
-          }
-
-        }
-      );
-
-    this.escucharSoket();
-
-  }
   actividadesEnCurso(actividadesData: any) {
     // debugger;
     this.sinTrabajar = false;
@@ -125,7 +99,7 @@ export class ActividadActivasComponent implements OnInit {
 
       this.control = setInterval(() => {
         this.cronometro(inicio, index, nombre, proyecto, actividad);
-      }, 10);
+      }, 1000);
     }
   }
 
@@ -144,5 +118,29 @@ export class ActividadActivasComponent implements OnInit {
         });
 
   }
+
+  ngOnDestroy(): void {
+    clearInterval(this.control);
+  }
+
+  ngOnInit() {
+
+    this.detalleActividadService.getAllDetalleActividadActivas()
+      .toPromise()
+      .then(
+        (data: any) => {
+          let test = data;
+
+          if (test.length > 0) {
+            this.actividadesEnCurso(data);
+          }
+
+        }
+      );
+
+    this.escucharSoket();
+
+  }
+
 
 }

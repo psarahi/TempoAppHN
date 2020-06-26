@@ -39,42 +39,6 @@ export class ProyectoComponent implements OnInit {
     this.message.create(type, mensaje);
   }
 
-  ngOnInit(): void {
-
-    this.infoLogin = this.userService.getInfoLogin();
-
-    this.serviceMiembros.getMiembrosResponsables().toPromise().then(
-      (data: MiembrosModel[]) => {
-        this.dataMiembros = data;
-      }
-    );
-
-    this.serviceProyecto.getProyecto().toPromise()
-    .then(
-      (data: ProyectoModel[]) => {
-
-        this.listaProtectos = data;
-        if (this.listaProtectos.length <= 0) {
-          this.informacion = false;
-          this.inicial = true;
-        } else {
-          this.informacion = true;
-          this.inicial = false;
-        }
-
-        this.listOfDisplayData = [...this.listaProtectos];
-        this.loadingTable = false;
-      }
-    );
-    this.validateForm = this.fb.group({
-      nombreProyecto: [null, [Validators.required]],
-      miembros: [null, [Validators.required]],
-      tiempoProyectadoPro: [null, [Validators.required]],
-      presuProyectadoPro: [null, [Validators.required]],
-      estado: [null, [Validators.required]]
-    });
-  }
-
   submitForm(): void {
 
     this.dataProyectos = {
@@ -126,6 +90,42 @@ export class ProyectoComponent implements OnInit {
       state: detalleProyecto
     };
     this.router.navigate(['programacionProyectos'], navigationExtras);
+  }
+
+  ngOnInit(): void {
+
+    this.infoLogin = this.userService.getInfoLogin();
+
+    this.serviceMiembros.getMiembrosResponsables().toPromise().then(
+      (data: MiembrosModel[]) => {
+        this.dataMiembros = data;
+      }
+    );
+
+    this.serviceProyecto.getProyecto().toPromise()
+      .then(
+        (data: ProyectoModel[]) => {
+
+          this.listaProtectos = data;
+          if (this.listaProtectos.length <= 0) {
+            this.informacion = false;
+            this.inicial = true;
+          } else {
+            this.informacion = true;
+            this.inicial = false;
+          }
+
+          this.listOfDisplayData = [...this.listaProtectos];
+          this.loadingTable = false;
+        }
+      );
+    this.validateForm = this.fb.group({
+      nombreProyecto: [null, [Validators.required]],
+      miembros: [null, [Validators.required]],
+      tiempoProyectadoPro: [null, [Validators.required]],
+      presuProyectadoPro: [null, [Validators.required]],
+      estado: [null, [Validators.required]]
+    });
   }
 
 }

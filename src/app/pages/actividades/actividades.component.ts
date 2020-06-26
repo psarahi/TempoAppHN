@@ -72,6 +72,14 @@ export class ActividadesComponent implements OnInit {
 
   }
 
+  open(): void {
+    this.visible = true;
+  }
+
+  close(): void {
+    this.visible = false;
+  }
+
   ngOnInit() {
     this.infoLogin = this.userService.getInfoLogin();
 
@@ -100,14 +108,6 @@ export class ActividadesComponent implements OnInit {
       nombre: [null, [Validators.required]],
       estado: [null, [Validators.required]],
     });
-  }
-
-  open(): void {
-    this.visible = true;
-  }
-
-  close(): void {
-    this.visible = false;
   }
 
 }

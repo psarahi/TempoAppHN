@@ -13,6 +13,7 @@ import timeGrigPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction'; // for dateClick
 import { UserService } from '../../Servicios/user.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
+import { WebSocketService } from '../../Servicios/webSocket.service';
 
 
 interface Event {
@@ -81,7 +82,8 @@ export class DashboardComponent implements OnInit {
     private detalleActividadService: DetalleActividadService,
     private serviceProgramacionEquipos: ProgramacionEquipoService,
     private userService: UserService,
-    private message: NzMessageService
+    private message: NzMessageService,
+    private webSoketService: WebSocketService
   ) { }
 
   createBasicMessage(type: string, message: string): void {
@@ -305,9 +307,6 @@ export class DashboardComponent implements OnInit {
     let fin;
     let dif = 0;
 
-    //console.log(moment(dataEvento.inicio).get('quarters'));
-
-
     inicio = moment([
       moment(dataEvento.inicio).get('year'),
       moment(dataEvento.inicio).get('month'),
@@ -315,7 +314,6 @@ export class DashboardComponent implements OnInit {
       moment(dataEvento.inicio).get('hour'),
       moment(dataEvento.inicio).get('minute'),
       moment(dataEvento.inicio).get('second')
-      ,
     ]);
 
     fin = moment([
@@ -324,7 +322,7 @@ export class DashboardComponent implements OnInit {
       moment(dataEvento.fin).get('day'),
       moment(dataEvento.fin).get('hour'),
       moment(dataEvento.fin).get('minute'),
-      moment(dataEvento.fin).get('second'),
+      moment(dataEvento.fin).get('second')
     ]);
 
     dif = fin.diff(inicio, 'minutes');
@@ -345,6 +343,16 @@ export class DashboardComponent implements OnInit {
 
   }
 
+  escucharSoket() {
+    this.webSoketService.listen('actividades-terminada')
+      .subscribe((data: DetalleActividadModel) => {
+        this.eventosCalendario(data);
+      },
+        (err) => {
+          console.log(err);
+        });
+  }
+
   ngOnInit() {
     this.enviar = true;
     this.up = false;
@@ -363,9 +371,7 @@ export class DashboardComponent implements OnInit {
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
         this.listaProgramacion = data;
-        //  console.log(this.listaProgramacion);
       }
-
       );
 
     this.detalleActividadService.getAllDetalleActividad()
@@ -376,10 +382,11 @@ export class DashboardComponent implements OnInit {
             this.eventosCalendario(x);
           }
           );
-          //  console.log(this.calendarEvents);
-
         }
       );
+
+    this.escucharSoket();
+
 
   }
 

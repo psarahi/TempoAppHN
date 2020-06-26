@@ -39,49 +39,6 @@ export class EquipoComponent implements OnInit {
     this.message.create(type, mensaje);
   }
 
-  ngOnInit() {
-    this.infoLogin = this.userService.getInfoLogin();
-
-    this.serviceMiembro.getMiembros().toPromise().then(
-      (data: MiembrosModel[]) => {
-        this.listaMiembros = data;
-        if (this.listaMiembros.length <= 0) {
-          this.informacion = false;
-          this.inicial = true;
-        } else {
-          this.informacion = true;
-          this.inicial = false;
-        }
-        this.listOfDisplayData = [...this.listaMiembros];
-        this.loadingTable = false;
-
-      },
-      (error) => {
-        console.log(error);
-
-        this.createMessage('error', 'Opps!!! Algo salio mal');
-      }
-    );
-
-    this.servicePerfiles.getPerfilAsignable().toPromise().then(
-      (data: PerfilModel[]) => {
-        this.listaPerfiles = data;
-      }
-    );
-
-    this.validateForm = this.fb.group({
-      nombre: [null, [Validators.required]],
-      apellido: [null, [Validators.required]],
-      usuario: [null, [Validators.required]],
-      password: [null, [Validators.required]],
-      correo: [null, [Validators.email, Validators.required]],
-      costoHr: [null, [Validators.required]],
-      perfiles: [null, [Validators.required]],
-      expertis: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
-    });
-  }
-
   submitForm(): void {
 
     this.dataMiembros = {
@@ -126,6 +83,49 @@ export class EquipoComponent implements OnInit {
 
   close(): void {
     this.visible = false;
+  }
+
+  ngOnInit() {
+    this.infoLogin = this.userService.getInfoLogin();
+
+    this.serviceMiembro.getMiembros().toPromise().then(
+      (data: MiembrosModel[]) => {
+        this.listaMiembros = data;
+        if (this.listaMiembros.length <= 0) {
+          this.informacion = false;
+          this.inicial = true;
+        } else {
+          this.informacion = true;
+          this.inicial = false;
+        }
+        this.listOfDisplayData = [...this.listaMiembros];
+        this.loadingTable = false;
+
+      },
+      (error) => {
+        console.log(error);
+
+        this.createMessage('error', 'Opps!!! Algo salio mal');
+      }
+    );
+
+    this.servicePerfiles.getPerfilAsignable().toPromise().then(
+      (data: PerfilModel[]) => {
+        this.listaPerfiles = data;
+      }
+    );
+
+    this.validateForm = this.fb.group({
+      nombre: [null, [Validators.required]],
+      apellido: [null, [Validators.required]],
+      usuario: [null, [Validators.required]],
+      password: [null, [Validators.required]],
+      correo: [null, [Validators.email, Validators.required]],
+      costoHr: [null, [Validators.required]],
+      perfiles: [null, [Validators.required]],
+      expertis: [null, [Validators.required]],
+      estado: [null, [Validators.required]],
+    });
   }
 
 }
