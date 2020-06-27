@@ -78,7 +78,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
 registerLocaleData(en);
 
-const config: SocketIoConfig = { url: 'http://localhost:3003', options: {} };
+const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
 
 
 @NgModule({

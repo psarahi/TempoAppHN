@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // apiUrl: 'https://api-tempoapphn.herokuapp.com/api'
-  apiUrl: 'http://localhost:3003/api'
+  apiUrl: 'http://localhost:3003/api',
+  apiUrlSocket: 'http://localhost:3003'
 
 };
 
