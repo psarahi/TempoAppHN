@@ -1,6 +1,7 @@
 <div style="display: flex;">
     <div class="login-form-container">
-        <img class="imagen" src="assets/time.png" alt="" srcset="">
+        <!-- <img class="imagen" src="assets/Logo.png" alt="" srcset=""> -->
+        <label style="font-size: xxx-large; color: black;">Login</label>
         <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
             <nz-form-item>
                 <nz-form-control nzErrorTip="¡Por favor digite un usuario!">
@@ -32,7 +33,7 @@
                     <!-- <a class="login-form-forgot" class="login-form-forgot">Forgot password</a> -->
                     <button *ngIf="loading" class="login-form-button" nz-button nzType="primary" nzLoading nzBlock><i
                             nz-icon nzType="poweroff"></i>Comprobando</button>
-                    <button nz-button *ngIf="formulario" [disabled]="!validateForm.valid" class="login-form-button" [nzType]="'primary'">Iniciar</button> o
+                    <button nz-button *ngIf="formulario" [disabled]="!validateForm.valid" class="login-form-button" [nzType]="'primary'">Iniciar sesión</button> o
                     <a [routerLink]="['/registro']" class="texto"> regístrate ahora!</a>
                 </nz-form-control>
             </nz-form-item>
@@ -40,7 +41,7 @@
     </div>
 
     <div nz-col nzSpan="16" class="imagen-login">
-        <img src="assets/ohayou_1.jpg" alt="" srcset="">
+        <img style="max-width: 60%;" src="assets/logo-login.png" alt="" srcset="">
     </div>
 </div>
 

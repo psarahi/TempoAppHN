@@ -117,7 +117,7 @@
     </form>
 </nz-drawer>
 <!-- Informacion de miembros -->
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeActividad()">
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeMiembro()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Miembro</nz-form-label>

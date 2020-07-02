@@ -123,3 +123,16 @@ textarea {
 :hover {
     Cursor: pointer;
 }
+
+.img-empezar {
+    width: 40%;
+    height: 40%;
+}
+
+.vacio {
+    display: flex;
+    /* justify-content: center; */
+    align-items: center;
+    flex-direction: column;
+    margin-top: 15%;
+}

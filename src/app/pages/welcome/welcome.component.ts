@@ -303,12 +303,10 @@ export class WelcomeComponent implements OnInit {
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
     this.isVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
     this.reset();
   }
@@ -369,6 +367,9 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = false;
     this.btnStart = true;
     this.infoLogin = this.userService.getInfoLogin();
+
+    console.log(this.infoLogin);
+
 
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()

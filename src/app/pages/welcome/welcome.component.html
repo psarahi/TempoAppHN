@@ -2,8 +2,8 @@
     <nz-sider class="menu-sidebar" nzCollapsible nzWidth="250px" nzBreakpoint="md" [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
         <div class="sidebar-logo">
             <!-- <a href="https://ng.ant.design/" target="_blank"> -->
-            <img src="assets/time.png" alt="logo">
-            <h1>TempoAppHN</h1>
+            <img src="assets/menu.png" alt="logo">
+            <span>tempo app</span>
             <!-- </a> -->
         </div>
         <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
@@ -73,6 +73,10 @@
                     <label class="label-inicio-tiempo">Inicia tu tiempo</label>
                     <i class="trigger" nz-icon nzType="clock-circle" nzTheme="outline"></i>
                 </span>
+                <span class="info">
+                    <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>
+                    {{ infoLogin.nombre }} {{ infoLogin.apellido }} | {{ infoLogin.usuario }}
+                </span>
             </div>
         </nz-header>
         <nz-content>
@@ -87,13 +91,13 @@
     <div class="timer">
         <div class="tiempo">
             <div class="buttons" *ngIf="modoReloj">
-                <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill" nzType="play-circle"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle" nzTooltipTitle="Resumen" nzTooltipPlacement="top" nz-tooltip><i nz-icon
-                        nzType="redo"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i
-                        nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon
-                        nzTheme="fill" nzType="stop"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
+                        nzType="play-circle"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle" nzTooltipTitle="Resumen" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="redo"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
+                        nzType="pause-circle"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
+                        nzType="stop"></i></button>
             </div>
             <div class="cronometro" *ngIf="modoReloj">
                 <div> {{ hh }} : {{ mm }} : {{ ss }} </div>

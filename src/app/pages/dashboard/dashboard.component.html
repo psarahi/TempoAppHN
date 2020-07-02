@@ -42,29 +42,39 @@
     <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
 </div> -->
 
-<h1>Detalle de mis actividades</h1>
-<full-calendar #calendarEl defaultView="dayGridMonth" [plugins]="calendarPlugins" [locales]="locales" [header]="{
+<div class="vacio" *ngIf="detalle">
+    <img src="assets/temppapp.png">
+    <!-- <img class="img-empezar" src="assets/empezar.jpg"> -->
+    <br>
+    <h2>Empieza a medir tu tiempo!!!</h2>
+
+</div>
+
+<div *ngIf="!detalle">
+    <h1>Detalle de mis actividades</h1>
+    <full-calendar #calendarEl defaultView="dayGridMonth" [plugins]="calendarPlugins" [locales]="locales" [header]="{
       left: 'prev,next today',
       center: 'title',
       right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
     }" (eventClick)="handleEventClick($event)" [events]="calendarEvents">
-</full-calendar>
+    </full-calendar>
 
-<!-- ---------------------------- -->
-<nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzWidth="450px" nzTitle="Detalle de actividad" (nzOnClose)="close()">
-    <div style="text-align: center; display: flex;flex-direction: column;">
-        <label><span class="etiquetas"> Duración </span> <span style="font-size: 30px; color: black;"> {{ duracion }}
-            </span></label>
-        <span style="font-size: large; color: #000000ed;"> {{ inicioDetalle }} - {{ finDetalle }} </span>
-        <br>
-        <label><span class="etiquetas">Proyecto</span> <span style="font-size: x-large; color: black;">
-                {{ detalleProyecto }}</span></label>
-        <label> <span class="etiquetas">Actividad</span> <span style="    font-size: large; color: #484444;">
-                {{ detalleActividad }}</span></label>
-        <br>
-        <hr>
-        <p style="    color: black;
+    <nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzWidth="450px" nzTitle="Detalle de actividad" (nzOnClose)="close()">
+        <div style="text-align: center; display: flex;flex-direction: column;">
+            <label><span class="etiquetas"> Duración </span> <span style="font-size: 22px; color: black;">
+                    {{ duracionMin }} - {{ duracionHora }}
+                </span></label>
+            <span style="font-size: large; color: #000000ed;"> {{ inicioDetalle }} - {{ finDetalle }} </span>
+            <br>
+            <label><span class="etiquetas">Proyecto</span> <span style="font-size: large; color: black;">
+                    {{ detalleProyecto }}</span></label>
+            <label> <span class="etiquetas">Actividad</span> <span style="    font-size: large; color: #484444;">
+                    {{ detalleActividad }}</span></label>
+            <br>
+            <hr>
+            <p style="    color: black;
  text-align: initial;
         font-size: medium;">{{ descripcionDetalle }}</p>
-    </div>
-</nz-drawer>
+        </div>
+    </nz-drawer>
+</div>

@@ -55,7 +55,7 @@ export class LoginComponent implements OnInit {
         const { nombre, apellido } = this.userService.executeLogin(data);
         //  console.log(data);
 
-        this.route.navigate(['/dashboard']);
+        this.route.navigate(['/equipo']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
       },
       (error) => {

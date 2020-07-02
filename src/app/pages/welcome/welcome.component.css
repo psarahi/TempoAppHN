@@ -37,9 +37,24 @@
     color: #1890ff;
 }
 
+.info {
+    position: absolute;
+    margin-left: 60%;
+    color: #001529;
+    font-weight: 900;
+}
+
 .label-inicio-tiempo {
     font-size: initial;
     margin-right: 10px;
+}
+
+anticon icono-user anticon-user {
+    font-size: x-large;
+}
+
+.icono-user {
+    color: #001529;
 }
 
 .sidebar-logo {

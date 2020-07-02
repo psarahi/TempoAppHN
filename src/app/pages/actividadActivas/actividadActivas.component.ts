@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, TemplateRef } from '@angular/core';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
 import { DetalleActividadModel } from '../../Modelos/detalleActividad';
 import * as moment from 'moment';
 import { WebSocketService } from '../../Servicios/webSocket.service';
-import { isEmpty } from 'ng-zorro-antd';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 
 moment.locale('es');
 
-interface cronometro {
+interface Cronometro {
   hh: number;
   mm: number;
   ss: number;
@@ -30,22 +31,43 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
     margin: '1%'
   };
 
-  sinTrabajar: boolean = true;
+  sinTrabajar: boolean;
   acumularTime: number = 0;
-  control: any;
+  control: any[] = [];
   acumularTime2: any;
   timetest;
   timeActual;
   hh: any = '00';
   mm: any = '00';
   ss: any = '00';
-  actividades: cronometro[] = [];
-  actividadesActuales: any[] = [];
+  actividades: Cronometro[] = [];
+  actividadesActuales: DetalleActividadModel[] = [];
+  actividadesSocket;
   contador = 0;
+
+  createBasicMessage(type, message): void {
+    this.message.create(type, message);
+  }
+
+  createBasicNotification(message): void {
+    this.notification.blank(
+      'Actividades culminadas',
+      message,
+      {
+        nzStyle: {
+          width: '400px',
+          marginLeft: '-20px'
+        },
+        nzClass: 'test-class'
+      }
+    );
+  }
 
   constructor(
     private detalleActividadService: DetalleActividadService,
-    private webSoketService: WebSocketService
+    private webSoketService: WebSocketService,
+    private message: NzMessageService,
+    private notification: NzNotificationService
 
   ) { }
 
@@ -63,8 +85,6 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
     if (this.mm < 10) { this.mm = '0' + this.mm; }
     if (this.hh < 10) { this.hh = '0' + this.hh; }
 
-    console.log('test');
-
     this.actividades[num] = {
       hh: this.hh,
       mm: this.mm,
@@ -74,18 +94,19 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
       proyecto,
       actividad
     };
+
   }
 
-  actividadesEnCurso(actividadesData: any) {
-    // debugger;
-    this.sinTrabajar = false;
-    if (actividadesData.length === undefined) {
-      this.actividadesActuales.push({ ...actividadesData });
+  actividadesEnCurso(actividadesData: DetalleActividadModel[]) {
 
-    } else {
-      this.actividadesActuales = actividadesData;
+    this.limpiarSetInterval();
+    this.actividadesActuales = [];
+    this.control = [];
+    this.actividades = [];
 
-    }
+    this.sinTrabajar = (actividadesData.length <= 0) ? true : false;
+
+    this.actividadesActuales = actividadesData;
 
     for (let index = 0; index < this.actividadesActuales.length; index++) {
       let nombre = `${this.actividadesActuales[index].programacionequipos.miembros.nombre}
@@ -96,31 +117,63 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
 
       let inicio = moment(this.actividadesActuales[index].inicio);
       this.timeActual = new Date();
+      // console.log(index);
 
-      this.control = setInterval(() => {
+      this.control[index] = (setInterval(() => {
         this.cronometro(inicio, index, nombre, proyecto, actividad);
-      }, 1000);
+      }, 1000)
+      );
     }
   }
 
   escucharSoket() {
-
     this.webSoketService.listen('actividades-enCurso')
-      .subscribe((data: any) => {
-
+      .subscribe((data: DetalleActividadModel[]) => {
         this.actividadesEnCurso(data);
-        console.log(this.actividades);
+      },
+        (err) => {
+          console.log(err);
+        });
+
+    this.webSoketService.listen('actividades-terminada')
+      .subscribe((data: any[]) => {
+
+        let actividadesFinalizadas: any[] = [];
+        let message = '';
+        actividadesFinalizadas.push(data[1]);
+
+        console.log(actividadesFinalizadas.length);
+
+        // debugger;
+        for (let x = 0; x < actividadesFinalizadas.length; x++) {
+          let nombre = `${data[1].programacionequipos.miembros.nombre}
+          ${data[1].programacionequipos.miembros.apellido}`;
+
+          message = `${nombre} a terminado su actividad`;
+
+          this.createBasicNotification(message);
+          // this.createBasicMessage('success', message);
+        }
+
+        this.actividadesEnCurso(data[0]);
+
+
 
       },
         (err) => {
           console.log(err);
-
         });
+  }
 
+  limpiarSetInterval() {
+    for (const iterator of this.control) {
+      clearInterval(iterator);
+    }
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.control);
+
+    this.limpiarSetInterval();
   }
 
   ngOnInit() {
@@ -128,10 +181,10 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
     this.detalleActividadService.getAllDetalleActividadActivas()
       .toPromise()
       .then(
-        (data: any) => {
-          let test = data;
+        (data: DetalleActividadModel[]) => {
+          this.sinTrabajar = (data.length <= 0) ? true : false;
 
-          if (test.length > 0) {
+          if (data.length > 0) {
             this.actividadesEnCurso(data);
           }
 

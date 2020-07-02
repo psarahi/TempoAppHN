@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ProgramacionEquipoDetalladoModel } from './../../Modelos/programacionEquipo';
 import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.service';
 import * as moment from 'moment';
@@ -26,6 +26,7 @@ interface Event {
   descripcion: string;
   nombreProyecto: string;
   nombreAct: string;
+  difHora: string;
 }
 @Component({
   selector: 'app-dashboard',
@@ -34,12 +35,14 @@ interface Event {
 })
 export class DashboardComponent implements OnInit {
   // detalle: Event[] = [];
+  detalle: boolean;
   enviar: boolean = true;
   up: boolean = false;
   down: boolean = true;
   modoManual: boolean = true;
   modoReloj: boolean = false
-  duracion;
+  duracionMin;
+  duracionHora;
   inicioDetalle;
   finDetalle;
   descripcionDetalle;
@@ -92,12 +95,13 @@ export class DashboardComponent implements OnInit {
 
   handleEventClick(arg): void {
     this.visible = true;
-    this.duracion = arg.event.title;
+    this.duracionMin = arg.event.title;
     this.inicioDetalle = moment(arg.event.start).format('HH:mm:ss');
     this.finDetalle = moment(arg.event.end).format('HH:mm:ss');
     this.descripcionDetalle = arg.event.extendedProps.descripcion;
     this.detalleProyecto = arg.event.extendedProps.nombreProyecto;
     this.detalleActividad = arg.event.extendedProps.nombreAct;
+    this.duracionHora = arg.event.extendedProps.difHora;
   }
 
   postDetalle(inicio, fin, programacionEquipo, descripcion, estado, manual) {
@@ -305,8 +309,8 @@ export class DashboardComponent implements OnInit {
   eventosCalendario(dataEvento: DetalleActividadModel) {
     let inicio;
     let fin;
-    let dif = 0;
-
+    let difMin = 0;
+    let difHora = 0;
     inicio = moment([
       moment(dataEvento.inicio).get('year'),
       moment(dataEvento.inicio).get('month'),
@@ -325,12 +329,13 @@ export class DashboardComponent implements OnInit {
       moment(dataEvento.fin).get('second')
     ]);
 
-    dif = fin.diff(inicio, 'minutes');
-
+    difMin = fin.diff(inicio, 'minutes');
+    difHora = fin.diff(inicio, 'hours');
     // console.log(dif);
 
     this.calendarEvents = [...this.calendarEvents, {
-      title: `${dif} minutos`,
+      title: `${difMin} minutos`,
+
       // date: moment(x.fecha).format('YYYY-MM-DD'),
       start: moment(dataEvento.inicio).format('YYYY-MM-DD HH:mm:ss'),
       end: moment(dataEvento.fin).format('YYYY-MM-DD HH:mm:ss'),
@@ -338,15 +343,17 @@ export class DashboardComponent implements OnInit {
       color: goldenColors.getHsvGolden(0.5, 0.95),
       descripcion: dataEvento.descripcion,
       nombreProyecto: dataEvento.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
-      nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre
+      nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre,
+      difHora: `${difHora} horas`
     }];
 
   }
 
   escucharSoket() {
-    this.webSoketService.listen('actividades-terminada')
+    this.webSoketService.listen('actividades-calendario')
       .subscribe((data: DetalleActividadModel) => {
         this.eventosCalendario(data);
+        this.detalle = false;
       },
         (err) => {
           console.log(err);
@@ -374,14 +381,21 @@ export class DashboardComponent implements OnInit {
       }
       );
 
-    this.detalleActividadService.getAllDetalleActividad()
+    this.detalleActividadService.getDetalleActividad()
       .toPromise()
       .then(
         (data: DetalleActividadModel[]) => {
-          data.forEach(x => {
-            this.eventosCalendario(x);
+
+          if (data.length > 0) {
+            this.detalle = false;
+            data.forEach(x => {
+              this.eventosCalendario(x);
+            }
+            );
+          } else {
+            this.detalle = true;
           }
-          );
+
         }
       );
 
@@ -389,5 +403,9 @@ export class DashboardComponent implements OnInit {
 
 
   }
+
+  // ngOnDestroy() {
+  //   this.detalle;
+  // }
 
 }
