@@ -41,3 +41,9 @@ select {
     text-transform: none;
     margin-bottom: 9px;
 }
+
+.ant-card-head-title {
+    font-size: x-large;
+    color: #000000;
+    text-shadow: 5px 13px 12px #5d5d5d;
+}

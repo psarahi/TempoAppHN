@@ -72,8 +72,7 @@
             <tbody>
                 <tr *ngFor="let data of nzTable.data">
                     <td>
-                        <button nz-button nzType="primary" (click)="programacion(data)"><i nz-icon
-                                nzType="apartment"></i></button>
+                        <button id="programcion" nz-button nzType="primary" nzTooltipTitle="Detalle" nzTooltipPlacement="top" (click)="programacion(data)" nz-tooltip></button>
                     </td>
                     <td> {{ data.nombreProyecto }} </td>
                     <td> {{ data.miembros.nombre + ' ' + data.miembros.apellido }} </td>

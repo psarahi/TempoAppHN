@@ -1,13 +1,13 @@
 <div class="contenedor">
-    <h4 class="subtitulo">Proyecto</h4>
-    <h2> {{ detalleProyecto.nombreProyecto }} </h2>
+    <h3 class="subtitulo">Proyecto</h3>
+    <h1> {{ detalleProyecto.nombreProyecto }} </h1>
     <div style="padding:30px;">
         <div nz-row [nzGutter]="8">
             <div nz-col [nzSpan]="8">
-                <nz-card nzTitle="Responsable">
-                    <div nz-row>
+                <nz-card nzTitle="Responsable" nzBordered="false">
+                    <div nz-row class="responsable">
                         <div nz-col [nzSpan]="8">
-                            <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
+                            <nz-avatar [nzSize]="40" nzIcon="user"></nz-avatar>
                         </div>
                         <div nz-col [nzSpan]="16">
                             <p> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </p>
@@ -16,25 +16,26 @@
                 </nz-card>
             </div>
             <div nz-col [nzSpan]="8">
-                <nz-card nzTitle="Tiempo">
+                <nz-card nzTitle="Tiempo" nzBordered="false">
                     <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
                     </p>
-                    <p> Tiempo Proyectado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p>
+                    <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p>
 
                 </nz-card>
             </div>
             <div nz-col [nzSpan]="8">
-                <nz-card nzTitle="Presupuesto">
+                <nz-card nzTitle="Presupuesto" nzBordered="false">
                     <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
                         </span> </p>
-                    <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
+                    <p> Presupuesto trabajado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
                         </span> </p>
                 </nz-card>
             </div>
         </div>
     </div>
     <hr>
-    <h4>Actividades</h4>
+    <h1>Asignación de recursos</h1>
+    <br>
     <button nz-button nzType="primary" (click)="openActividad()"><i nz-icon nzType="plus"></i>Agregar actividad</button>
     <nz-table #actividadesTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
         <thead>
@@ -52,13 +53,10 @@
         <tbody>
             <tr *ngFor="let data of actividadesTable.data">
                 <td class="btn-td">
-                    <button nz-button nzType="primary" (click)="openMiembro(data._id)"><i nz-icon
-                            nzType="usergroup-add"></i>
-                    </button>
+                    <button id="miembro" nz-button nzType="primary" nzTooltipTitle="Agregar miembro" nzTooltipPlacement="top" (click)="openMiembro(data._id)" nz-tooltip></button>
                 </td>
                 <td>
-                    <button nz-button class="btn-team" (click)="showModal(data._id)"><i nz-icon nzType="team"></i>
-                    </button>
+                    <button id="actividad" nz-button class="btn-team" nzTooltipTitle="Ver equipo" nzTooltipPlacement="top" (click)="operVerMiembros(data._id)" nz-tooltip></button>
                 </td>
                 <td>{{data.actividades.nombre}}</td>
                 <td>{{data.tiempoProyectado}}</td>
@@ -74,7 +72,7 @@
 </div>
 
 <!-- Informacion de Actividades -->
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleActividad" nzTitle="Configuración de actividades" (nzOnClose)="closeActividad()">
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="visibleActividad" nzTitle="Configuración de actividades" (nzOnClose)="closeActividad()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormActividades" (ngSubmit)="submitFormActividades()">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="actividades">Actividad</nz-form-label>
@@ -117,7 +115,7 @@
     </form>
 </nz-drawer>
 <!-- Informacion de miembros -->
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeMiembro()">
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeMiembro()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Miembro</nz-form-label>
@@ -142,6 +140,17 @@
             <button nz-button (click)="closeMiembro()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
         </div>
     </form>
+</nz-drawer>
+
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="true" [nzWidth]="500" [nzVisible]="verMiembro" nzTitle="Equipo de la Actividad" (nzOnClose)="closeVerMiembro()">
+    <div class="div-equipo">
+        <li *ngFor="let equipo of dataEquipoModal" style="list-style: none;">
+            <ul>
+                <span style="font-size: 20px;"> <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>  {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </span>
+            </ul>
+        </li>
+    </div>
+
 </nz-drawer>
 
 <nz-modal [(nzVisible)]="isVisible" [nzStyle]="{ top: '20px' }" nzWidth="500" nzTitle="Equipo de la Actividad" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">

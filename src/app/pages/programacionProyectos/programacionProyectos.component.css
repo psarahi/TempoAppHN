@@ -1,45 +1,45 @@
 .subtitulo {
     color: rgb(83, 82, 82);
-  }
-  
-  .contenedor {
+}
+
+.contenedor {
     margin: 0 auto;
     max-width: 90%;
-  }
-  
-  p {
+}
+
+p {
     margin: 0;
-  }
-  
-  span {
+}
+
+span {
     font-size: large;
-  }
-  
-  .layout {
+}
+
+.layout {
     /* height: 100vh; */
     height: 100%;
     width: 100%;
-  }
-  
-  .tabla {
+}
+
+.tabla {
     margin: 0 auto;
     max-width: 70%;
-  }
-  
-  .headerTable {
+}
+
+.headerTable {
     background-color: rgb(25, 173, 124);
-  }
-  
-  .add {
+}
+
+.add {
     margin: 0 auto;
-  }
-  
-  .title {
+}
+
+.title {
     margin-top: 2%;
     margin-left: 4%;
-  }
-  
-  .footer {
+}
+
+.footer {
     position: absolute;
     bottom: 0px;
     width: 100%;
@@ -48,57 +48,86 @@
     text-align: right;
     left: 0px;
     background: #fff;
-  }
-  
-  [nz-form] {
+}
+
+[nz-form] {
     max-width: 800px;
-  }
-  
-  
-  .register-are {
+}
+
+.register-are {
     margin-bottom: 8px;
-  }
-  
-  .login-form-container {
+}
+
+.login-form-container {
     width: 100vw;
     height: 100vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-  }
-  
-  nz-switch {
+}
+
+nz-switch {
     margin-bottom: 8px;
-  }
-  
-  nz-select {
+}
+
+nz-select {
     width: 200px;
-  }
-  
-  nz-input-number {
+}
+
+nz-input-number {
     margin-right: 8px;
-  }
-  
-  /* nz-content {
+}
+
+
+/* nz-content {
    margin: 24px 16px 0;
   }  */
-  
-  .btn-team {
+
+.btn-team {
     background-color: rgba(22, 138, 22, 0.884);
     color: white;
-  }
-  
-  .btn-td {
+}
+
+.btn-td {
     text-align: center;
-  }
-  
-  nz-avatar {
+}
+
+nz-avatar {
     margin-top: 16px;
     margin-right: 16px;
-  }
-  
-  .div-equipo {
+}
+
+.div-equipo {
     margin: 0 auto;
-  }
-  
+}
+
+#miembro {
+    background-image: url('/assets/add.png');
+    background-size: 30px 30px;
+    height: 30px;
+    width: 30px;
+}
+
+#actividad {
+    background-image: url('/assets/equipo.png');
+    background-size: 30px 30px;
+    height: 30px;
+    width: 30px;
+}
+
+.ant-card-head-title {
+    font-size: x-large;
+    color: #000000;
+    text-shadow: 5px 13px 12px #5d5d5d;
+}
+
+.responsable {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    vertical-align: middle;
+    /* align-items: baseline; */
+    /* flex-wrap: wrap; */
+    /* align-content: center; */
+}

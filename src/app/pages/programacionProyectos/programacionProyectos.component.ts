@@ -27,6 +27,7 @@ export class ProgramacionProyectosComponent implements OnInit {
   loadingTable = true;
   visibleActividad = false;
   visibleMiembro = false;
+  verMiembro = false;
   nombreProyecto;
   listaActividades: [];
   listaMiembros: [];
@@ -156,6 +157,16 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   closeMiembro(): void {
     this.visibleMiembro = false;
+  }
+
+  operVerMiembros(idProAct) {
+    this.verMiembro = true;
+    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
+
+  }
+
+  closeVerMiembro() {
+    this.verMiembro = false;
   }
 
   showModal(idProAct): void {

@@ -6,7 +6,7 @@
 
 .tabla {
     margin: 0 auto;
-    max-width: 70%;
+    max-width: 80%;
 }
 
 .headerTable {
@@ -77,6 +77,23 @@ nz-input-number {
 .imagen {
     width: 60%;
     height: 40%;
+}
+
+
+/* button {
+    display: inline-block;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    width: 30px;
+} */
+
+#programcion {
+    background-image: url('/assets/project.png');
+    background-size: 30px 30px;
+    height: 30px;
+    width: 30px;
 }
 
 
