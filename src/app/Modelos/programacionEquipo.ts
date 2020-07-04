@@ -10,7 +10,6 @@ export interface Miembros {
     _id: string;
     nombre: string;
     apellido: string;
-    costoHr: number;
 }
 
 export interface ProgramacionEquipoDetalladoModel {
@@ -23,14 +22,12 @@ export interface ProgramacionEquipoDetalladoModel {
 
 export interface Programacionproyecto {
     tiempoReal: number;
-    presupuestoReal: number;
     estado: boolean;
     _id: string;
     cuentas: Cuentas;
     proyectos: Proyectos;
     actividades: Actividades;
     tiempoProyectado: number;
-    presupuestoProyectado: number;
     __v: number;
 }
 

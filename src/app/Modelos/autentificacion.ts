@@ -3,7 +3,6 @@ export interface UsuarioLogin {
     nombre: string;
     apellido: string;
     usuario : string;
-    costoHr: number;
     idCuenta: string;
     fecha: any;
     perfil: string;

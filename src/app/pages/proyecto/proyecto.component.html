@@ -26,14 +26,6 @@
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presuProyectadoPro">Presupuesto proyectado
-                </nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                    <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="presuProyectadoPro" id="presuProyectadoPro">
-                    </nz-input-number>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
                 <nz-switch formControlName="estado" id="estado">
                 </nz-switch>
@@ -64,8 +56,6 @@
                     <th>Reponsable</th>
                     <th>Tiempo Proyectado (Hrs)</th>
                     <th>Tiempo Real (Hrs)</th>
-                    <th>Resupuesto Proyectado</th>
-                    <th>Presupuesto Real</th>
                     <th>Estado</th>
                 </tr>
             </thead>
@@ -78,8 +68,6 @@
                     <td> {{ data.miembros.nombre + ' ' + data.miembros.apellido }} </td>
                     <td> {{ data.tiempoProyectadoPro }} </td>
                     <td> {{ data.tiempoRealPro }} </td>
-                    <td> {{ data.presupuestoRealPro }} </td>
-                    <td> {{ data.presuProyectadoPro }} </td>
                     <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
                 </tr>
             </tbody>
@@ -109,14 +97,6 @@
             </nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
                 <nz-input-number [nzMin]="1" [nzStep]="1" nz-input formControlName="tiempoProyectadoPro" id="tiempoProyectadoPro"></nz-input-number>
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presuProyectadoPro">Presupuesto proyectado
-            </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="presuProyectadoPro" id="presuProyectadoPro">
-                </nz-input-number>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>

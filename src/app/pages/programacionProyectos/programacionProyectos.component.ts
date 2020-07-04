@@ -121,7 +121,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
       cuentas: this.infoLogin.idCuenta,
       proyectos: this.detalleProyecto._id,
       tiempoReal: 0,
-      presupuestoReal: 0
     };
 
     this.serviceProgramacionProyectos.postProgramacionProyecto(this.dataProgramacionProyecto)
@@ -144,7 +143,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
           this.validateFormActividades = this.fb.group({
             actividades: [null, [Validators.required]],
             tiempoProyectado: [null, [Validators.required]],
-            presupuestoProyectado: [null, [Validators.required]],
             estado: [true, [Validators.required]],
           });
         },
@@ -153,8 +151,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
             actividades: [null, [Validators.required]],
             tiempoProyectado: [null, [Validators.required]],
             tiempoReal: [null, [Validators.required]],
-            presupuestoProyectado: [null, [Validators.required]],
-            presupuestoReal: [null, [Validators.required]],
             estado: [true, [Validators.required]],
           });
           console.log(error);
@@ -311,8 +307,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
       actividades: [null, [Validators.required]],
       tiempoProyectado: [null, [Validators.required]],
       tiempoReal: [null, [Validators.required]],
-      presupuestoProyectado: [null, [Validators.required]],
-      presupuestoReal: [null, [Validators.required]],
       estado: [true, [Validators.required]],
     });
 

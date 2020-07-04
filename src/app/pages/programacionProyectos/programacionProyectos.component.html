@@ -13,7 +13,7 @@
                     </div>
                 </nz-card>
             </div>
-            <div class="col-6">
+            <div class="col">
                 <nz-card nzTitle="Tiempo" nzBordered="false">
                     <!-- <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
                     </p>
@@ -25,14 +25,6 @@
                         </div>
                     </div>
 
-                </nz-card>
-            </div>
-            <div class="col">
-                <nz-card nzTitle="Presupuesto" nzBordered="false">
-                    <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
-                        </span> </p>
-                    <p> Presupuesto trabajado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
-                        </span> </p>
                 </nz-card>
             </div>
         </div>
@@ -65,14 +57,6 @@
 
             </nz-card>
         </div>
-        <div>
-            <nz-card nzTitle="Presupuesto" nzBordered="false">
-                <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
-                        </span> </p>
-                <p> Presupuesto trabajado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
-                        </span> </p>
-            </nz-card>
-        </div>
     </div> -->
     <hr>
     <h2>Asignación de recursos</h2>
@@ -86,8 +70,6 @@
                 <th> Actividad </th>
                 <th> Tiempo Proyectado (Hrs) </th>
                 <th> Tiempo Real (Hrs) </th>
-                <th> Presupuesto Proyectado </th>
-                <th> Presupuesto Real </th>
                 <th> Estado </th>
             </tr>
         </thead>
@@ -102,8 +84,6 @@
                 <td>{{data.actividades.nombre}}</td>
                 <td>{{data.tiempoProyectado}}</td>
                 <td>{{data.tiempoReal}}</td>
-                <td>{{data.presupuestoProyectado}}</td>
-                <td>{{data.presupuestoReal}}</td>
                 <td>{{ data.estado && 'Activo' || 'Inactivo' }}</td>
 
             </tr>
@@ -134,14 +114,6 @@
                 <label class="disponible"> ( {{ horasAsignables }} Hrs disponibles)</label>
                 <br>
                 <!-- <label *ngIf="tiempoActividad > horasAsignables" class="disponible-time">No cuenta con ese tiempo disponible</label> -->
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="presupuestoProyectado">Presupuesto proyectado
-            </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-input-number nz-input [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.presuProyectadoPro" formControlName="presupuestoProyectado" id="presupuestoProyectado">
-                </nz-input-number>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>

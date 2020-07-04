@@ -43,13 +43,6 @@
                 </nz-form-control>
             </nz-form-item>
             <nz-form-item>
-                <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="costoHr">Costo Hr</nz-form-label>
-                <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                    <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="costoHr" id="costoHr">
-                    </nz-input-number>
-                </nz-form-control>
-            </nz-form-item>
-            <nz-form-item>
                 <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="perfiles">Perfil</nz-form-label>
                 <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
                     <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione perfil" formControlName="perfiles" id="perfiles">
@@ -119,7 +112,6 @@
                 <th>Usuario</th>
                 <!-- <th>Password</th> -->
                 <th>Correo</th>
-                <th>Costo Hr</th>
                 <th>Perfil</th>
                 <th>Espertis</th>
                 <th>Estado</th>
@@ -132,7 +124,6 @@
                 <td> {{ data.usuario }} </td>
                 <!-- <td> {{ data.password }} </td> -->
                 <td> {{ data.correo }} </td>
-                <td> {{ data.costoHr }} </td>
                 <td> {{ data.perfiles.nombre }} </td>
                 <td> {{ data.expertis }} </td>
                 <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
@@ -182,13 +173,6 @@
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="correo">Correo</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
                 <input nz-input formControlName="correo" id="correo" />
-            </nz-form-control>
-        </nz-form-item>
-        <nz-form-item>
-            <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="costoHr">Costo Hr</nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-input-number nz-input [nzMin]="1" [nzStep]="1" formControlName="costoHr" id="costoHr">
-                </nz-input-number>
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>

@@ -47,7 +47,6 @@ export class ProyectoComponent implements OnInit {
       ...this.validateForm.value,
       cuentas: this.infoLogin.idCuenta,
       tiempoRealPro: 0,
-      presupuestoRealPro: 0
     };
 
     this.serviceProyecto.postProyecto(this.dataProyectos).toPromise().then(
@@ -64,7 +63,6 @@ export class ProyectoComponent implements OnInit {
           nombreProyecto: [null, [Validators.required]],
           miembros: [null, [Validators.required]],
           tiempoProyectadoPro: [null, [Validators.required]],
-          presuProyectadoPro: [null, [Validators.required]],
           estado: [true, [Validators.required]]
         });
 
@@ -126,7 +124,6 @@ export class ProyectoComponent implements OnInit {
       nombreProyecto: [null, [Validators.required]],
       miembros: [null, [Validators.required]],
       tiempoProyectadoPro: [null, [Validators.required]],
-      presuProyectadoPro: [null, [Validators.required]],
       estado: [true, [Validators.required]]
     });
   }

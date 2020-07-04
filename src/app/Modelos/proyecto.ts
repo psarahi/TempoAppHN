@@ -1,14 +1,12 @@
 export interface ProyectoModel {
 
     tiempoRealPro: number;
-    presupuestoRealPro: number;
     estado: boolean;
     _id: string;
     cuentas: string;
     nombreProyecto: string;
     miembros: Miembros;
     tiempoProyectadoPro: number;
-    presuProyectadoPro: number;
     fechaRegistro: string;
     __v: number;
 }
@@ -26,8 +24,6 @@ export interface Miembros {
 // miembros: string;
 // tiempoProyectadoPro: number;
 // tiempoRealPro: number;
-// presuProyectadoPro: number;
-// presupuestoRealPro: number;
 // estado: boolean;
 
 
@@ -37,7 +33,5 @@ export interface Proyecto {
     miembros: string;
     tiempoProyectadoPro: number;
     tiempoRealPro: number;
-    presuProyectadoPro: number;
-    presupuestoRealPro: number;
     estado: boolean;
 }

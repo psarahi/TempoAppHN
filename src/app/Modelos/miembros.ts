@@ -9,7 +9,6 @@ export interface MiembrosModel {
   usuario: string;
   password: string;
   correo: string;
-  costoHr: number;
   fecha: any;
   perfiles: Perfiles;
   __v: number;
@@ -26,7 +25,6 @@ export interface Perfiles {
   // usuario: string;
   // password: string;
   // correo: string;
-  // costoHr: number;
   // perfiles: string;
   // expertis: string[];
   // estado: boolean;
@@ -38,7 +36,6 @@ export interface Miembro {
   usuario: string;
   password: string;
   correo: string;
-  costoHr: number;
   perfiles: string;
   expertis: string[];
   estado: boolean;
