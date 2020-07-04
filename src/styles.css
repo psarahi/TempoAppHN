@@ -47,3 +47,18 @@ select {
     color: #000000;
     text-shadow: 5px 13px 12px #5d5d5d;
 }
+
+.ant-btn-primary {
+    color: #fff;
+    background-color: #001529;
+    border-color: #001529;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, .12);
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .045);
+}
+
+.ant-btn-primary:focus,
+.ant-btn-primary:hover {
+    color: #fff;
+    background-color: #000c17;
+    border-color: #000c17;
+}

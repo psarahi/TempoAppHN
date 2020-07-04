@@ -94,6 +94,8 @@ nz-input-number {
     background-size: 30px 30px;
     height: 30px;
     width: 30px;
+    background-color: white;
+    border: none;
 }
 
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, NavigationExtras } from '@angular/router';
 import { ProgramacionProyectoService } from '../../Servicios/programacionProyecto.service';
 import { ProgramacionProyectoModel } from 'src/app/Modelos/programacionProyecto';
@@ -10,13 +10,18 @@ import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.se
 import { ProgramacionEquipoModel } from 'src/app/Modelos/programacionEquipo';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { UserService } from '../../Servicios/user.service';
+import { RutasService } from 'src/app/Servicios/rutas.service';
+
+import { ChartType, ChartOptions, ChartDataSets } from 'chart.js';
+import { Label } from 'ng2-charts';
+import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-programacionProyectos',
   templateUrl: './programacionProyectos.component.html',
   styleUrls: ['./programacionProyectos.component.css']
 })
-export class ProgramacionProyectosComponent implements OnInit {
+export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
 
   dataEquipoModal;
   isVisible = false;
@@ -37,6 +42,44 @@ export class ProgramacionProyectosComponent implements OnInit {
   dataProgramacionEquipo;
   listaProgramacionEquipo: ProgramacionEquipoModel[];
   infoLogin: any;
+  horasAsiganadas: number = 0;
+  horasAsignables: number = 0;
+  horasProyecto: number = 0;
+  tiempoActividad;
+
+  barChartOptions: ChartOptions = {
+    responsive: true,
+    // We use these empty structures as placeholders for dynamic theming.
+    scales: { xAxes: [{}], yAxes: [{}] },
+    plugins: {
+      datalabels: {
+        anchor: 'end',
+        align: 'right',
+      }
+    },
+    legend: {
+      position: 'top',
+    },
+    animation: {
+      duration: 1000
+    }
+  };
+
+  // barChartLabels: Label[] = ['Proyectado', 'Asignado', 'Trabajado'];
+  barChartLabels: Label[] = ['Tiempo'];
+  barChartData: ChartDataSets[] = [
+    { data: [0], label: 'Proyectado' },
+    { data: [0], label: 'Asignado' },
+    { data: [0], label: 'Trabajado' }
+  ];
+  barChartType: ChartType = 'bar';
+  barChartLegend = true;
+  barChartPlugins = [pluginDataLabels];
+  barChartColors = [
+    {
+      backgroundColor: ['#87dfd6', '#ff847c', '#ffb367'],
+    },
+  ];
 
   constructor(
     private router: Router,
@@ -47,12 +90,12 @@ export class ProgramacionProyectosComponent implements OnInit {
     private serviceMiembros: MiembrosService,
     private serviceProgramacionMiembro: ProgramacionEquipoService,
     private notification: NzNotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private rutaService: RutasService
 
   ) {
-    this.detalleProyecto = this.router.getCurrentNavigation().extras.state;
+    this.detalleProyecto = this.router.getCurrentNavigation().extras.state || this.rutaService.getInfoNavegacion;
   }
-
 
   createNotification(type: string, titulo: string, message: string): void {
     this.notification.create(
@@ -72,6 +115,7 @@ export class ProgramacionProyectosComponent implements OnInit {
       this.validateFormActividades.controls[i].markAsDirty();
       this.validateFormActividades.controls[i].updateValueAndValidity();
     }
+
     this.dataProgramacionProyecto = {
       ...this.validateFormActividades.value,
       cuentas: this.infoLogin.idCuenta,
@@ -85,19 +129,34 @@ export class ProgramacionProyectosComponent implements OnInit {
       .then(
         (data: ProgramacionProyectoModel) => {
           this.listOfDisplayData = [...this.listOfDisplayData, data];
-          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.proyectos === this.detalleProyecto._id)
+          this.listOfDisplayData = this.listOfDisplayData.filter(x => x.proyectos === this.detalleProyecto._id);
           this.loadingTable = false;
 
+          this.horasAsignables -= this.validateFormActividades.value.tiempoProyectado;
+          this.horasAsiganadas += this.validateFormActividades.value.tiempoProyectado;
+          this.barChartData = [
+            { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
+            { data: [this.horasAsiganadas], label: 'Asiganado' },
+            { data: [this.detalleProyecto.tiempoRealPro], label: 'Trabajado' }
+          ];
           this.createMessage('success', 'Registro creado con exito');
 
           this.validateFormActividades = this.fb.group({
             actividades: [null, [Validators.required]],
             tiempoProyectado: [null, [Validators.required]],
             presupuestoProyectado: [null, [Validators.required]],
-            estado: [null, [Validators.required]],
+            estado: [true, [Validators.required]],
           });
         },
         (error) => {
+          this.validateFormActividades = this.fb.group({
+            actividades: [null, [Validators.required]],
+            tiempoProyectado: [null, [Validators.required]],
+            tiempoReal: [null, [Validators.required]],
+            presupuestoProyectado: [null, [Validators.required]],
+            presupuestoReal: [null, [Validators.required]],
+            estado: [true, [Validators.required]],
+          });
           console.log(error);
 
           this.createMessage('error', 'Opps!!! Algo salio mal');
@@ -108,16 +167,14 @@ export class ProgramacionProyectosComponent implements OnInit {
 
   submitFormMiembro(): void {
     // tslint:disable-next-line: forin
-    for (const i in this.validateFormActividades.controls) {
-      this.validateFormActividades.controls[i].markAsDirty();
-      this.validateFormActividades.controls[i].updateValueAndValidity();
+    for (const i in this.validateFormMiembros.controls) {
+      this.validateFormMiembros.controls[i].markAsDirty();
+      this.validateFormMiembros.controls[i].updateValueAndValidity();
     }
     this.dataProgramacionEquipo = {
       ...this.validateFormMiembros.value,
       programacionproyecto: this.idProgramaAct
     };
-
-    console.log(this.dataProgramacionEquipo);
 
     this.serviceProgramacionMiembro.postProgramacionEquipos(this.dataProgramacionEquipo)
       .toPromise()
@@ -131,10 +188,14 @@ export class ProgramacionProyectosComponent implements OnInit {
           this.idProgramaAct = '';
           this.validateFormMiembros = this.fb.group({
             miembros: [null, [Validators.required]],
-            estado: [null, [Validators.required]],
+            estado: [true, [Validators.required]],
           });
         },
         (error) => {
+          this.validateFormMiembros = this.fb.group({
+            miembros: [null, [Validators.required]],
+            estado: [true, [Validators.required]],
+          });
           console.log(error);
           this.createNotification('error', 'Error', '¡Algo salio mal');
         }
@@ -185,10 +246,43 @@ export class ProgramacionProyectosComponent implements OnInit {
     this.isVisible = false;
   }
 
-  ngOnInit() {
+  ngOnDestroy() {
+    this.rutaService.destroyInfo();
+  }
+
+  async ngOnInit() {
+    // (this.detalleProyecto == undefined) ? this.rutaService.getInfoNavegacion() : this.detalleProyecto;
+    this.detalleProyecto = this.rutaService.getInfoNavegacion();
     this.infoLogin = this.userService.getInfoLogin();
 
-    console.log(this.detalleProyecto._id);
+    this.serviceProgramacionProyectos.getProgramacionProyecto(this.infoLogin.idCuenta, this.detalleProyecto._id)
+      .toPromise()
+      .then(
+        (data: ProgramacionProyectoModel[]) => {
+
+          if (data.length > 0) {
+            for (let index = 0; index < data.length; index++) {
+              this.horasAsiganadas += data[index].tiempoProyectado;
+            }
+          } else {
+            this.horasAsiganadas = 0;
+          }
+          //  this.horasProyecto = this.detalleProyecto.tiempoProyectadoPro;
+          this.horasAsignables = this.detalleProyecto.tiempoProyectadoPro - this.horasAsiganadas;
+
+          this.barChartData = [
+            { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
+            { data: [this.horasAsiganadas], label: 'Asiganado' },
+            { data: [this.detalleProyecto.tiempoRealPro], label: 'Trabajado' }
+          ];
+
+          this.listaProgramacionProyectos = data;
+          this.listOfDisplayData = [...this.listaProgramacionProyectos];
+          this.loadingTable = false;
+        }
+      );
+
+
     this.serviceActividades.getActividades()
       .toPromise()
       .then(
@@ -213,28 +307,18 @@ export class ProgramacionProyectosComponent implements OnInit {
         }
       );
 
-    this.serviceProgramacionProyectos.getProgramacionProyecto(this.infoLogin.idCuenta, this.detalleProyecto._id)
-      .toPromise()
-      .then(
-        (data: ProgramacionProyectoModel[]) => {
-          this.listaProgramacionProyectos = data;
-          this.listOfDisplayData = [...this.listaProgramacionProyectos];
-          this.loadingTable = false;
-        }
-      );
-
     this.validateFormActividades = this.fb.group({
       actividades: [null, [Validators.required]],
       tiempoProyectado: [null, [Validators.required]],
       tiempoReal: [null, [Validators.required]],
       presupuestoProyectado: [null, [Validators.required]],
       presupuestoReal: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
+      estado: [true, [Validators.required]],
     });
 
     this.validateFormMiembros = this.fb.group({
       miembros: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
+      estado: [true, [Validators.required]],
     });
 
   }

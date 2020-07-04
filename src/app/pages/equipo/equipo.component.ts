@@ -64,7 +64,7 @@ export class EquipoComponent implements OnInit {
           costoHr: [null, [Validators.required]],
           perfiles: [null, [Validators.required]],
           expertis: [null, [Validators.required]],
-          estado: [null, [Validators.required]],
+          estado: [true, [Validators.required]],
         });
 
       },
@@ -124,7 +124,7 @@ export class EquipoComponent implements OnInit {
       costoHr: [null, [Validators.required]],
       perfiles: [null, [Validators.required]],
       expertis: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
+      estado: [true, [Validators.required]],
     });
   }
 

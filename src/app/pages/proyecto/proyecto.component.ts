@@ -7,6 +7,7 @@ import { MiembrosService } from '../../Servicios/miembros.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { Router, NavigationExtras } from '@angular/router';
 import { UserService } from '../../Servicios/user.service';
+import { RutasService } from '../../Servicios/rutas.service';
 
 @Component({
   selector: 'app-proyecto',
@@ -32,7 +33,8 @@ export class ProyectoComponent implements OnInit {
     private serviceMiembros: MiembrosService,
     private message: NzMessageService,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private rutaService: RutasService
   ) { }
 
   createMessage(type: string, mensaje: string): void {
@@ -63,7 +65,7 @@ export class ProyectoComponent implements OnInit {
           miembros: [null, [Validators.required]],
           tiempoProyectadoPro: [null, [Validators.required]],
           presuProyectadoPro: [null, [Validators.required]],
-          estado: [null, [Validators.required]]
+          estado: [true, [Validators.required]]
         });
 
       },
@@ -90,6 +92,7 @@ export class ProyectoComponent implements OnInit {
       state: detalleProyecto
     };
     this.router.navigate(['programacionProyectos'], navigationExtras);
+    this.rutaService.ejecutarNavegacion(detalleProyecto);
   }
 
   ngOnInit(): void {
@@ -124,7 +127,7 @@ export class ProyectoComponent implements OnInit {
       miembros: [null, [Validators.required]],
       tiempoProyectadoPro: [null, [Validators.required]],
       presuProyectadoPro: [null, [Validators.required]],
-      estado: [null, [Validators.required]]
+      estado: [true, [Validators.required]]
     });
   }
 

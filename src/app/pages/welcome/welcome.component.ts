@@ -368,9 +368,6 @@ export class WelcomeComponent implements OnInit {
     this.btnStart = true;
     this.infoLogin = this.userService.getInfoLogin();
 
-    console.log(this.infoLogin);
-
-
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {

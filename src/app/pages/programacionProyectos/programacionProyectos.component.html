@@ -1,29 +1,33 @@
 <div class="contenedor">
+    <button id="back" nz-button nzTooltipTitle="Regresar" nzTooltipPlacement="top" routerLink="/proyecto" nz-tooltip></button>
     <h3 class="subtitulo">Proyecto</h3>
-    <h1> {{ detalleProyecto.nombreProyecto }} </h1>
-    <div style="padding:30px;">
-        <div nz-row [nzGutter]="8">
-            <div nz-col [nzSpan]="8">
+    <h2> {{ detalleProyecto.nombreProyecto }} </h2>
+
+    <div class="container-fluid">
+        <div class="row" style="text-align: center; ">
+            <div class="col">
                 <nz-card nzTitle="Responsable" nzBordered="false">
-                    <div nz-row class="responsable">
-                        <div nz-col [nzSpan]="8">
-                            <nz-avatar [nzSize]="40" nzIcon="user"></nz-avatar>
-                        </div>
-                        <div nz-col [nzSpan]="16">
-                            <p> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </p>
-                        </div>
+                    <div class="responsable">
+                        <button id="detalleMmiembro" nz-button nzTooltipTitle="Detalle miembro" nzTooltipPlacement="top" nz-tooltip></button>
+                        <label class="nombre-user"> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </label>
                     </div>
                 </nz-card>
             </div>
-            <div nz-col [nzSpan]="8">
+            <div class="col-6">
                 <nz-card nzTitle="Tiempo" nzBordered="false">
-                    <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
+                    <!-- <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
                     </p>
-                    <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p>
+                    <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p> -->
+                    <div>
+                        <div class="chart">
+                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" [colors]="barChartColors">
+                            </canvas>
+                        </div>
+                    </div>
 
                 </nz-card>
             </div>
-            <div nz-col [nzSpan]="8">
+            <div class="col">
                 <nz-card nzTitle="Presupuesto" nzBordered="false">
                     <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
                         </span> </p>
@@ -33,8 +37,45 @@
             </div>
         </div>
     </div>
+
+    <!-- <div style="padding:30px; display: flex; align-items: flex-start; flex-wrap: nowrap; height: 250px;">
+        <div>
+            <nz-card nzTitle="Responsable" nzBordered="false">
+                <div nz-row class="responsable">
+                    <div nz-col [nzSpan]="8">
+                        <nz-avatar [nzSize]="40" nzIcon="user"></nz-avatar>
+                    </div>
+                    <div nz-col [nzSpan]="16">
+                        <p> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </p>
+                    </div>
+                </div>
+            </nz-card>
+        </div>
+        <div>
+            <nz-card nzTitle="Tiempo" nzBordered="false">
+                 <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
+                    </p>
+                    <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p> 
+                <div>
+                    <div class="chart">
+                        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
+                            </canvas>
+                    </div>
+                </div>
+
+            </nz-card>
+        </div>
+        <div>
+            <nz-card nzTitle="Presupuesto" nzBordered="false">
+                <p> Presupuesto Proyectado: <span> <strong>{{ detalleProyecto.presuProyectadoPro }} </strong>
+                        </span> </p>
+                <p> Presupuesto trabajado: <span> <strong>{{ detalleProyecto.presupuestoRealPro }} </strong>
+                        </span> </p>
+            </nz-card>
+        </div>
+    </div> -->
     <hr>
-    <h1>Asignación de recursos</h1>
+    <h2>Asignación de recursos</h2>
     <br>
     <button nz-button nzType="primary" (click)="openActividad()"><i nz-icon nzType="plus"></i>Agregar actividad</button>
     <nz-table #actividadesTable [nzData]="listOfDisplayData" nzFrontPagination="true" nzPageSize="5" [nzLoading]="loadingTable">
@@ -72,6 +113,7 @@
 </div>
 
 <!-- Informacion de Actividades -->
+
 <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="visibleActividad" nzTitle="Configuración de actividades" (nzOnClose)="closeActividad()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormActividades" (ngSubmit)="submitFormActividades()">
         <nz-form-item>
@@ -86,9 +128,12 @@
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="tiempoProyectado">Tiempo Proyectado (Hrs)
             </nz-form-label>
-            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-input-number [nzMin]="1" [nzStep]="1" [nzMax]="detalleProyecto.tiempoProyectadoPro" nz-input formControlName="tiempoProyectado" id="tiempoProyectado">
+            <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="No cuenta con ese tiempo disponible">
+                <nz-input-number [nzMin]="1" [nzStep]="1" [nzMax]="horasAsignables" nz-input formControlName="tiempoProyectado" id="tiempoProyectado">
                 </nz-input-number>
+                <label class="disponible"> ( {{ horasAsignables }} Hrs disponibles)</label>
+                <br>
+                <!-- <label *ngIf="tiempoActividad > horasAsignables" class="disponible-time">No cuenta con ese tiempo disponible</label> -->
             </nz-form-control>
         </nz-form-item>
         <nz-form-item>
@@ -114,6 +159,8 @@
         </div>
     </form>
 </nz-drawer>
+
+
 <!-- Informacion de miembros -->
 <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="400" [nzVisible]="visibleMiembro" nzTitle="Configuración de miembros de actividad" (nzOnClose)="closeMiembro()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
@@ -146,7 +193,8 @@
     <div class="div-equipo">
         <li *ngFor="let equipo of dataEquipoModal" style="list-style: none;">
             <ul>
-                <span style="font-size: 20px;"> <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>  {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </span>
+                <span style="font-size: 20px;"> <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>
+                    {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </span>
             </ul>
         </li>
     </div>

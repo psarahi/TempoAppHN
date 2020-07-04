@@ -60,7 +60,7 @@ export class ActividadesComponent implements OnInit {
 
           this.validateForm = this.fb.group({
             nombre: [null, [Validators.required]],
-            estado: [null, [Validators.required]],
+            estado: [true, [Validators.required]],
           });
         },
         (error) => {
@@ -106,7 +106,7 @@ export class ActividadesComponent implements OnInit {
 
     this.validateForm = this.fb.group({
       nombre: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
+      estado: [true, [Validators.required]],
     });
   }
 

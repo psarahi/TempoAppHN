@@ -60,7 +60,7 @@ export class CuentasComponent implements OnInit {
           password: [null, [Validators.required]],
           empresa: [null, [Validators.required]],
           lugar: [null, [Validators.required]],
-          estado: [null, [Validators.required]],
+          estado: [true, [Validators.required]],
         });
 
       },
@@ -103,7 +103,7 @@ export class CuentasComponent implements OnInit {
       password: [null, [Validators.required]],
       empresa: [null, [Validators.required]],
       lugar: [null, [Validators.required]],
-      estado: [null, [Validators.required]],
+      estado: [true, [Validators.required]],
     });
 
   }

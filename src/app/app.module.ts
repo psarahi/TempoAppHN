@@ -34,6 +34,7 @@ import { ProyectosService } from './Servicios/proyectos.service';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
 import { LoginGuard } from './Servicios/Guards/login.guard';
+import { InterceptorServicervice } from './Servicios/interceptor.service';
 
 // config angular i18n
 import { registerLocaleData, CommonModule } from '@angular/common';
@@ -72,7 +73,8 @@ import { ErrorComponent } from './pages/error/error.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
-import { InterceptorServicervice } from './Servicios/interceptor.service';
+
+import { ChartsModule } from 'ng2-charts';
 
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { environment } from '../environments/environment';
@@ -138,9 +140,9 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       NzDividerModule,
       NzSpinModule,
       NzCalendarModule,
-      NzToolTipModule
-
+      NzToolTipModule,
       ///////////////////////////
+      ChartsModule
    ],
    providers: [
       { provide: NZ_I18N, useValue: en_US },

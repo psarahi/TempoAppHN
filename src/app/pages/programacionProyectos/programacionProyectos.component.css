@@ -107,6 +107,15 @@ nz-avatar {
     background-size: 30px 30px;
     height: 30px;
     width: 30px;
+    background-color: #1a5ed8;
+}
+
+#detalleMmiembro {
+    background-image: url('/assets/user-hombre.png');
+    background-size: 80px 80px;
+    height: 80px;
+    width: 80px;
+    background-color: #0fabbc;
 }
 
 #actividad {
@@ -122,12 +131,49 @@ nz-avatar {
     text-shadow: 5px 13px 12px #5d5d5d;
 }
 
+#back {
+    background-image: url('/assets/back.svg');
+    background-size: 30px 30px;
+    height: 30px;
+    width: 30px;
+    border: none;
+}
+
 .responsable {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
     height: 100%;
-    vertical-align: middle;
+    margin-top: 40px;
     /* align-items: baseline; */
     /* flex-wrap: wrap; */
     /* align-content: center; */
 }
+
+.nombre-user {
+    font-size: large;
+    font-weight: bolder;
+    color: #001529;
+    margin-left: 5%;
+}
+
+.disponible {
+    font-size: 12px;
+    color: #921111;
+}
+
+.disponible-time {
+    font-size: 12px;
+    color: #ff0000;
+}
+
+.chart {
+    /* display: block; */
+    width: 75%;
+    height: 100%;
+}
+
+
+/* .contenedor-chart {
+    max-width: 30%;
+    max-height: 20%;
+} */
