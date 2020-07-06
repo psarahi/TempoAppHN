@@ -100,7 +100,6 @@ export class WelcomeComponent implements OnInit {
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: programacionEquipo,
       descripcion,
-      costo: 0,
       estado
     };
 
@@ -185,7 +184,6 @@ export class WelcomeComponent implements OnInit {
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: this.programacionequipos,
       descripcion: this.descripcion,
-      costo: 0,
       estado: false
     };
     console.log(this.putDetalleActividad);

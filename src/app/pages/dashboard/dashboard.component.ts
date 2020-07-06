@@ -112,7 +112,6 @@ export class DashboardComponent implements OnInit {
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: programacionEquipo,
       descripcion,
-      costo: 0,
       estado
     };
 
@@ -213,7 +212,6 @@ export class DashboardComponent implements OnInit {
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: this.programacionequipos,
       descripcion: this.descripcion,
-      costo: 0,
       estado: false
     };
     console.log(this.actividadActiva._id);

@@ -56,6 +56,7 @@
                     <th>Reponsable</th>
                     <th>Tiempo Proyectado (Hrs)</th>
                     <th>Tiempo Real (Hrs)</th>
+                    <th>Fecha de registro</th>
                     <th>Estado</th>
                 </tr>
             </thead>
@@ -68,6 +69,7 @@
                     <td> {{ data.miembros.nombre + ' ' + data.miembros.apellido }} </td>
                     <td> {{ data.tiempoProyectadoPro }} </td>
                     <td> {{ data.tiempoRealPro }} </td>
+                    <td> {{ data.fechaRegistro | date: 'MMM d, y'}} </td>
                     <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
                 </tr>
             </tbody>
