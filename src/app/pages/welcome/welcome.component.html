@@ -102,7 +102,9 @@
             <div class="cronometro" *ngIf="modoReloj">
                 <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
             </div>
-            <div class="manual" *ngIf="modoManual">
+            <br>
+
+            <!-- <div class="manual" *ngIf="modoManual">
                 <nz-time-picker [(ngModel)]="inicio" nzTooltipTitle="Hora inicio" nzTooltipPlacement="top" nz-tooltip>
                 </nz-time-picker>
                 <i class="icon-time" nz-icon nzType="arrow-right" nzTheme="outline"></i>
@@ -114,8 +116,10 @@
             <div class="modos">
                 <i class="icon-time" nzTooltipTitle="Cronometro" nzTooltipPlacement="topLeft" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill" nz-tooltip></i>
                 <i class="icon-time" nzTooltipTitle="Tiempo manual" nzTooltipPlacement="topLeft" nz-icon nzType="menu" (click)="manual()" nzTheme="outline" nz-tooltip></i>
-            </div>
+            </div> -->
         </div>
+
+        <label *ngIf="pausa" style="text-align: center;"> Pausa: {{ pausa }} </label>
 
         <div *ngIf="up" class="detalle">
 

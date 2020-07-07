@@ -670,6 +670,8 @@ SOFTWARE.
 ng-zorro-antd
 MIT
 
+ng-zorro-antd/alert
+
 ng-zorro-antd/avatar
 
 ng-zorro-antd/button
@@ -715,8 +717,6 @@ ng-zorro-antd/spin
 ng-zorro-antd/switch
 
 ng-zorro-antd/table
-
-ng-zorro-antd/time-picker
 
 ng-zorro-antd/tooltip
 

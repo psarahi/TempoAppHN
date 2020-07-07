@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { WebSocketService } from '../../Servicios/webSocket.service';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { UserService } from '../../Servicios/user.service';
 
 moment.locale('es');
 
@@ -13,10 +14,13 @@ interface Cronometro {
   mm: number;
   ss: number;
   inicio: any;
+  fin: any;
   miembro: string;
   proyecto: string;
   actividad: string;
-  // descripcion: string;
+  descripcion: string;
+  estado: string;
+  typeAlert: string;
 }
 
 @Component({
@@ -31,6 +35,7 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
     margin: '1%'
   };
 
+  infoLogin: any;
   sinTrabajar: boolean;
   acumularTime: number = 0;
   control: any[] = [];
@@ -51,7 +56,7 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
 
   createBasicNotification(message): void {
     this.notification.blank(
-      'Actividades culminadas',
+      'Actividades actualizadas',
       message,
       {
         nzStyle: {
@@ -66,12 +71,13 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
   constructor(
     private detalleActividadService: DetalleActividadService,
     private webSoketService: WebSocketService,
+    private userService: UserService,
     private message: NzMessageService,
     private notification: NzNotificationService
 
   ) { }
 
-  cronometro(inicio, num, miembro, proyecto, actividad) {
+  cronometro(inicio, fin, num, miembro, proyecto, actividad, descripcion, estado, typeAlert) {
     this.timeActual = new Date();
     this.acumularTime = this.timeActual - inicio;
     this.acumularTime2 = new Date();
@@ -90,9 +96,13 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
       mm: this.mm,
       ss: this.ss,
       inicio: moment(inicio).format('LLL'),
+      fin: moment(fin).format('HH:mm'),
       miembro,
       proyecto,
-      actividad
+      actividad,
+      descripcion,
+      estado,
+      typeAlert
     };
 
   }
@@ -109,18 +119,19 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
     this.actividadesActuales = actividadesData;
 
     for (let index = 0; index < this.actividadesActuales.length; index++) {
-      let nombre = `${this.actividadesActuales[index].programacionequipos.miembros.nombre}
+      const nombre = `${this.actividadesActuales[index].programacionequipos.miembros.nombre}
        ${this.actividadesActuales[index].programacionequipos.miembros.apellido}`;
 
-      let proyecto = this.actividadesActuales[index].programacionequipos.programacionproyecto.proyectos.nombreProyecto;
-      let actividad = this.actividadesActuales[index].programacionequipos.programacionproyecto.actividades.nombre;
-
-      let inicio = moment(this.actividadesActuales[index].inicio);
+      const proyecto = this.actividadesActuales[index].programacionequipos.programacionproyecto.proyectos.nombreProyecto;
+      const actividad = this.actividadesActuales[index].programacionequipos.programacionproyecto.actividades.nombre;
+      const descripcion = this.actividadesActuales[index].descripcion;
+      const estado = this.actividadesActuales[index].estado.nombre;
+      const inicio = moment(this.actividadesActuales[index].inicio);
+      const fin = this.actividadesActuales[index].fin;
       this.timeActual = new Date();
-      // console.log(index);
-
+      const typeAlert = (this.actividadesActuales[index].estado._id === '5f00e4c38c10d277700bcfa0') ? 'success' : 'warning';
       this.control[index] = (setInterval(() => {
-        this.cronometro(inicio, index, nombre, proyecto, actividad);
+        this.cronometro(inicio, fin, index, nombre, proyecto, actividad, descripcion, estado, typeAlert);
       }, 1000)
       );
     }
@@ -128,42 +139,75 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
 
   escucharSoket() {
     this.webSoketService.listen('actividades-enCurso')
-      .subscribe((data: DetalleActividadModel[]) => {
-        this.actividadesEnCurso(data);
+      .subscribe((data: any[]) => {
+
+        if (data[1] == this.infoLogin.idCuenta) {
+          this.actividadesEnCurso(data[0]);
+        }
       },
         (err) => {
           console.log(err);
         });
 
-    this.webSoketService.listen('actividades-terminada')
+
+    this.webSoketService.listen('actividades-actualizada')
       .subscribe((data: any[]) => {
 
-        let actividadesFinalizadas: any[] = [];
-        let message = '';
-        actividadesFinalizadas.push(data[1]);
+        const actividadesActualizadas: any[] = [];
 
-        console.log(actividadesFinalizadas.length);
-
-        // debugger;
-        for (let x = 0; x < actividadesFinalizadas.length; x++) {
-          let nombre = `${data[1].programacionequipos.miembros.nombre}
-          ${data[1].programacionequipos.miembros.apellido}`;
-
-          message = `${nombre} a terminado su actividad`;
-
-          this.createBasicNotification(message);
-          // this.createBasicMessage('success', message);
+        if (data[2] == this.infoLogin.idCuenta) {
+          actividadesActualizadas.push(data[1]);
+          console.log(actividadesActualizadas.length);
+          switch (data[3]) {
+            case '5f00e4c38c10d277700bcfa0': {
+              this.accionActividad(
+                actividadesActualizadas,
+                'retomado'
+              );
+              this.actividadesEnCurso(data[0]);
+              break;
+            }
+            case '5f00e4e58c10d277700bcfa2': {
+              this.accionActividad(
+                actividadesActualizadas,
+                'pausado'
+              );
+              this.actividadesEnCurso(data[0]);
+              break;
+            }
+            case '5f00e4f88c10d277700bcfa3': {
+              this.accionActividad(
+                actividadesActualizadas,
+                'finalizado'
+              );
+              this.actividadesEnCurso(data[0]);
+              break;
+            }
+            default:
+              break;
+          }
         }
-
-        this.actividadesEnCurso(data[0]);
-
-
 
       },
         (err) => {
           console.log(err);
         });
   }
+
+  accionActividad(actActualizada, accion) {
+    let message = '';
+    // tslint:disable-next-line: prefer-for-of
+    for (let x = 0; x < actActualizada.length; x++) {
+      const nombre = `${actActualizada[x].programacionequipos.miembros.nombre}
+      ${actActualizada[x].programacionequipos.miembros.apellido}`;
+
+      message = `${nombre} a ${accion} su actividad`;
+
+      this.createBasicNotification(message);
+      // this.createBasicMessage('success', message);
+    }
+  }
+
 
   limpiarSetInterval() {
     for (const iterator of this.control) {
@@ -177,8 +221,9 @@ export class ActividadActivasComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.infoLogin = this.userService.getInfoLogin();
 
-    this.detalleActividadService.getAllDetalleActividadActivas()
+    this.detalleActividadService.getAllDetalleActividadActivasCuenta()
       .toPromise()
       .then(
         (data: DetalleActividadModel[]) => {

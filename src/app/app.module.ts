@@ -73,6 +73,7 @@ import { ErrorComponent } from './pages/error/error.component';
 import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { NzCalendarModule } from 'ng-zorro-antd/calendar';
 import { NzToolTipModule } from 'ng-zorro-antd/tooltip';
+import { NzAlertModule } from 'ng-zorro-antd/alert';
 
 import { ChartsModule } from 'ng2-charts';
 
@@ -126,6 +127,7 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       NzSelectModule,
       NzInputNumberModule,
       NzInputModule,
+      NzAlertModule,
       NzSwitchModule,
       NzMessageModule,
       NzNotificationModule,

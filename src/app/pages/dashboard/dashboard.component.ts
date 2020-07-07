@@ -350,8 +350,11 @@ export class DashboardComponent implements OnInit {
   escucharSoket() {
     this.webSoketService.listen('actividades-calendario')
       .subscribe((data: DetalleActividadModel) => {
-        this.eventosCalendario(data);
-        this.detalle = false;
+
+        if (data) {
+          this.eventosCalendario(data);
+          this.detalle = false;
+        }
       },
         (err) => {
           console.log(err);

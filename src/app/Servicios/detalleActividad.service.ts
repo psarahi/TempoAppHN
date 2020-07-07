@@ -30,6 +30,11 @@ export class DetalleActividadService {
     return this.http.get(`${apiUrl}/detalleActividad/activo`);
   }
 
+  getAllDetalleActividadActivasCuenta() {
+    const { idCuenta } = this.userService.getInfoLogin();
+    return this.http.get(`${apiUrl}/detalleActividad/activoCuenta/${idCuenta}`);
+  }
+
   postDetalleActividad(detalleActividad) {
     return this.http.post(`${apiUrl}/detalleActividad/`, detalleActividad);
   }

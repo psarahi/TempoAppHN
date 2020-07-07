@@ -11,7 +11,7 @@ import { WebSocketService } from '../../Servicios/webSocket.service';
 
 moment.locale('es');
 
-interface cronometro {
+interface Cronometro {
   hh: number;
   mm: number;
   ss: number;
@@ -42,7 +42,7 @@ export class WelcomeComponent implements OnInit {
   hh: any = '00';
   mm: any = '00';
   ss: any = '00';
-  actividades: cronometro[] = [];
+  actividades: Cronometro[] = [];
   contador = 0;
 
   enviar: boolean = true;
@@ -63,8 +63,6 @@ export class WelcomeComponent implements OnInit {
   listaProgramacion: ProgramacionEquipoDetalladoModel[] = [];
   isMarch: boolean = false;
   visible = false;
-  dataDetalleActividad;
-  putDetalleActividad;
 
   programacionequipos: string = '';
   descripcion: string = '';
@@ -75,7 +73,8 @@ export class WelcomeComponent implements OnInit {
   detalleActividades: DetalleActividadModel[];
   dataDetalleActividades;
   actividadActiva: DetalleActividadModel;
-
+  actividadPausada: DetalleActividadModel;
+  pausa;
   actividadesActivas: DetalleActividadModel[] = [];
 
   constructor(
@@ -92,8 +91,86 @@ export class WelcomeComponent implements OnInit {
     this.message.create(type, message);
   }
 
-  postDetalle(inicio, fin, programacionEquipo, descripcion, estado, manual) {
-    this.dataDetalleActividad = {
+  putActividad(inicio, fin, programacionEquipo, descripcion, estado, id, accion) {
+
+    const dataDetalleActividad = {
+      inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
+      fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
+      fecha: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
+      cuentas: this.infoLogin.idCuenta,
+      programacionequipos: programacionEquipo,
+      descripcion,
+      estado
+    };
+
+    switch (accion) {
+      case 'stop': {
+
+        this.detalleActividadService.putDetalleActividad(id, dataDetalleActividad)
+          .toPromise()
+          .then((data: DetalleActividadModel) => {
+
+            this.programacionequipos = '';
+            this.descripcion = '';
+            this.enviar = true;
+            this.btnStart = true;
+            this.btnStop = false;
+            this.btnPause = false;
+            this.btnResumen = false;
+            this.pausa = '';
+
+            this.reset();
+          }
+          );
+
+        break;
+      }
+      case 'pause': {
+
+        this.detalleActividadService.putDetalleActividad(id, dataDetalleActividad)
+          .toPromise()
+          .then((data: DetalleActividadModel) => {
+
+            // this.descripcion = '';
+          }
+          );
+
+        break;
+      }
+      case 'resumenA': {
+
+        this.detalleActividadService.putDetalleActividad(id, dataDetalleActividad)
+          .toPromise()
+          .then((data: DetalleActividadModel) => {
+
+            // this.descripcion = '';
+          }
+          );
+
+        break;
+      }
+      case 'resumenP': {
+
+        this.detalleActividadService.putDetalleActividad(id, dataDetalleActividad)
+          .toPromise()
+          .then((data: DetalleActividadModel) => {
+
+            this.descripcion = '';
+          }
+          );
+
+        break;
+      }
+      default:
+        console.log('nada');
+
+        break;
+    }
+  }
+
+  postActividad(inicio, fin, programacionEquipo, descripcion, estado, accion) {
+
+    const dataDetalleActividad = {
       inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
       fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
       fecha: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
@@ -103,31 +180,11 @@ export class WelcomeComponent implements OnInit {
       estado
     };
 
-    if (manual === true) {
-      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
+    if (accion === 'curso') {
+      this.detalleActividadService.postDetalleActividad(dataDetalleActividad)
         .toPromise()
         .then(
           (data: DetalleActividadModel) => {
-            this.inicio = new Date();
-            this.fin = new Date();
-            this.descripcion = '';
-            this.programacionequipos = '';
-            this.ocultar();
-            console.log(data, 'post db');
-
-          },
-          (error) => {
-            console.log(error);
-
-            // this.createMessage('error', 'Opps!!! Algo salio mal');
-          }
-        );
-    } else {
-      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
-        .toPromise()
-        .then(
-          (data: DetalleActividadModel) => {
-
             this.actividadActiva = data;
 
             if (this.isMarch === false) {
@@ -146,18 +203,30 @@ export class WelcomeComponent implements OnInit {
             // this.createMessage('error', 'Opps!!! Algo salio mal');
           }
         );
+    } else {
+      this.detalleActividadService.postDetalleActividad(dataDetalleActividad)
+        .toPromise()
+        .then(
+          (data: DetalleActividadModel) => {
+            this.actividadPausada = data;
+            this.pausa = this.actividadPausada.inicio;
+          },
+          (error) => {
+            console.log(error);
+
+            // this.createMessage('error', 'Opps!!! Algo salio mal');
+          }
+        );
     }
-
-
   }
 
 
-  escucharSoket(actividad) {
-    this.webSoketService.emit('actividades-enCurso', actividad);
-  }
+  // escucharSoket(actividad) {
+  //   this.webSoketService.emit('actividades-enCurso', actividad);
+  // }
 
   guardar() {
-    this.postDetalle(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
+    this.postActividad(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
   }
 
   start() {
@@ -166,44 +235,25 @@ export class WelcomeComponent implements OnInit {
     this.btnPause = true;
     this.btnResumen = false;
 
-    this.postDetalle(
+    this.postActividad(
       new Date(),
       new Date(),
       this.programacionequipos,
       this.descripcion,
-      true,
-      false);
+      '5f00e4c38c10d277700bcfa0',
+      'curso');
   }
 
   stop() {
-    console.log(this.actividadActiva);
-    this.putDetalleActividad = {
-      inicio: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment().format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment(this.actividadActiva[0].inicio).format('YYYY-MM-DD HH:mm:ss'),
-      cuentas: this.infoLogin.idCuenta,
-      programacionequipos: this.programacionequipos,
-      descripcion: this.descripcion,
-      estado: false
-    };
-    console.log(this.putDetalleActividad);
-    console.log(this.actividadActiva[0]._id);
-
-    this.detalleActividadService.putDetalleActividad(this.actividadActiva[0]._id, this.putDetalleActividad)
-      .toPromise()
-      .then((data: DetalleActividadModel) => {
-
-        this.programacionequipos = '';
-        this.descripcion = '';
-        this.enviar = true;
-        this.btnStart = true;
-        this.btnStop = false;
-        this.btnPause = false;
-        this.btnResumen = false;
-
-        this.reset();
-      }
-      );
+    this.putActividad(
+      this.actividadActiva[0].inicio,
+      moment().format('YYYY-MM-DD HH:mm:ss'),
+      this.programacionequipos,
+      this.descripcion,
+      '5f00e4f88c10d277700bcfa3',
+      this.actividadActiva[0]._id,
+      'stop'
+    );
   }
 
   pause() {
@@ -212,10 +262,29 @@ export class WelcomeComponent implements OnInit {
     this.btnPause = false;
     this.btnResumen = true;
 
-    if (this.isMarch === true) {
-      clearInterval(this.control);
-      this.isMarch = false;
-    }
+    this.postActividad(
+      new Date(),
+      new Date(),
+      this.programacionequipos,
+      this.descripcion,
+      '5f03ce10fbd6f3df7d7251b2',
+      'pausa'
+    );
+
+    this.putActividad(
+      this.actividadActiva[0].inicio,
+      new Date(),
+      this.programacionequipos,
+      this.descripcion,
+      '5f00e4e58c10d277700bcfa2',
+      this.actividadActiva[0]._id,
+      'pause'
+    );
+
+    // // // if (this.isMarch === true) {
+    // // //   clearInterval(this.control);
+    // // //   this.isMarch = false;
+    // // // }
   }
 
   resume() {
@@ -223,20 +292,45 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = true;
     this.btnPause = true;
     this.btnResumen = false;
-    let timeActu2;
-    let acumularResume;
 
-    if (this.isMarch == false) {
-      timeActu2 = new Date();
-      timeActu2 = timeActu2.getTime();
-      acumularResume = timeActu2 - this.acumularTime;
+    console.log(this.actividadActiva[0].inicio);
+    console.log(this.actividadPausada[0].inicio);
 
-      this.timeInicial.setTime(acumularResume);
-      this.control = setInterval(() => {
-        this.cronometro(this.timeInicial);
-      }, 1000);
-      this.isMarch = true;
-    }
+
+    this.putActividad(
+      this.actividadActiva[0].inicio,
+      moment().format('YYYY-MM-DD HH:mm:ss'),
+      this.programacionequipos,
+      this.descripcion,
+      '5f00e4c38c10d277700bcfa0',
+      this.actividadActiva[0]._id,
+      'resumenA'
+    );
+
+    this.putActividad(
+      this.actividadPausada[0].inicio,
+      moment().format('YYYY-MM-DD HH:mm:ss'),
+      this.programacionequipos,
+      this.descripcion,
+      '5f03ce10fbd6f3df7d7251b2',
+      this.actividadPausada[0]._id,
+      'resumenP'
+    );
+
+    // // // let timeActu2;
+    // // // let acumularResume;
+
+    // // // if (this.isMarch == false) {
+    // // //   timeActu2 = new Date();
+    // // //   timeActu2 = timeActu2.getTime();
+    // // //   acumularResume = timeActu2 - this.acumularTime;
+
+    // // //   this.timeInicial.setTime(acumularResume);
+    // // //   this.control = setInterval(() => {
+    // // //     this.cronometro(this.timeInicial);
+    // // //   }, 1000);
+    // // //   this.isMarch = true;
+    // // // }
   }
 
   reset() {
@@ -314,15 +408,26 @@ export class WelcomeComponent implements OnInit {
       .toPromise()
       .then(
         (data: DetalleActividadModel) => {
-          this.actividadActiva = data;
+          this.actividadActiva = data[0];
+          this.actividadPausada = data[1];
+
+          console.log(this.actividadPausada);
 
           if (this.actividadActiva[0]) {
-
             this.btnStart = false;
             this.btnStop = true;
             this.btnPause = true;
             this.btnResumen = false;
             this.isMarch = true;
+
+            if (this.actividadPausada[0]) {
+              this.btnStart = false;
+              this.btnStop = true;
+              this.btnPause = false;
+              this.btnResumen = true;
+              this.isMarch = true;
+              this.pausa = (this.actividadPausada[0].inicio) ? moment(this.actividadPausada[0].inicio).format('HH:mm') : '';
+            }
 
             this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
             this.descripcion = this.actividadActiva[0].descripcion;
