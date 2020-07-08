@@ -13,7 +13,7 @@ export class MiembrosService {
   constructor(
     private http: HttpClient,
     private userService: UserService
-    ) { }
+  ) { }
 
   getMiembros() {
     const { idCuenta } = this.userService.getInfoLogin();
@@ -32,5 +32,11 @@ export class MiembrosService {
 
   postMiembros(miembro) {
     return this.http.post(`${apiUrl}/miembros/`, miembro);
+  }
+
+  usuariosConectados() {
+    const { idCuenta } = this.userService.getInfoLogin();
+
+    return this.http.get(`${apiUrl}/miembros/usuariosConectados/${idCuenta}`);
   }
 }

@@ -31,7 +31,6 @@ export class WebSocketService {
   }
 
   emit(evento, data?) {
-    // debugger;
     this.socket.emit(evento, data);
   }
 

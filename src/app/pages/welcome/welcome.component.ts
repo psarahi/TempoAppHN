@@ -8,6 +8,8 @@ import { ProgramacionEquipoService } from '../../Servicios/programacionEquipo.se
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { ProgramacionEquipoDetalladoModel } from '../../Modelos/programacionEquipo';
 import { WebSocketService } from '../../Servicios/webSocket.service';
+import { MiembrosService } from '../../Servicios/miembros.service';
+import { SesionesService } from '../../Servicios/sesiones.service';
 
 moment.locale('es');
 
@@ -22,6 +24,11 @@ interface Cronometro {
   descripcion: string;
 }
 
+interface Conectado {
+  nombre: string;
+  apellido: string;
+  estado: boolean;
+}
 
 @Component({
   selector: 'app-welcome',
@@ -32,7 +39,7 @@ export class WelcomeComponent implements OnInit {
   isCollapsed = false;
   menu: any[] = [];
   isVisible = false;
-
+  visibleUsuarios = false;
   acumularTime: number = 0;
   timeInicial;
   control: any;
@@ -76,6 +83,11 @@ export class WelcomeComponent implements OnInit {
   actividadPausada: DetalleActividadModel;
   pausa;
   actividadesActivas: DetalleActividadModel[] = [];
+  usuario = {};
+
+  miembrosCuenta: any[] = [];
+  miembrosConectados: Conectado[] = [];
+  arraConectado: any[] = [];
 
   constructor(
     private route: Router,
@@ -83,8 +95,9 @@ export class WelcomeComponent implements OnInit {
     private detalleActividadService: DetalleActividadService,
     private serviceProgramacionEquipos: ProgramacionEquipoService,
     private message: NzMessageService,
-    private webSoketService: WebSocketService
-
+    public webSoketService: WebSocketService,
+    private miembroService: MiembrosService,
+    private sesionesService: SesionesService
   ) { }
 
   createBasicMessage(type: string, message: string): void {
@@ -220,11 +233,6 @@ export class WelcomeComponent implements OnInit {
     }
   }
 
-
-  // escucharSoket(actividad) {
-  //   this.webSoketService.emit('actividades-enCurso', actividad);
-  // }
-
   guardar() {
     this.postActividad(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
   }
@@ -348,6 +356,14 @@ export class WelcomeComponent implements OnInit {
     this.enviar = false;
   }
 
+  openUsuarios(): void {
+    this.visibleUsuarios = true;
+  }
+
+  closeUsuarios(): void {
+    this.visibleUsuarios = false;
+  }
+
   close() {
     this.visible = false;
   }
@@ -456,8 +472,52 @@ export class WelcomeComponent implements OnInit {
     this.userService.clearInfoLogin();
   }
 
+
+  escucharSoket() {
+    // this.webSoketService.emit('actividades-enCurso', actividad);
+    // this.webSoketService.emit('usuario', info);
+
+    this.webSoketService.listen('usuarios-conectados')
+      .subscribe((data: any[]) => {
+        data.forEach(element => {
+          this.arraConectado.push(element.miembros);
+        });
+
+        this.revisarConeccion();
+      }
+      );
+
+  }
+
+  revisarConeccion() {
+    // tslint:disable-next-line: prefer-for-of
+    this.miembrosCuenta.forEach(element => {
+      if (this.arraConectado.includes(element._id)) {
+        this.miembrosConectados.push({ nombre: element.nombre, apellido: element.apellido, estado: true });
+      } else {
+        this.miembrosConectados.push({ nombre: element.nombre, apellido: element.apellido, estado: false });
+      }
+
+    });
+
+    console.log(this.miembrosConectados);
+    
+    // var myArr = ['la', 'donna', 'e', 'mobile', 'cual', 'piuma', 'al', 'vento'];
+
+    // console.info(myArr.includes('donna')); // true
+    // console.info(myArr.includes('pensiero')); // false
+
+  }
+
   ngOnInit() {
     // this.revisarActividades();
+    this.infoLogin = this.userService.getInfoLogin();
+    this.usuario = {
+      id: this.infoLogin.id,
+      nombre: this.infoLogin.nombre + ' ' + this.infoLogin.apellido,
+      cuenta: this.infoLogin.idCuenta
+    }
+
     this.enviar = true;
     this.up = false;
     this.down = true;
@@ -469,7 +529,31 @@ export class WelcomeComponent implements OnInit {
     this.btnPause = false;
     this.btnStop = false;
     this.btnStart = true;
-    this.infoLogin = this.userService.getInfoLogin();
+
+    this.miembroService.usuariosConectados()
+      .toPromise()
+      .then(
+        (data: []) => {
+          this.miembrosCuenta = data;
+          console.log(this.miembrosCuenta);
+
+          this.sesionesService.getSesionesCuentaDia()
+            .toPromise()
+            .then(
+              (data: any[]) => {
+
+                data.forEach(element => {
+                  this.arraConectado.push(element.miembros);
+                });
+
+                this.revisarConeccion();
+              }
+
+            );
+
+        }
+
+      );
 
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
@@ -480,6 +564,7 @@ export class WelcomeComponent implements OnInit {
 
       );
     this.menu = this.infoLogin.menu;
+    this.escucharSoket();
 
   }
 

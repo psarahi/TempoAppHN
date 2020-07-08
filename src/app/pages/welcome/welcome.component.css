@@ -245,3 +245,24 @@ textarea {
 :hover {
     Cursor: pointer;
 }
+
+.footer {
+    position: fixed;
+    bottom: 24px;
+    /* width: 95%; */
+    align-items: center;
+}
+
+.conectados {
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: space-between;
+}
+
+.conect {
+    color: #c10101;
+}
+
+.desconect {
+    color: #1a6f0b;
+}
