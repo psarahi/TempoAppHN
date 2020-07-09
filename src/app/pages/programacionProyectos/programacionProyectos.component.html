@@ -9,7 +9,8 @@
                 <nz-card nzTitle="Responsable" nzBordered="false">
                     <div class="responsable">
                         <button id="detalleMmiembro" nz-button nzTooltipTitle="Detalle miembro" nzTooltipPlacement="top" nz-tooltip></button>
-                        <label class="nombre-user"> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </label>
+                        <label class="nombre-user">
+                            {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </label>
                     </div>
                 </nz-card>
             </div>
@@ -66,7 +67,6 @@
         <thead>
             <tr>
                 <th> </th>
-                <th> </th>
                 <th> Actividad </th>
                 <th> Tiempo Proyectado (Hrs) </th>
                 <th> Tiempo Real (Hrs) </th>
@@ -75,9 +75,9 @@
         </thead>
         <tbody>
             <tr *ngFor="let data of actividadesTable.data">
-                <td class="btn-td">
-                    <button id="miembro" nz-button nzType="primary" nzTooltipTitle="Agregar miembro" nzTooltipPlacement="top" (click)="openMiembro(data._id)" nz-tooltip></button>
-                </td>
+                <!-- <td class="btn-td">
+                     <button id="miembro" nz-button nzType="primary" nzTooltipTitle="Agregar miembro" nzTooltipPlacement="top" (click)="openMiembro(data._id)" nz-tooltip></button> 
+                </td> -->
                 <td>
                     <button id="actividad" nz-button class="btn-team" nzTooltipTitle="Ver equipo" nzTooltipPlacement="top" (click)="operVerMiembros(data._id)" nz-tooltip></button>
                 </td>
@@ -163,27 +163,59 @@
 
 <nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="true" [nzWidth]="500" [nzVisible]="verMiembro" nzTitle="Equipo de la Actividad" (nzOnClose)="closeVerMiembro()">
     <div class="div-equipo">
-        <li *ngFor="let equipo of dataEquipoModal" style="list-style: none;">
-            <ul>
-                <span style="font-size: 20px;"> <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>
-                    {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </span>
-            </ul>
-        </li>
+        <div *ngIf="sinMiembro" class="sinMiembro">
+            <img style="max-width: 49%;" src="assets/no-user.svg">
+            <hr>
+            <button id="miembro" nz-button nzType="primary" nzTooltipTitle="Agregar miembro" nzTooltipPlacement="top" (click)="openMiembro()" nz-tooltip></button>
+        </div>
+
+        <div *ngIf="formulario">
+            <h2>Asignar miembro</h2>
+            <form nz-form [nzLayout]="'vertical'" [formGroup]="validateFormMiembros" (ngSubmit)="submitFormMiembro()">
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Miembro</nz-form-label>
+                    <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
+                        <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione un mieembro" formControlName="miembros" id="miembros">
+                            <nz-option *ngFor="let miembro of listaMiembros" [nzLabel]="miembro.nombre + ' '+ miembro.apellido" [nzValue]="miembro._id">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="estado">Estado</nz-form-label>
+                    <nz-switch formControlName="estado" id="estado">
+                    </nz-switch>
+                </nz-form-item>
+                <br>
+                <button type="button" (click)="closeMiembro()" class="ant-btn" style="margin-right: 8px;"><span>Cancelar</span></button>
+                <button nz-button (click)="closeMiembro()" nzType="primary" class="ant-btn ant-btn-primary"><span>Enviar</span></button>
+            </form>
+        </div>
+
+        <div *ngIf="infoMiembro">
+
+            <div class="row" style="display: flex;">
+                <div class="col" style="align-items: center;">
+                    <button id="miembroAsignado" nz-button nzTooltipTitle="Detalle miembro" nzTooltipPlacement="top" nz-tooltip></button>
+                </div>
+                <div class="col" style="text-align: center;">
+                    <label class="nombre-user">
+                        {{ dataMiembro[0].miembros.nombre + ' ' + dataMiembro[0].miembros.apellido}} </label>
+                    <br>
+                    <label>{{ dataMiembro[0].miembros.usuario}} </label>
+                    <br>
+                    <label>{{ dataMiembro[0].miembros.correo}} </label>
+                </div>
+
+            </div>
+            <!-- <li *ngFor="let equipo of dataMiembro" style="list-style: none;">
+                <ul>
+                    <span style="font-size: 20px;"> <i nz-icon nzType="user" class="icono-user" nzTheme="outline"></i>
+                        {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </span>
+                </ul>
+            </li> -->
+        </div>
+
     </div>
 
 </nz-drawer>
-
-<nz-modal [(nzVisible)]="isVisible" [nzStyle]="{ top: '20px' }" nzWidth="500" nzTitle="Equipo de la Actividad" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <div class="div-equipo" *ngFor="let equipo of dataEquipoModal">
-        <nz-card class="div-equipo" style="width:300px;">
-            <div nz-row>
-                <div nz-col [nzSpan]="8">
-                    <nz-avatar [nzSize]="54" nzIcon="user"></nz-avatar>
-                </div>
-                <div nz-col [nzSpan]="16">
-                    <p> {{ equipo.miembros.nombre + ' ' + equipo.miembros.apellido }} </p>
-                </div>
-            </div>
-        </nz-card>
-    </div>
-</nz-modal>

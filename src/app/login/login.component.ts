@@ -5,12 +5,9 @@ import { LoginService } from '../Servicios/login.service';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 // import { UsuarioLogin } from '../Modelos/autentificacion';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { duration } from 'moment';
 import { animate } from '@angular/animations';
 import { UserService } from '../Servicios/user.service';
 import { SesionesService } from '../Servicios/sesiones.service';
-import { SesionesModel } from '../Modelos/sesiones';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-login',
@@ -30,6 +27,7 @@ export class LoginComponent implements OnInit {
     private message: NzMessageService,
     private userService: UserService,
     private sesionService: SesionesService
+
   ) { }
 
   createNotification(type: string): void {
@@ -55,25 +53,9 @@ export class LoginComponent implements OnInit {
 
     this.serviceLogin.validar(this.validateForm.value).toPromise().then(
       (data: any) => {
+        const { nombre, apellido, idCuenta, id } = this.userService.executeLogin(data[0]);
 
-        const { nombre, apellido, idCuenta, id } = this.userService.executeLogin(data);
-        // console.log(data);
-
-        const userSesion = {
-          cuentas: idCuenta,
-          miembros: id,
-          fechaLogin: moment().format('YYYY-MM-DD HH:mm:ss'),
-          fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-          fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
-          tiempoLogin: 0,
-          estado: true
-        };
-
-        this.sesionService.postSesion(userSesion)
-        .toPromise()
-        .then(
-
-        );
+        this.sesionService.manejoSesiones(idCuenta, id, data[1], '');
 
         this.route.navigate(['/equipo']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);

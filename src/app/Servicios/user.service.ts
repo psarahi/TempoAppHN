@@ -8,7 +8,10 @@ import { Router } from '@angular/router';
 export class UserService {
   infoLogin: any;
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+
+  ) {
     this.infoLogin = JSON.parse(localStorage.getItem('infoUser'));
   }
 

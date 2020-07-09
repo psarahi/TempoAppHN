@@ -87,7 +87,7 @@ export class WelcomeComponent implements OnInit {
 
   miembrosCuenta: any[] = [];
   miembrosConectados: Conectado[] = [];
-  arraConectado: any[] = [];
+  arrayConectados: any[] = [];
 
   constructor(
     private route: Router,
@@ -97,7 +97,8 @@ export class WelcomeComponent implements OnInit {
     private message: NzMessageService,
     public webSoketService: WebSocketService,
     private miembroService: MiembrosService,
-    private sesionesService: SesionesService
+    private sesionesService: SesionesService,
+
   ) { }
 
   createBasicMessage(type: string, message: string): void {
@@ -356,10 +357,6 @@ export class WelcomeComponent implements OnInit {
     this.enviar = false;
   }
 
-  openUsuarios(): void {
-    this.visibleUsuarios = true;
-  }
-
   closeUsuarios(): void {
     this.visibleUsuarios = false;
   }
@@ -469,6 +466,7 @@ export class WelcomeComponent implements OnInit {
   }
 
   logout() {
+    this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
     this.userService.clearInfoLogin();
   }
 
@@ -479,8 +477,9 @@ export class WelcomeComponent implements OnInit {
 
     this.webSoketService.listen('usuarios-conectados')
       .subscribe((data: any[]) => {
+        this.arrayConectados = [];
         data.forEach(element => {
-          this.arraConectado.push(element.miembros);
+          this.arrayConectados.push(element.miembros);
         });
 
         this.revisarConeccion();
@@ -489,10 +488,37 @@ export class WelcomeComponent implements OnInit {
 
   }
 
+  openUsuarios(): void {
+    this.miembrosConectados = [];
+    this.arrayConectados = [];
+    this.miembrosCuenta = [];
+    this.miembroService.usuariosConectados()
+      .toPromise()
+      .then(
+        (data: []) => {
+          this.miembrosCuenta = data;
+          this.sesionesService.getSesionesCuentaDia()
+            .toPromise()
+            .then(
+              (data: any[]) => {
+                data.forEach(element => {
+                  this.arrayConectados.push(element.miembros);
+                });
+                console.log(this.arrayConectados);
+                this.revisarConeccion();
+              }
+            );
+        }
+
+      );
+    this.visibleUsuarios = true;
+  }
+
   revisarConeccion() {
+    this.miembrosConectados = [];
     // tslint:disable-next-line: prefer-for-of
     this.miembrosCuenta.forEach(element => {
-      if (this.arraConectado.includes(element._id)) {
+      if (this.arrayConectados.includes(element._id)) {
         this.miembrosConectados.push({ nombre: element.nombre, apellido: element.apellido, estado: true });
       } else {
         this.miembrosConectados.push({ nombre: element.nombre, apellido: element.apellido, estado: false });
@@ -500,18 +526,13 @@ export class WelcomeComponent implements OnInit {
 
     });
 
-    console.log(this.miembrosConectados);
-    
-    // var myArr = ['la', 'donna', 'e', 'mobile', 'cual', 'piuma', 'al', 'vento'];
-
-    // console.info(myArr.includes('donna')); // true
-    // console.info(myArr.includes('pensiero')); // false
-
   }
 
+
   ngOnInit() {
-    // this.revisarActividades();
+    this.escucharSoket();
     this.infoLogin = this.userService.getInfoLogin();
+
     this.usuario = {
       id: this.infoLogin.id,
       nombre: this.infoLogin.nombre + ' ' + this.infoLogin.apellido,
@@ -530,31 +551,6 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = false;
     this.btnStart = true;
 
-    this.miembroService.usuariosConectados()
-      .toPromise()
-      .then(
-        (data: []) => {
-          this.miembrosCuenta = data;
-          console.log(this.miembrosCuenta);
-
-          this.sesionesService.getSesionesCuentaDia()
-            .toPromise()
-            .then(
-              (data: any[]) => {
-
-                data.forEach(element => {
-                  this.arraConectado.push(element.miembros);
-                });
-
-                this.revisarConeccion();
-              }
-
-            );
-
-        }
-
-      );
-
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
@@ -564,7 +560,6 @@ export class WelcomeComponent implements OnInit {
 
       );
     this.menu = this.infoLogin.menu;
-    this.escucharSoket();
 
   }
 

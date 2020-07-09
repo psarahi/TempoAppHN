@@ -32,4 +32,11 @@ export class ProgramacionEquipoService {
     return this.http.get(`${apiUrl}/programacionEquipos/detallado/${id}`);
   }
 
+  getProgramacionProyecto(idProgra) {
+
+    console.log(`${apiUrl}/programacionEquipos/ProgramacionProyecto/${idProgra}`);
+    
+    return this.http.get(`${apiUrl}/programacionEquipos/ProgramacionProyecto/${idProgra}`);
+  }
+
 }

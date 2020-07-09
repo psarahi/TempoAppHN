@@ -23,7 +23,7 @@ import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 })
 export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
 
-  dataEquipoModal;
+  dataMiembro: any[] = [];
   isVisible = false;
   idProgramaAct;
   detalleProyecto;
@@ -40,12 +40,14 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
   listaProgramacionProyectos: ProgramacionProyectoModel[];
   dataProgramacionProyecto;
   dataProgramacionEquipo;
-  listaProgramacionEquipo: ProgramacionEquipoModel[];
   infoLogin: any;
   horasAsiganadas: number = 0;
   horasAsignables: number = 0;
   horasProyecto: number = 0;
   tiempoActividad;
+  formulario: boolean = false;
+  sinMiembro: boolean = false;
+  infoMiembro: boolean = false;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -175,13 +177,17 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
     this.serviceProgramacionMiembro.postProgramacionEquipos(this.dataProgramacionEquipo)
       .toPromise()
       .then(
-        (data: ProgramacionEquipoModel) => {
+        (data: any[]) => {
+          this.dataMiembro = [];
+          this.dataMiembro = data;
 
-          this.listaProgramacionEquipo = [...this.listaProgramacionEquipo, data];
+          this.sinMiembro = (this.dataMiembro.length > 0) ? false : true;
+          this.infoMiembro = (this.dataMiembro.length > 0) ? true : false;
+          this.formulario = (this.dataMiembro.length > 0) ? false : false;
 
           this.createNotification('success', 'Éxito', '¡Se agrego correctamente el equipo!');
 
-          this.idProgramaAct = '';
+          //  this.idProgramaAct = '';
           this.validateFormMiembros = this.fb.group({
             miembros: [null, [Validators.required]],
             estado: [true, [Validators.required]],
@@ -208,18 +214,34 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
   }
 
   openMiembro(idProAct): void {
-    this.idProgramaAct = idProAct;
-    this.visibleMiembro = true;
+    this.formulario = true;
+    this.sinMiembro = false;
+    this.infoMiembro = false;
   }
 
   closeMiembro(): void {
     this.visibleMiembro = false;
+    this.operVerMiembros(this.idProgramaAct);
+
   }
 
   operVerMiembros(idProAct) {
+    this.idProgramaAct = idProAct;
     this.verMiembro = true;
-    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
 
+    this.serviceProgramacionMiembro.getProgramacionProyecto(idProAct)
+      .toPromise()
+      .then(
+        (data: any[]) => {
+          this.dataMiembro = [];
+          this.dataMiembro = data;
+
+          this.sinMiembro = (this.dataMiembro.length > 0) ? false : true;
+          this.infoMiembro = (this.dataMiembro.length > 0) ? true : false;
+          this.formulario = (this.dataMiembro.length > 0) ? false : false;
+
+        }
+      );
   }
 
   closeVerMiembro() {
@@ -227,18 +249,14 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
   }
 
   showModal(idProAct): void {
-
-    this.dataEquipoModal = this.listaProgramacionEquipo.filter(x => x.programacionproyecto === idProAct);
     this.isVisible = true;
   }
 
   handleOk(): void {
-    console.log('Button ok clicked!');
     this.isVisible = false;
   }
 
   handleCancel(): void {
-    console.log('Button cancel clicked!');
     this.isVisible = false;
   }
 
@@ -284,14 +302,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
       .then(
         (data: []) => {
           this.listaActividades = data;
-        }
-      );
-
-    this.serviceProgramacionMiembro.getProgramacionEquipos()
-      .toPromise()
-      .then(
-        (data: ProgramacionEquipoModel[]) => {
-          this.listaProgramacionEquipo = [...data];
         }
       );
 
