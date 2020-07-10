@@ -96,8 +96,12 @@
     </nz-layout>
 </nz-layout>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Registra tu tiempo" nzFooter="." nzOkDisabled="false" (nzOnCancel)="handleCancel()">
+<nz-modal [(nzVisible)]="isVisible" nzTitle="Registra tu tiempo" nzOkDisabled="false" (nzOnCancel)="handleCancel()" nzFooter="null">
+
     <div class="timer">
+        <div class="etiqueta">
+            <span *ngIf="empezo" class="badge badge-pill badge-success">{{ empezo }}</span>
+        </div>
         <div class="tiempo">
             <div class="buttons" *ngIf="modoReloj">
                 <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
@@ -128,8 +132,11 @@
             </div> -->
         </div>
 
-        <label *ngIf="pausa" style="text-align: center;"> Pausa: {{ pausa }} </label>
-
+        <!-- <label *ngIf="pausa" style="text-align: center;"> Pausa: {{ pausa }} </label> -->
+        <!-- <nz-alert *ngIf="pausa" nzType="warning" [nzMessage]="pausa"></nz-alert> -->
+        <div class="etiqueta">
+            <span *ngIf="pausa" class="badge badge-pill badge-warning"> {{ pausa }} </span>
+        </div>
         <div *ngIf="up" class="detalle">
 
             <hr style="width: 85%; opacity: 0.2;">

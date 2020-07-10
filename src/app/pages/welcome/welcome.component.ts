@@ -10,6 +10,7 @@ import { ProgramacionEquipoDetalladoModel } from '../../Modelos/programacionEqui
 import { WebSocketService } from '../../Servicios/webSocket.service';
 import { MiembrosService } from '../../Servicios/miembros.service';
 import { SesionesService } from '../../Servicios/sesiones.service';
+import swal from 'sweetalert';
 
 moment.locale('es');
 
@@ -86,6 +87,7 @@ export class WelcomeComponent implements OnInit {
   actividadActiva: DetalleActividadModel;
   actividadPausada: DetalleActividadModel;
   pausa;
+  empezo;
   actividadesActivas: DetalleActividadModel[] = [];
   usuario = {};
 
@@ -149,7 +151,7 @@ export class WelcomeComponent implements OnInit {
             this.btnPause = false;
             this.btnResumen = false;
             this.pausa = '';
-
+            this.empezo = '';
             this.reset();
           }
           );
@@ -217,7 +219,8 @@ export class WelcomeComponent implements OnInit {
         .then(
           (data: DetalleActividadModel) => {
             this.actividadActiva = data;
-
+            this.empezo = `Empezo a las ${moment(this.actividadActiva.inicio).format('HH:mm a')}`;
+            this.descripcion = '';
             if (this.isMarch === false) {
               this.timeInicial = new Date();
               this.control = setInterval(() => {
@@ -240,7 +243,7 @@ export class WelcomeComponent implements OnInit {
         .then(
           (data: DetalleActividadModel) => {
             this.actividadPausada = data;
-            this.pausa = this.actividadPausada.inicio;
+            this.pausa = `Pausada a las ${moment(this.actividadPausada.inicio).format('HH:mm a')} `;
           },
           (error) => {
             console.log(error);
@@ -318,7 +321,7 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = true;
     this.btnPause = true;
     this.btnResumen = false;
-
+    this.pausa = '';
     console.log(this.actividadActiva[0].inicio);
     console.log(this.actividadPausada[0].inicio);
 
@@ -437,12 +440,12 @@ export class WelcomeComponent implements OnInit {
     this.detalleActividadService.getDetalleActividadActivoMiembros()
       .toPromise()
       .then(
-        (data: DetalleActividadModel) => {
+        (data: any) => {
+          console.log(data);
+
           this.actividadActiva = data[0];
           this.actividadPausada = data[1];
-
-          console.log(this.actividadPausada);
-
+          this.empezo = `Empezo a las ${moment(this.actividadActiva[0].inicio).format('HH:mm a')}`;
           if (this.actividadActiva[0]) {
             this.btnStart = false;
             this.btnStop = true;
@@ -456,11 +459,13 @@ export class WelcomeComponent implements OnInit {
               this.btnPause = false;
               this.btnResumen = true;
               this.isMarch = true;
-              this.pausa = (this.actividadPausada[0].inicio) ? moment(this.actividadPausada[0].inicio).format('HH:mm') : '';
+              // tslint:disable-next-line: max-line-length
+              this.pausa = (this.actividadPausada[0]) ? `Pausada a las ${moment(this.actividadPausada[0].inicio).format('HH:mm a')}` : '';
             }
 
             this.programacionequipos = this.actividadActiva[0].programacionequipos._id;
-            this.descripcion = this.actividadActiva[0].descripcion;
+            // tslint:disable-next-line: max-line-length
+            this.descripcion = (this.actividadPausada[0]) ? this.actividadPausada[0].descripcion : this.actividadActiva[0].descripcion;
             this.inicio = moment(this.actividadActiva[0].inicio);
 
             this.timeActual = new Date();
@@ -483,8 +488,63 @@ export class WelcomeComponent implements OnInit {
   }
 
   logout() {
-    this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
-    this.userService.clearInfoLogin();
+    this.detalleActividadService.getDetalleActividadActivoMiembros()
+      .toPromise()
+      .then(
+        (data: any) => {
+          this.actividadActiva = data[0];
+          this.actividadPausada = data[1];
+
+          console.log(data);
+
+
+          if (this.actividadActiva[0]) {
+            console.log('Activa');
+
+            if (this.actividadPausada[0]) {
+              console.log('Pausa');
+              this.putActividad(
+                this.actividadPausada[0].inicio,
+                moment().format('YYYY-MM-DD HH:mm:ss'),
+                this.programacionequipos,
+                this.descripcion,
+                '5f03ce10fbd6f3df7d7251b2',
+                this.actividadPausada[0]._id,
+                'resumenP'
+              );
+            }
+
+            swal({
+              title: '¿Estás seguro que quieres salir, tienes un actividad activa?',
+              // tslint:disable-next-line: max-line-length
+              text: `${this.actividadActiva[0].programacionequipos.programacionproyecto.proyectos.nombreProyecto} - ${this.actividadActiva[0].programacionequipos.programacionproyecto.actividades.nombre}`,
+              icon: 'warning',
+              buttons: ['Cancelar', 'Salir'],
+              dangerMode: true,
+            })
+              .then((willDelete) => {
+                if (willDelete) {
+                  this.pause();
+                  this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
+                  this.userService.clearInfoLogin();
+                  // swal('Poof! Your imaginary file has been deleted!', {
+                  //   icon: 'success',
+                  // });
+                } else {
+                  swal('Sigue trabajando');
+                }
+              });
+
+
+          } else {
+            this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
+            this.userService.clearInfoLogin();
+          }
+
+        });
+
+
+
   }
 
 
@@ -553,12 +613,6 @@ export class WelcomeComponent implements OnInit {
 
     this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, localInfoSesion, 'refresh');
 
-    this.usuario = {
-      id: this.infoLogin.id,
-      nombre: this.infoLogin.nombre + ' ' + this.infoLogin.apellido,
-      cuenta: this.infoLogin.idCuenta
-    }
-
     this.enviar = true;
     this.up = false;
     this.down = true;
@@ -571,7 +625,7 @@ export class WelcomeComponent implements OnInit {
     this.btnStop = false;
     this.btnStart = true;
 
-    this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
+    this.serviceProgramacionEquipos.getProgramaEquipo_DetalladoActivo()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
         this.listaProgramacion = data;

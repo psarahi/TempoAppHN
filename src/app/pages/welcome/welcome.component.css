@@ -266,3 +266,14 @@ textarea {
 .desconect {
     color: #1a6f0b;
 }
+
+.badge {
+    color: #212529;
+    width: fit-content;
+    /* background-color: #ffc107; */
+}
+
+.etiqueta {
+    display: flex;
+    justify-content: center;
+}

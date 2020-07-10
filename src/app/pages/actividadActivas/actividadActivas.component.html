@@ -3,7 +3,8 @@
     <div nz-card-grid *ngFor="let actividad of actividades">
         <div class="cronometro">
             <div> {{ actividad.hh }} : {{ actividad.mm }} : {{ actividad.ss }} </div>
-            <nz-alert [nzType]="actividad.typeAlert" [nzMessage]="actividad.estado" [nzDescription]="actividad.fin"></nz-alert>
+            <nz-alert [nzType]="actividad.typeAlert" [nzMessage]="actividad.estado" [nzDescription]="actividad.fin">
+            </nz-alert>
             <hr style="width: 85%; opacity: 0.2;">
             <label class="inicio">{{ actividad.inicio }}</label>
             <h6>{{ actividad.miembro }}</h6>
@@ -15,6 +16,5 @@
 
 
 <div *ngIf="sinTrabajar" class="vacio">
-    <img class="img-no-time" src="assets/no-time.jpg" alt="" srcset="">
-    <h2>¡No tienes miembros trabajando!</h2>
+    <img class="img-no-time" src="assets/sin-miembros-trabajando.svg" alt="" srcset="">
 </div>

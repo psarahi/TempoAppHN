@@ -1,0 +1,47 @@
+<h1>Mis asiganciones</h1>
+<hr>
+<h4>Mis asiganciones pendientes</h4>
+<div>
+    <nz-card *ngIf="!sinPendientes" nzBordered="false">
+        <div nz-card-grid [ngStyle]="gridStyle" *ngFor="let asignacionP of listaAsigancionesPendientes">
+            <h4> {{ asignacionP.programacionproyecto.proyectos.nombreProyecto }} </h4>
+            <h5> {{ asignacionP.programacionproyecto.actividades.nombre }} </h5>
+            <h6> {{ asignacionP.programacionproyecto.tiempoProyectado }} Horas </h6>
+
+        </div>
+    </nz-card>
+</div>
+
+<div *ngIf="sinPendientes" class="vacio">
+    <img class="img-no-time" src="assets/sin-pendientes.svg">
+</div>
+<br>
+<hr>
+<h4>Mis asiganciones finalizadas</h4>
+<div *ngIf="!sinFinalizada">
+    <nz-table #basicTable [nzData]="listOfData">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Address</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let data of basicTable.data">
+                <td>{{ data.name }}</td>
+                <td>{{ data.age }}</td>
+                <td>{{ data.address }}</td>
+                <td>
+                    <a>Action 一 {{ data.name }}</a>
+                    <nz-divider nzType="vertical"></nz-divider>
+                    <a>Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </nz-table>
+</div>
+<div *ngIf="sinFinalizada" class="vacio">
+    <img class="img-no-time" src="assets/sin-trabajar.svg">
+</div>

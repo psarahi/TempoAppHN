@@ -14,6 +14,7 @@ import { PruebasComponent } from './pages/pruebas/pruebas.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
 import { LoginGuard } from './Servicios/Guards/login.guard';
+import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -33,7 +34,8 @@ const routes: Routes = [
       { path: 'programacionProyectos', component: ProgramacionProyectosComponent },
       { path: 'pruebas', component: PruebasComponent },
       { path: 'dashboard', component: DashboardComponent },
-      { path: 'actividadActiva', component: ActividadActivasComponent }
+      { path: 'actividadActiva', component: ActividadActivasComponent },
+      { path: 'asinacion', component: AsignacionesComponent }
     ]
   }
 ];

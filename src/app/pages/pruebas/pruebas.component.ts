@@ -174,7 +174,7 @@ export class PruebasComponent implements OnInit {
       programacionequipos: [null, [Validators.required]]
     });
 
-    this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
+    this.serviceProgramacionEquipos.getProgramaEquipo_DetalladoActivo()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
         this.listaProgramacion = data;

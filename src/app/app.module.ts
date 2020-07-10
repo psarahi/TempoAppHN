@@ -20,6 +20,7 @@ import { RegistroComponent } from './pages/registro/registro.component';
 import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { PruebasComponent } from './pages/pruebas/pruebas.component';
+import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
 
 
 // Servicios
@@ -98,7 +99,8 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       ErrorComponent,
       PruebasComponent,
       DashboardComponent,
-      ActividadActivasComponent
+      ActividadActivasComponent,
+      AsignacionesComponent
    ],
    imports: [
       BrowserModule,

@@ -62,3 +62,19 @@ select {
     background-color: #000c17;
     border-color: #000c17;
 }
+
+.ant-card-contain-grid:not(.ant-card-loading) .ant-card-body {
+    margin: -1px 0 0 -1px;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.ant-modal-footer {
+    padding: 10px 16px;
+    text-align: right;
+    background: transparent;
+    border-top: 1px solid #e8e8e8;
+    display: none;
+    border-radius: 0 0 4px 4px;
+}
