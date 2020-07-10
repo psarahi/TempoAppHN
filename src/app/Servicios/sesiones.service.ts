@@ -37,11 +37,8 @@ export class SesionesService {
 
   manejoSesiones(idCuenta, idMiembro, sesion, accion) {
 
-    if (sesion.length > 0) {
-      console.log('existe');
-
-      if (accion == 'logout') {
-
+    switch (accion) {
+      case 'logout': {
         const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
 
         const inicio = moment([
@@ -62,7 +59,7 @@ export class SesionesService {
           moment().get('second')
         ]);
         const difMin = fin.diff(inicio, 'minutes');
-        
+
         const userSesion = {
           cuentas: idCuenta,
           miembros: idMiembro,
@@ -81,43 +78,94 @@ export class SesionesService {
           }));
 
 
-      } else {
-
-        const userSesion = {
-          cuentas: idCuenta,
-          miembros: idMiembro,
-          fechaLogin: moment(sesion[0].fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-          fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-          fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
-          tiempoLogin: sesion[0].tiempoLogin,
-          estado: true
-        };
-
-        this.putSesion(sesion[0]._id, userSesion)
-          .toPromise()
-          .then((data => {
-            localStorage.setItem('infosesion', JSON.stringify(data));
-          }));
+        break;
       }
+      case 'refresh': {
 
-    } else {
+        const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
 
-      const userSesion = {
-        cuentas: idCuenta,
-        miembros: idMiembro,
-        fechaLogin: moment().format('YYYY-MM-DD HH:mm:ss'),
-        fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-        fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
-        tiempoLogin: 0,
-        estado: true
-      };
+        if (localInfoSesion) {
+          // const inicio = moment([
+          //   moment(localInfoSesion.fechaLoginTemp).get('year'),
+          //   moment(localInfoSesion.fechaLoginTemp).get('month'),
+          //   moment(localInfoSesion.fechaLoginTemp).get('day'),
+          //   moment(localInfoSesion.fechaLoginTemp).get('hour'),
+          //   moment(localInfoSesion.fechaLoginTemp).get('minute'),
+          //   moment(localInfoSesion.fechaLoginTemp).get('second')
+          // ]);
 
-      this.postSesion(userSesion)
-        .toPromise()
-        .then((data => {
-          localStorage.setItem('infosesion', JSON.stringify(data));
+          // const fin = moment([
+          //   moment().get('year'),
+          //   moment().get('month'),
+          //   moment().get('day'),
+          //   moment().get('hour'),
+          //   moment().get('minute'),
+          //   moment().get('second')
+          // ]);
+          // const difMin = fin.diff(inicio, 'minutes');
 
-        }));
+          const userSesion = {
+            cuentas: idCuenta,
+            miembros: idMiembro,
+            fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
+            fechaLoginTemp: moment(localInfoSesion.fechaLoginTemp).format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            tiempoLogin: localInfoSesion.tiempoLogin,
+            estado: true
+          };
+
+          this.putSesion(localInfoSesion._id, userSesion)
+            .toPromise()
+            .then((data => {
+              localStorage.setItem('infosesion', JSON.stringify(data));
+            }));
+        }
+        break;
+      }
+      case 'login': {
+
+        if (sesion.length > 0) {
+          const userSesion = {
+            cuentas: idCuenta,
+            miembros: idMiembro,
+            fechaLogin: moment(sesion[0].fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
+            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            tiempoLogin: sesion[0].tiempoLogin,
+            estado: true
+          };
+
+          this.putSesion(sesion[0]._id, userSesion)
+            .toPromise()
+            .then((data => {
+              localStorage.setItem('infosesion', JSON.stringify(data));
+            }));
+
+
+        } else {
+
+          const userSesion = {
+            cuentas: idCuenta,
+            miembros: idMiembro,
+            fechaLogin: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            tiempoLogin: 0,
+            estado: true
+          };
+
+          this.postSesion(userSesion)
+            .toPromise()
+            .then((data => {
+              localStorage.setItem('infosesion', JSON.stringify(data));
+
+            }));
+
+        }
+        break;
+      }
+      default:
+        break;
     }
 
   }

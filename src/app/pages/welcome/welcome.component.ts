@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../Servicios/user.service';
 import { DetalleActividadService } from '../../Servicios/detalleActividad.service';
@@ -36,6 +36,10 @@ interface Conectado {
   styleUrls: ['./welcome.component.css']
 })
 export class WelcomeComponent implements OnInit {
+
+
+
+  // tslint:disable-next-line: member-ordering
   isCollapsed = false;
   menu: any[] = [];
   isVisible = false;
@@ -89,6 +93,20 @@ export class WelcomeComponent implements OnInit {
   miembrosConectados: Conectado[] = [];
   arrayConectados: any[] = [];
 
+
+  @HostListener('window:unload', ['$event'])
+  unloadHandler(event) {
+    if (this.infoLogin) {
+      this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
+    }
+  }
+
+  // @HostListener('window:beforeunload', ['$event'])
+  // beforeUnloadHander(event) {
+
+  //   this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'refresh');
+  // }
+
   constructor(
     private route: Router,
     private userService: UserService,
@@ -100,7 +118,6 @@ export class WelcomeComponent implements OnInit {
     private sesionesService: SesionesService,
 
   ) { }
-
   createBasicMessage(type: string, message: string): void {
     this.message.create(type, message);
   }
@@ -532,6 +549,9 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.escucharSoket();
     this.infoLogin = this.userService.getInfoLogin();
+    const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
+
+    this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, localInfoSesion, 'refresh');
 
     this.usuario = {
       id: this.infoLogin.id,
