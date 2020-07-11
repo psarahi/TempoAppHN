@@ -35,6 +35,8 @@ export interface Programacionproyecto {
   _id: string;
   proyectos: Proyectos;
   actividades: Actividades;
+  tiempoProyectado: number;
+  tiempoReal: number;
 }
 
 export interface Actividades {

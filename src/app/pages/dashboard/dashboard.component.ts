@@ -18,6 +18,7 @@ import { WebSocketService } from '../../Servicios/webSocket.service';
 
 interface Event {
   title: string;
+  idPE: string;
   // date: any;
   start: any;
   end: any;
@@ -26,7 +27,9 @@ interface Event {
   descripcion: string;
   nombreProyecto: string;
   nombreAct: string;
-  difHora: string;
+  tiempoProyectado: number;
+  tiempoMuerto: number;
+  tiempoTotal: number;
 }
 @Component({
   selector: 'app-dashboard',
@@ -80,7 +83,9 @@ export class DashboardComponent implements OnInit {
   detalleActividades: DetalleActividadModel[];
   dataDetalleActividades;
   actividadActiva: DetalleActividadModel;
-
+  tiempoProyectado;
+  tiempoMuerto;
+  tiempoTrabajado;
   constructor(
     private detalleActividadService: DetalleActividadService,
     private serviceProgramacionEquipos: ProgramacionEquipoService,
@@ -102,6 +107,9 @@ export class DashboardComponent implements OnInit {
     this.detalleProyecto = arg.event.extendedProps.nombreProyecto;
     this.detalleActividad = arg.event.extendedProps.nombreAct;
     this.duracionHora = arg.event.extendedProps.difHora;
+    this.tiempoProyectado = arg.event.extendedProps.tiempoProyectado;
+    this.tiempoMuerto = arg.event.extendedProps.tiempoMuerto;
+    this.tiempoTrabajado = Math.round((arg.event.extendedProps.tiempoTotal - arg.event.extendedProps.tiempoMuerto) * 100) / 100;
   }
 
   postDetalle(inicio, fin, programacionEquipo, descripcion, estado, manual) {
@@ -119,8 +127,8 @@ export class DashboardComponent implements OnInit {
       this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
         .toPromise()
         .then(
-          (data: DetalleActividadModel) => {
-            this.eventosCalendario(data);
+          (data: any) => {
+            //  this.eventosCalendario(data);
             this.inicio = new Date();
             this.fin = new Date();
             this.descripcion = '';
@@ -214,15 +222,14 @@ export class DashboardComponent implements OnInit {
       descripcion: this.descripcion,
       estado: false
     };
-    console.log(this.actividadActiva._id);
 
     this.detalleActividadService.putDetalleActividad(this.actividadActiva._id, this.putDetalleActividad)
       .toPromise()
-      .then((data: DetalleActividadModel) => {
+      .then((data: any) => {
 
         this.programacionequipos = '';
         this.descripcion = '';
-        this.eventosCalendario(data);
+        //   this.eventosCalendario(data);
         if (this.isMarch === true) {
           clearInterval(this.control);
           this.isMarch = false;
@@ -304,56 +311,126 @@ export class DashboardComponent implements OnInit {
     this.modoManual = false;
   }
 
-  eventosCalendario(dataEvento: DetalleActividadModel) {
+  eventosCalendario(dataEvento: any, dataPausada: any[]) {
     let inicio;
     let fin;
     let difMin = 0;
-    let difHora = 0;
-    inicio = moment([
-      moment(dataEvento.inicio).get('year'),
-      moment(dataEvento.inicio).get('month'),
-      moment(dataEvento.inicio).get('day'),
-      moment(dataEvento.inicio).get('hour'),
-      moment(dataEvento.inicio).get('minute'),
-      moment(dataEvento.inicio).get('second')
-    ]);
+    let difMinTM = 0;
 
-    fin = moment([
-      moment(dataEvento.fin).get('year'),
-      moment(dataEvento.fin).get('month'),
-      moment(dataEvento.fin).get('day'),
-      moment(dataEvento.fin).get('hour'),
-      moment(dataEvento.fin).get('minute'),
-      moment(dataEvento.fin).get('second')
-    ]);
+    if (dataPausada.length > 0) {
 
-    difMin = fin.diff(inicio, 'minutes');
-    difHora = fin.diff(inicio, 'hours');
-    // console.log(dif);
+      inicio = moment([
+        moment(dataEvento.inicio).get('year'),
+        moment(dataEvento.inicio).get('month'),
+        moment(dataEvento.inicio).get('day'),
+        moment(dataEvento.inicio).get('hour'),
+        moment(dataEvento.inicio).get('minute'),
+        moment(dataEvento.inicio).get('second')
+      ]);
 
-    this.calendarEvents = [...this.calendarEvents, {
-      title: `${difMin} minutos`,
+      fin = moment([
+        moment(dataEvento.fin).get('year'),
+        moment(dataEvento.fin).get('month'),
+        moment(dataEvento.fin).get('day'),
+        moment(dataEvento.fin).get('hour'),
+        moment(dataEvento.fin).get('minute'),
+        moment(dataEvento.fin).get('second')
+      ]);
 
-      // date: moment(x.fecha).format('YYYY-MM-DD'),
-      start: moment(dataEvento.inicio).format('YYYY-MM-DD HH:mm:ss'),
-      end: moment(dataEvento.fin).format('YYYY-MM-DD HH:mm:ss'),
-      allDay: false,
-      color: goldenColors.getHsvGolden(0.5, 0.95),
-      descripcion: dataEvento.descripcion,
-      nombreProyecto: dataEvento.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
-      nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre,
-      difHora: `${difHora} horas`
-    }];
+      difMin = fin.diff(inicio, 'minutes');
 
+      dataPausada.forEach(element => {
+
+        inicio = moment([
+          moment(element.inicio).get('year'),
+          moment(element.inicio).get('month'),
+          moment(element.inicio).get('day'),
+          moment(element.inicio).get('hour'),
+          moment(element.inicio).get('minute'),
+          moment(element.inicio).get('second')
+        ]);
+
+        fin = moment([
+          moment(element.fin).get('year'),
+          moment(element.fin).get('month'),
+          moment(element.fin).get('day'),
+          moment(element.fin).get('hour'),
+          moment(element.fin).get('minute'),
+          moment(element.fin).get('second')
+        ]);
+
+        difMinTM += fin.diff(inicio, 'minutes');
+
+      });
+
+      this.calendarEvents = [...this.calendarEvents, {
+        title: `${Math.round((difMin / 60) * 100) / 100} horas`,
+        idPE: dataEvento.programacionequipos._id,
+        // date: moment(x.fecha).format('YYYY-MM-DD'),
+        start: moment(dataEvento.inicio).format('YYYY-MM-DD HH:mm:ss'),
+        end: moment(dataEvento.fin).format('YYYY-MM-DD HH:mm:ss'),
+        allDay: false,
+        color: goldenColors.getHsvGolden(0.5, 0.95),
+        descripcion: dataEvento.descripcion,
+        nombreProyecto: dataEvento.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
+        nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre,
+        tiempoProyectado: dataEvento.programacionequipos.programacionproyecto.tiempoProyectado,
+        tiempoMuerto: Math.round((difMinTM / 60) * 100) / 100,
+        tiempoTotal: Math.round((difMin / 60) * 100) / 100
+      }];
+    } else {
+
+      inicio = moment([
+        moment(dataEvento.inicio).get('year'),
+        moment(dataEvento.inicio).get('month'),
+        moment(dataEvento.inicio).get('day'),
+        moment(dataEvento.inicio).get('hour'),
+        moment(dataEvento.inicio).get('minute'),
+        moment(dataEvento.inicio).get('second')
+      ]);
+
+      fin = moment([
+        moment(dataEvento.fin).get('year'),
+        moment(dataEvento.fin).get('month'),
+        moment(dataEvento.fin).get('day'),
+        moment(dataEvento.fin).get('hour'),
+        moment(dataEvento.fin).get('minute'),
+        moment(dataEvento.fin).get('second')
+      ]);
+
+      difMin = fin.diff(inicio, 'minutes');
+
+
+      this.calendarEvents = [...this.calendarEvents, {
+        title: `${Math.round((difMin / 60) * 100) / 100} horas`,
+        idPE: dataEvento.programacionequipos._id,
+        // date: moment(x.fecha).format('YYYY-MM-DD'),
+        start: moment(dataEvento.inicio).format('YYYY-MM-DD HH:mm:ss'),
+        end: moment(dataEvento.fin).format('YYYY-MM-DD HH:mm:ss'),
+        allDay: false,
+        color: goldenColors.getHsvGolden(0.5, 0.95),
+        descripcion: dataEvento.descripcion,
+        nombreProyecto: dataEvento.programacionequipos.programacionproyecto.proyectos.nombreProyecto,
+        nombreAct: dataEvento.programacionequipos.programacionproyecto.actividades.nombre,
+        tiempoProyectado: dataEvento.programacionequipos.programacionproyecto.tiempoProyectado,
+        tiempoMuerto: Math.round((difMinTM / 60) * 100) / 100,
+        tiempoTotal: Math.round((difMin / 60) * 100) / 100
+      }];
+
+
+    }
   }
 
   escucharSoket() {
     this.webSoketService.listen('actividades-calendario')
-      .subscribe((data: DetalleActividadModel) => {
-
-        if (data) {
-          this.eventosCalendario(data);
+      .subscribe((data: any) => {
+        if (data[0].length > 0) {
           this.detalle = false;
+          data[0].forEach(x => {
+            const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+            this.eventosCalendario(x, dataPausada);
+          }
+          );
         }
       },
         (err) => {
@@ -385,12 +462,12 @@ export class DashboardComponent implements OnInit {
     this.detalleActividadService.getDetalleActividad()
       .toPromise()
       .then(
-        (data: DetalleActividadModel[]) => {
-
-          if (data.length > 0) {
+        (data: any) => {
+          if (data[0].length > 0) {
             this.detalle = false;
-            data.forEach(x => {
-              this.eventosCalendario(x);
+            data[0].forEach(x => {
+              const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+              this.eventosCalendario(x, dataPausada);
             }
             );
           } else {

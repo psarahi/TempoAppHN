@@ -85,32 +85,32 @@ export class SesionesService {
         const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
 
         if (localInfoSesion) {
-          // const inicio = moment([
-          //   moment(localInfoSesion.fechaLoginTemp).get('year'),
-          //   moment(localInfoSesion.fechaLoginTemp).get('month'),
-          //   moment(localInfoSesion.fechaLoginTemp).get('day'),
-          //   moment(localInfoSesion.fechaLoginTemp).get('hour'),
-          //   moment(localInfoSesion.fechaLoginTemp).get('minute'),
-          //   moment(localInfoSesion.fechaLoginTemp).get('second')
-          // ]);
+          const inicio = moment([
+            moment(localInfoSesion.fechaLoginTemp).get('year'),
+            moment(localInfoSesion.fechaLoginTemp).get('month'),
+            moment(localInfoSesion.fechaLoginTemp).get('day'),
+            moment(localInfoSesion.fechaLoginTemp).get('hour'),
+            moment(localInfoSesion.fechaLoginTemp).get('minute'),
+            moment(localInfoSesion.fechaLoginTemp).get('second')
+          ]);
 
-          // const fin = moment([
-          //   moment().get('year'),
-          //   moment().get('month'),
-          //   moment().get('day'),
-          //   moment().get('hour'),
-          //   moment().get('minute'),
-          //   moment().get('second')
-          // ]);
-          // const difMin = fin.diff(inicio, 'minutes');
+          const fin = moment([
+            moment().get('year'),
+            moment().get('month'),
+            moment().get('day'),
+            moment().get('hour'),
+            moment().get('minute'),
+            moment().get('second')
+          ]);
+          const difMin = fin.diff(inicio, 'minutes');
 
           const userSesion = {
             cuentas: idCuenta,
             miembros: idMiembro,
             fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-            fechaLoginTemp: moment(localInfoSesion.fechaLoginTemp).format('YYYY-MM-DD HH:mm:ss'),
+            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
             fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
-            tiempoLogin: localInfoSesion.tiempoLogin,
+            tiempoLogin: localInfoSesion.tiempoLogin + difMin,
             estado: true
           };
 

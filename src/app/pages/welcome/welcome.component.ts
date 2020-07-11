@@ -143,7 +143,18 @@ export class WelcomeComponent implements OnInit {
           .toPromise()
           .then((data: DetalleActividadModel) => {
 
-            this.programacionequipos = '';
+            this.serviceProgramacionEquipos.getProgramaEquipo_DetalladoActivo()
+            .toPromise()
+            .then((data: ProgramacionEquipoDetalladoModel[]) => {
+              this.listaProgramacion = data;
+              //  console.log(this.listaProgramacion);
+            }
+            );
+            swal({
+              title: '¡Actividad registrada!',
+              icon: 'success',
+            });
+
             this.descripcion = '';
             this.enviar = true;
             this.btnStart = true;
@@ -340,7 +351,7 @@ export class WelcomeComponent implements OnInit {
       this.actividadPausada[0].inicio,
       moment().format('YYYY-MM-DD HH:mm:ss'),
       this.programacionequipos,
-      this.descripcion,
+      this.actividadPausada[0].descripcion,
       '5f03ce10fbd6f3df7d7251b2',
       this.actividadPausada[0]._id,
       'resumenP'
@@ -445,8 +456,8 @@ export class WelcomeComponent implements OnInit {
 
           this.actividadActiva = data[0];
           this.actividadPausada = data[1];
-          this.empezo = `Empezo a las ${moment(this.actividadActiva[0].inicio).format('HH:mm a')}`;
           if (this.actividadActiva[0]) {
+            this.empezo = `Empezo a las ${moment(this.actividadActiva[0].inicio).format('HH:mm a')}`;
             this.btnStart = false;
             this.btnStop = true;
             this.btnPause = true;
@@ -609,9 +620,9 @@ export class WelcomeComponent implements OnInit {
   ngOnInit() {
     this.escucharSoket();
     this.infoLogin = this.userService.getInfoLogin();
-    const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
+   // const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
 
-    this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, localInfoSesion, 'refresh');
+    this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [0], 'refresh');
 
     this.enviar = true;
     this.up = false;

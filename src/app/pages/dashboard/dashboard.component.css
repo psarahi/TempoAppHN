@@ -78,6 +78,7 @@ nz-select {
 .etiquetas {
     font-size: large;
     margin-right: 3%;
+    font-weight: bold;
 }
 
 nz-select {

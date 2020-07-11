@@ -78,3 +78,13 @@ select {
     display: none;
     border-radius: 0 0 4px 4px;
 }
+
+.ant-table-thead>tr>th {
+    color: rgba(0, 0, 0, 0.85);
+    font-weight: 500;
+    text-align: left;
+    background: #c4dff9;
+    border-bottom: 1px solid #e8e8e8;
+    -webkit-transition: background 0.3s ease;
+    transition: background 0.3s ease;
+}

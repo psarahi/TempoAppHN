@@ -57,20 +57,32 @@
 
     <nz-drawer [nzClosable]="true" [nzVisible]="visible" nzPlacement="right" nzWidth="450px" nzTitle="Detalle de actividad" (nzOnClose)="close()">
         <div style="text-align: center; display: flex;flex-direction: column;">
-            <label><span class="etiquetas"> Duración </span> <span style="font-size: 22px; color: black;">
-                    {{ duracionMin }} - {{ duracionHora }}
-                </span></label>
-            <span style="font-size: large; color: #000000ed;"> {{ inicioDetalle }} - {{ finDetalle }} </span>
-            <br>
-            <label><span class="etiquetas">Proyecto</span> <span style="font-size: large; color: black;">
-                    {{ detalleProyecto }}</span></label>
-            <label> <span class="etiquetas">Actividad</span> <span style="    font-size: large; color: #484444;">
-                    {{ detalleActividad }}</span></label>
-            <br>
+            <label>
+                <strong>
+                    <span class="etiquetas"> Duración </span>
+                    <span style="font-size: 22px; color: black;">{{ duracionMin }} </span>
+                </strong>
+            </label>
+            <span style="font-size: large; color: #000000ed;">
+                De <span style="font-size: large; color: black; font-weight: bold;"> {{ inicioDetalle }} </span> a
+            <span style="font-size: large; color: black; font-weight: bold;"> {{ finDetalle }} </span> </span>
             <hr>
-            <p style="    color: black;
- text-align: initial;
-        font-size: medium;">{{ descripcionDetalle }}</p>
+            <label>
+                <span class="etiquetas">Proyecto</span>
+                <span style="font-size: large; color: black; font-weight: bold;">{{ detalleProyecto }}</span>
+            </label>
+            <label>
+                <span class="etiquetas">Actividad</span>
+                <span style="font-size: large; color: #000000; font-weight: bold;">{{ detalleActividad }}</span>
+            </label>
+            <label>
+                <span class="etiquetas">Tiempo proyectado</span>
+                <span style="font-size: large; color: #000000; font-weight: bold;"> {{ tiempoProyectado }}</span>
+            </label>
+            <label>
+                <span class="etiquetas">Tiempo trabajado</span>
+                <span style="font-size: large; color: #000000; font-weight: bold;"> {{ tiempoTrabajado }} <span style="font-size: small;"> ({{ tiempoMuerto }} Tiempo muerto) </span></span>
+            </label>
         </div>
     </nz-drawer>
 </div>
