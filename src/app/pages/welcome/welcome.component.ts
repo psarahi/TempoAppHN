@@ -141,9 +141,9 @@ export class WelcomeComponent implements OnInit {
   putActividad(inicio, fin, programacionEquipo, descripcion, estado, id) {
 
     const dataDetalleActividad = {
-      inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(inicio).toISOString(),
+      fin: moment(fin).toISOString(),
+      fecha: moment(inicio).toISOString(),
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: programacionEquipo,
       descripcion,
@@ -158,9 +158,9 @@ export class WelcomeComponent implements OnInit {
   postActividad(inicio, fin, programacionEquipo, descripcion, estado, accion) {
 
     const dataDetalleActividad = {
-      inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
+      inicio: moment(inicio).toISOString(),
+      fin: moment(fin).toISOString(),
+      fecha: moment(inicio).toISOString(),
       cuentas: this.infoLogin.idCuenta,
       programacionequipos: programacionEquipo,
       descripcion,
