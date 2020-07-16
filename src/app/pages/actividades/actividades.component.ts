@@ -108,6 +108,7 @@ export class ActividadesComponent implements OnInit {
       nombre: [null, [Validators.required]],
       estado: [true, [Validators.required]],
     });
+
   }
 
 }

@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="row" style="text-align: center; ">
-            <div class="col">
+            <div class="col-4">
                 <nz-card nzTitle="Responsable" nzBordered="false">
                     <div class="responsable">
                         <button id="detalleMmiembro" nz-button nzTooltipTitle="Detalle miembro" nzTooltipPlacement="top" nz-tooltip></button>
@@ -30,35 +30,6 @@
             </div>
         </div>
     </div>
-
-    <!-- <div style="padding:30px; display: flex; align-items: flex-start; flex-wrap: nowrap; height: 250px;">
-        <div>
-            <nz-card nzTitle="Responsable" nzBordered="false">
-                <div nz-row class="responsable">
-                    <div nz-col [nzSpan]="8">
-                        <nz-avatar [nzSize]="40" nzIcon="user"></nz-avatar>
-                    </div>
-                    <div nz-col [nzSpan]="16">
-                        <p> {{ detalleProyecto.miembros.nombre + ' ' + detalleProyecto.miembros.apellido}} </p>
-                    </div>
-                </div>
-            </nz-card>
-        </div>
-        <div>
-            <nz-card nzTitle="Tiempo" nzBordered="false">
-                 <p> Tiempo Proyectado: <span> <strong> {{ detalleProyecto.tiempoProyectadoPro }} </strong> </span>
-                    </p>
-                    <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p> 
-                <div>
-                    <div class="chart">
-                        <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [colors]="pieChartColors" [legend]="pieChartLegend">
-                            </canvas>
-                    </div>
-                </div>
-
-            </nz-card>
-        </div>
-    </div> -->
     <hr>
     <h2>Asignación de recursos</h2>
     <br>
@@ -68,8 +39,10 @@
             <tr>
                 <th> </th>
                 <th> Actividad </th>
-                <th> Tiempo Proyectado (Hrs) </th>
-                <th> Tiempo Trabajado (Hrs) </th>
+                <th>Hrs Proyectadas</th>
+                <th>Hrs improductivas</th>
+                <th>Hrs Totales</th>
+                <th>Hrs productivas</th>
                 <th> Estado </th>
             </tr>
         </thead>
@@ -83,7 +56,9 @@
                 </td>
                 <td>{{data.actividades.nombre}}</td>
                 <td>{{data.tiempoProyectado}}</td>
-                <td>{{data.tiempoReal}}</td>
+                <td>{{data.tiempoMuerto | number}}</td>
+                <td>{{data.tiempoReal | number}}</td>
+                <td>{{data.tiempoReal - data.tiempoMuerto | number}}</td>
                 <td>{{ data.estado && 'Activo' || 'Inactivo' }}</td>
 
             </tr>
@@ -139,7 +114,7 @@
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="miembros">Miembro</nz-form-label>
             <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="El dato es incorrecto!">
-                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione un mieembro" formControlName="miembros" id="miembros">
+                <nz-select nzShowSearch nzAllowClear nzPlaceHolder="Seleccione un miembro" formControlName="miembros" id="miembros">
                     <nz-option *ngFor="let miembro of listaMiembros" [nzLabel]="miembro.nombre + ' '+ miembro.apellido" [nzValue]="miembro._id">
                     </nz-option>
                 </nz-select>

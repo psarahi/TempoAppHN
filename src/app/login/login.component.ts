@@ -8,6 +8,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { animate } from '@angular/animations';
 import { UserService } from '../Servicios/user.service';
 import { SesionesService } from '../Servicios/sesiones.service';
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-login',
@@ -57,12 +58,20 @@ export class LoginComponent implements OnInit {
 
         this.sesionService.manejoSesiones(idCuenta, id, data[1], 'login');
 
-        this.route.navigate(['/equipo']);
+        this.route.navigate(['/actividadActiva']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
       },
       (error) => {
         // this.createNotification('error');
-        this.createMessage('error', 'Credenciales invalidas');
+        // this.createMessage('error', 'Credenciales invalidas');
+        if (error.status == 0) {
+          swal('Lo sentimos', 'No se pudo establecer conexión con el servidor', 'error');
+
+        } else {
+          swal(`${error.error}`, 'Por favor revise sus credenciales', 'error');
+
+        }
+
         this.validateForm = this.fb.group({
           usuario: [null],
           password: [null, [Validators.required]]

@@ -17,8 +17,6 @@ export class DetalleActividadService {
 
   getDetalleActividad() {
     const { idCuenta } = this.userService.getInfoLogin();
-    console.log(`${apiUrl}/detalleActividad/cuenta/${idCuenta}`);
-
     return this.http.get(`${apiUrl}/detalleActividad/cuenta/${idCuenta}`);
   }
 
@@ -48,10 +46,12 @@ export class DetalleActividadService {
     return this.http.get(`${apiUrl}/detalleActividad/miembrosDetalle/${idCuenta}/${id}`);
   }
 
+  getDetalleActividadIndividual(id) {
+    return this.http.get(`${apiUrl}/detalleActividad/${id}`);
+  }
+
   getDetalleActividadActivoMiembros() {
     const { idCuenta, id } = this.userService.getInfoLogin();
-    console.log(`${apiUrl}/detalleActividad/miembrosDetalleActivos/${idCuenta}/${id}`);
-
     return this.http.get(`${apiUrl}/detalleActividad/miembrosDetalleActivos/${idCuenta}/${id}`);
   }
 

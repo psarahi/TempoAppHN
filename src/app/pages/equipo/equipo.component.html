@@ -132,7 +132,7 @@
     </nz-table>
 </div>
 
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de miembros" (nzOnClose)="close()">
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="visible" nzTitle="Configuración de miembros" (nzOnClose)="close()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombre">Nombre</nz-form-label>

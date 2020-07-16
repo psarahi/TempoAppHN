@@ -7,6 +7,7 @@ export interface ProyectoModel {
     nombreProyecto: string;
     miembros: Miembros;
     tiempoProyectadoPro: number;
+    tiempoMuerto: number;
     fechaRegistro: string;
     __v: number;
 }
@@ -33,5 +34,6 @@ export interface Proyecto {
     miembros: string;
     tiempoProyectadoPro: number;
     tiempoRealPro: number;
+    tiempoMuerto: number;
     estado: boolean;
 }

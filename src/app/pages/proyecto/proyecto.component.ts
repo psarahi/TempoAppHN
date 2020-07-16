@@ -47,6 +47,7 @@ export class ProyectoComponent implements OnInit {
       ...this.validateForm.value,
       cuentas: this.infoLogin.idCuenta,
       tiempoRealPro: 0,
+      tiempoMuerto: 0
     };
 
     this.serviceProyecto.postProyecto(this.dataProyectos).toPromise().then(

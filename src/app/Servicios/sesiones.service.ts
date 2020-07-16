@@ -39,8 +39,8 @@ export class SesionesService {
 
     switch (accion) {
       case 'logout': {
-        const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
 
+        const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
         const inicio = moment([
           moment(localInfoSesion.fechaLoginTemp).get('year'),
           moment(localInfoSesion.fechaLoginTemp).get('month'),
@@ -76,13 +76,51 @@ export class SesionesService {
             localStorage.setItem('infosesion', JSON.stringify(data));
 
           }));
+        break;
+      }
+      case 'logoutFinal': {
 
+        const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
+        const inicio = moment([
+          moment(localInfoSesion.fechaLoginTemp).get('year'),
+          moment(localInfoSesion.fechaLoginTemp).get('month'),
+          moment(localInfoSesion.fechaLoginTemp).get('day'),
+          moment(localInfoSesion.fechaLoginTemp).get('hour'),
+          moment(localInfoSesion.fechaLoginTemp).get('minute'),
+          moment(localInfoSesion.fechaLoginTemp).get('second')
+        ]);
 
+        const fin = moment([
+          moment().get('year'),
+          moment().get('month'),
+          moment().get('day'),
+          moment().get('hour'),
+          moment().get('minute'),
+          moment().get('second')
+        ]);
+        const difMin = fin.diff(inicio, 'minutes');
+
+        const userSesion = {
+          cuentas: idCuenta,
+          miembros: idMiembro,
+          fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
+          fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
+          fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+          tiempoLogin: localInfoSesion.tiempoLogin + difMin,
+          estado: false
+        };
+
+        this.putSesion(localInfoSesion._id, userSesion)
+          .toPromise()
+          .then((data => {
+            localStorage.removeItem('infosesion')
+          }));
         break;
       }
       case 'refresh': {
 
         const localInfoSesion = JSON.parse(localStorage.getItem('infosesion'));
+        console.log('refresh');
 
         if (localInfoSesion) {
           const inicio = moment([
@@ -125,6 +163,9 @@ export class SesionesService {
       case 'login': {
 
         if (sesion.length > 0) {
+
+          console.log('login');
+
           const userSesion = {
             cuentas: idCuenta,
             miembros: idMiembro,

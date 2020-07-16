@@ -54,8 +54,10 @@
                     <th></th>
                     <th>Nombre</th>
                     <th>Reponsable</th>
-                    <th>Tiempo Proyectado (Hrs)</th>
-                    <th>Tiempo Real (Hrs)</th>
+                    <th>Hrs Proyectadas</th>
+                    <th>Hrs improductivas</th>
+                    <th>Hrs Totales</th>
+                    <th>Hrs productivas</th>
                     <th>Fecha de registro</th>
                     <th>Estado</th>
                 </tr>
@@ -68,7 +70,9 @@
                     <td> {{ data.nombreProyecto }} </td>
                     <td> {{ data.miembros.nombre + ' ' + data.miembros.apellido }} </td>
                     <td> {{ data.tiempoProyectadoPro }} </td>
-                    <td> {{ data.tiempoRealPro }} </td>
+                    <td> {{ data.tiempoMuerto | number}} </td>
+                    <td> {{ data.tiempoRealPro | number}} </td>
+                    <td> {{ data.tiempoRealPro - data.tiempoMuerto | number}} </td>
                     <td> {{ data.fechaRegistro | date: 'MMM d, y'}} </td>
                     <td> {{ data.estado && 'Activo' || 'Inactivo' }} </td>
                 </tr>
@@ -77,7 +81,7 @@
     </div>
 </div>
 
-<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="650" [nzVisible]="visible" nzTitle="Configuración de proyectos" (nzOnClose)="close()">
+<nz-drawer [nzBodyStyle]="{ height: 'calc(100% - 55px)', overflow: 'auto', 'padding-bottom': '53px' }" [nzMaskClosable]="false" [nzWidth]="500" [nzVisible]="visible" nzTitle="Configuración de proyectos" (nzOnClose)="close()">
     <form nz-form [nzLayout]="'vertical'" [formGroup]="validateForm" (ngSubmit)="submitForm()">
         <nz-form-item>
             <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired nzFor="nombreProyecto">Nombre</nz-form-label>

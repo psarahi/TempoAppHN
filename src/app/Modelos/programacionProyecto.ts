@@ -1,5 +1,6 @@
 export interface ProgramacionProyectoModel {
   tiempoReal: number;
+  tiempoMuerto: number;
   estado: boolean;
   _id: string;
   cuentas: string;

@@ -1,20 +1,82 @@
 <nz-card nzTitle="Actividades en curso" nzBordered="false">
     <br><br>
     <div nz-card-grid *ngFor="let actividad of actividades">
-        <div class="cronometro">
-            <div> {{ actividad.hh }} : {{ actividad.mm }} : {{ actividad.ss }} </div>
-            <nz-alert [nzType]="actividad.typeAlert" [nzMessage]="actividad.estado" [nzDescription]="actividad.fin">
-            </nz-alert>
+        <div class="etiqueta">
+            <span class="badge badge-pill badge-success"> {{ actividad.inicio }} </span>
+        </div>
+        <div class="tiempo">
+            <div class="cronometro">
+                <div> {{ actividad.hh }} : {{ actividad.mm }} : {{ actividad.ss }} </div>
+            </div>
+            <i class="icon-time" *ngIf="actividad.control" (click)="showModalActividad(actividad.programacion)" nzTooltipTitle="Cronometro" nzTooltipPlacement="topLeft" nz-icon nzType="clock-circle" nzTheme="fill" nz-tooltip></i>
+        </div>
+        <div class="etiqueta">
+            <span *ngIf="actividad.typeAlert" class="badge badge-pill badge-warning"> {{ actividad.fin }} </span>
+        </div>
+        <div class="etiqueta">
+            <span *ngIf="actividad.abandono" class="badge badge-pill badge-danger"> Abandono la aplicación </span>
+        </div>
+        <div class="detalleTime">
             <hr style="width: 85%; opacity: 0.2;">
-            <label class="inicio">{{ actividad.inicio }}</label>
             <h6>{{ actividad.miembro }}</h6>
             <label><strong> Proyecto - Actividad </strong></label>
             <label>{{ actividad.proyecto +' - '+ actividad.actividad}}</label>
         </div>
+
     </div>
 </nz-card>
 
 
 <div *ngIf="sinTrabajar" class="vacio">
-    <img class="img-no-time" src="assets/sin-miembros-trabajando.svg" alt="" srcset="">
+    <img *ngIf="!perfilCambio" class="img-no-time" src="assets/sin-miembros-trabajando.svg" alt="" srcset="">
+    <img *ngIf="perfilCambio" style="width: 30%;" src="assets/empieza.svg">
+
 </div>
+
+<!-- Modal para cada actividad activa -->
+<nz-modal [(nzVisible)]="isVisibleTime" nzWidth="480" nzTitle="Registra tu tiempo" nzOkDisabled="false" (nzOnCancel)="handleCancel()">
+    <div class="timer">
+        <div class="etiqueta">
+            <span *ngIf="empezo" class="badge badge-pill badge-success">{{ empezo }}</span>
+        </div>
+        <div class="tiempo">
+            <div class="buttons">
+                <button nz-button nzType="primary" *ngIf="btnResumen" [disabled]="!validateForm.valid" (click)="resume()" nzShape="circle" nzTooltipTitle="Reanudar" nzTooltipPlacement="top" nz-tooltip><i
+                        nz-icon nzType="redo"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnPause" [disabled]="!validateForm.valid" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i
+                        nz-icon nzTheme="fill" nzType="pause-circle"></i></button>
+                <button nz-button nzType="primary" *ngIf="btnStop" [disabled]="!validateForm.valid" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
+                        nzType="stop"></i></button>
+            </div>
+            <div class="cronometro">
+                <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
+            </div>
+            <br>
+        </div>
+        <div class="etiqueta">
+            <span *ngIf="pausa" class="badge badge-pill badge-warning"> {{ pausa }} </span>
+        </div>
+        <div *ngIf="up" class="detalle">
+            <hr style="width: 85%; opacity: 0.2;">
+            <form nz-form [formGroup]="validateForm" nzLayout="vertical" (ngSubmit)="submitForm(validateForm.value)">
+                <nz-form-item>
+                    <nz-form-label nzRequired>Programación asiganada</nz-form-label>
+                    <nz-form-control>
+                        <nz-select [nzDisabled]="trabajando" formControlName="programacionequipos" nzPlaceHolder="Seleccione una actividad">
+                            <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
+                            </nz-option>
+                        </nz-select>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <nz-form-label nzRequired>Descripción</nz-form-label>
+                    <nz-form-control nzErrorTip="Por favor escriba una descripción">
+                        <textarea formControlName="descripcion" nz-input rows="2" placeholder="Escriba una descripción"></textarea>
+                    </nz-form-control>
+                </nz-form-item>
+            </form>
+        </div>
+        <i *ngIf="down" (click)="mostrar()" nz-icon nzType="down" nzTheme="outline"></i>
+        <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
+    </div>
+</nz-modal>

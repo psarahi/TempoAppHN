@@ -25,17 +25,19 @@
                 <th>Proyecto</th>
                 <th>Actividad</th>
                 <th>Hrs Proyectadas</th>
-                <th>Hrs Trabajadas</th>
-                <th>Hrs Improductivas</th>
+                <th>Hrs improductivas</th>
+                <th>Hrs Totales</th>
+                <th>Hrs productivas</th>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let data of basicTable.data">
                 <td>{{ data.programacionproyecto.proyectos.nombreProyecto }}</td>
                 <td>{{ data.programacionproyecto.actividades.nombre }}</td>
-                <td>{{data.programacionproyecto.tiempoProyectado }}</td>
-                <td>{{data.programacionproyecto.tiempoReal }}</td>
-                <td>{{data.programacionproyecto.tiempoProyectado }}</td>
+                <td>{{data.programacionproyecto.tiempoProyectado | number }}</td>
+                <td>{{data.programacionproyecto.tiempoMuerto | number }}</td>
+                <td>{{data.programacionproyecto.tiempoReal | number }}</td>
+                <td>{{data.programacionproyecto.tiempoReal - data.programacionproyecto.tiempoMuerto | number }}</td>
             </tr>
         </tbody>
     </nz-table>

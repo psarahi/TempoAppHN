@@ -112,203 +112,8 @@ export class DashboardComponent implements OnInit {
     this.tiempoTrabajado = Math.round((arg.event.extendedProps.tiempoTotal - arg.event.extendedProps.tiempoMuerto) * 100) / 100;
   }
 
-  postDetalle(inicio, fin, programacionEquipo, descripcion, estado, manual) {
-    this.dataDetalleActividad = {
-      inicio: moment(inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment(fin).format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
-      cuentas: this.infoLogin.idCuenta,
-      programacionequipos: programacionEquipo,
-      descripcion,
-      estado
-    };
-
-    if (manual === true) {
-      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
-        .toPromise()
-        .then(
-          (data: any) => {
-            //  this.eventosCalendario(data);
-            this.inicio = new Date();
-            this.fin = new Date();
-            this.descripcion = '';
-            this.programacionequipos = '';
-            this.ocultar();
-            console.log(data, 'post db');
-
-          },
-          (error) => {
-            console.log(error);
-
-            // this.createMessage('error', 'Opps!!! Algo salio mal');
-          }
-        );
-    } else {
-      this.detalleActividadService.postDetalleActividad(this.dataDetalleActividad)
-        .toPromise()
-        .then(
-          (data: DetalleActividadModel) => {
-
-            this.actividadActiva = data;
-            console.log(this.actividadActiva);
-
-            if (this.isMarch === false) {
-              this.timeInicial = new Date();
-              this.control = setInterval(this.cronometro.bind(this), 1000);
-              this.isMarch = true;
-            }
-          },
-          (error) => {
-            console.log(error);
-
-            // this.createMessage('error', 'Opps!!! Algo salio mal');
-          }
-        );
-    }
-
-
-  }
-  guardar() {
-    this.postDetalle(this.inicio, this.fin, this.programacionequipos, this.descripcion, false, true);
-  }
-
-  start() {
-    this.btnStart = false;
-    this.btnStop = true;
-    this.btnPause = true;
-    this.btnResumen = false;
-
-    this.postDetalle(
-      new Date(),
-      new Date(),
-      this.programacionequipos,
-      this.descripcion,
-      true,
-      false);
-  }
-
-  cronometro() {
-    //debugger;
-    this.timeActual = new Date();
-    this.acumularTime = this.timeActual - this.timeInicial;
-    this.acumularTime2 = new Date();
-    this.acumularTime2.setTime(this.acumularTime);
-
-    // this.cc = Math.round(this.acumularTime2.getMilliseconds() / 10);
-    this.ss = this.acumularTime2.getSeconds();
-    this.mm = this.acumularTime2.getMinutes();
-    this.hh = this.acumularTime2.getHours() - 18;
-    // this.hh = this.acumularTime2.getHours() - 18;
-    // if (this.cc < 10) { this.cc = '0' + this.cc; }
-    if (this.ss < 10) { this.ss = '0' + this.ss; }
-    if (this.mm < 10) { this.mm = '0' + this.mm; }
-    if (this.hh < 10) { this.hh = '0' + this.hh; }
-
-    // pantalla.innerHTML = this.hh + ' : ' + this.mm + ' : ' + this.ss + ' : ' + this.cc;
-  }
-
-  stop() {
-    this.btnStart = true;
-    this.btnStop = false;
-    this.btnPause = false;
-    this.btnResumen = false;
-
-    this.putDetalleActividad = {
-      inicio: moment(this.actividadActiva.inicio).format('YYYY-MM-DD HH:mm:ss'),
-      fin: moment().format('YYYY-MM-DD HH:mm:ss'),
-      fecha: moment().format('YYYY-MM-DD HH:mm:ss'),
-      cuentas: this.infoLogin.idCuenta,
-      programacionequipos: this.programacionequipos,
-      descripcion: this.descripcion,
-      estado: false
-    };
-
-    this.detalleActividadService.putDetalleActividad(this.actividadActiva._id, this.putDetalleActividad)
-      .toPromise()
-      .then((data: any) => {
-
-        this.programacionequipos = '';
-        this.descripcion = '';
-        //   this.eventosCalendario(data);
-        if (this.isMarch === true) {
-          clearInterval(this.control);
-          this.isMarch = false;
-          this.reset();
-        }
-      }
-      );
-  }
-
-  pause() {
-    this.btnStart = false;
-    this.btnStop = true;
-    this.btnPause = false;
-    this.btnResumen = true;
-
-    if (this.isMarch === true) {
-      clearInterval(this.control);
-      this.isMarch = false;
-    }
-  }
-
-  resume() {
-    this.btnStart = false;
-    this.btnStop = true;
-    this.btnPause = true;
-    this.btnResumen = false;
-    let timeActu2;
-    let acumularResume;
-    if (this.isMarch == false) {
-      timeActu2 = new Date();
-      timeActu2 = timeActu2.getTime();
-      acumularResume = timeActu2 - this.acumularTime;
-
-      this.timeInicial.setTime(acumularResume);
-      this.control = setInterval(this.cronometro.bind(this), 10);
-      this.isMarch = true;
-    }
-  }
-
-  reset() {
-    if (this.isMarch === true) {
-      clearInterval(this.control);
-      this.isMarch = false;
-    }
-    this.acumularTime = 0;
-    this.hh = '00';
-    this.mm = '00';
-    this.ss = '00';
-    // this.cc = '00';
-    // this.pantalla.innerHTML = '00 : 00 : 00 : 00';
-
-  }
-
-  changeProgramacion() {
-    this.enviar = false;
-  }
-
   close() {
     this.visible = false;
-  }
-
-  mostrar() {
-    this.up = true;
-    this.down = false;
-  }
-
-  ocultar() {
-    this.up = false;
-    this.down = true;
-  }
-
-  manual() {
-    this.modoReloj = false;
-    this.modoManual = true;
-  }
-
-  reloj() {
-    this.modoReloj = true;
-    this.modoManual = false;
   }
 
   eventosCalendario(dataEvento: any, dataPausada: any[]) {
@@ -424,13 +229,25 @@ export class DashboardComponent implements OnInit {
   escucharSoket() {
     this.webSoketService.listen('actividades-calendario')
       .subscribe((data: any) => {
-        if (data[0].length > 0) {
-          this.detalle = false;
-          data[0].forEach(x => {
-            const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
-            this.eventosCalendario(x, dataPausada);
+
+        if (this.infoLogin.perfil === '5e8e2246ce7ae6c0d4926b89' || this.infoLogin.perfil === '5e8e22d0ce7ae6c0d4926b8a') {
+          if (data[0].length > 0 && this.infoLogin.idCuenta === data[0].cuentas) {
+            this.detalle = false;
+            data[0].forEach(x => {
+              const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+              this.eventosCalendario(x, dataPausada);
+            }
+            );
           }
-          );
+        } else {
+          if (data[0].length > 0 && this.infoLogin.id === data[0].programacionequipos.miembros._id) {
+            this.detalle = false;
+            data[0].forEach(x => {
+              const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+              this.eventosCalendario(x, dataPausada);
+            }
+            );
+          }
         }
       },
         (err) => {
@@ -439,19 +256,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.enviar = true;
-    this.up = false;
-    this.down = true;
-
-    this.modoManual = false;
-    this.modoReloj = true;
-
-    this.btnResumen = false;
-    this.btnPause = false;
-    this.btnStop = false;
-    this.btnStart = true;
     this.infoLogin = this.userService.getInfoLogin();
-
     this.serviceProgramacionEquipos.getProgramaEquipo_Detallado()
       .toPromise()
       .then((data: ProgramacionEquipoDetalladoModel[]) => {
@@ -459,27 +264,44 @@ export class DashboardComponent implements OnInit {
       }
       );
 
-    this.detalleActividadService.getDetalleActividad()
-      .toPromise()
-      .then(
-        (data: any) => {
-          if (data[0].length > 0) {
-            this.detalle = false;
-            data[0].forEach(x => {
-              const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
-              this.eventosCalendario(x, dataPausada);
+    if (this.infoLogin.perfil == '5e8e2246ce7ae6c0d4926b89' || this.infoLogin.perfil == '5e8e22d0ce7ae6c0d4926b8a') {
+      this.detalleActividadService.getDetalleActividad()
+        .toPromise()
+        .then(
+          (data: any) => {
+            if (data[0].length > 0) {
+              this.detalle = false;
+              data[0].forEach(x => {
+                const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+                this.eventosCalendario(x, dataPausada);
+              }
+              );
+            } else {
+              this.detalle = true;
             }
-            );
-          } else {
-            this.detalle = true;
           }
+        );
+    } else {
+      this.detalleActividadService.getDetalleActividadMiembros()
+        .toPromise()
+        .then(
+          (data: any) => {
+            if (data[0].length > 0) {
+              this.detalle = false;
+              data[0].forEach(x => {
+                const dataPausada = data[1].filter((y) => y.programacionequipos._id === x.programacionequipos._id);
+                this.eventosCalendario(x, dataPausada);
+              }
+              );
+            } else {
+              this.detalle = true;
+            }
 
-        }
-      );
+          }
+        );
 
+    }
     this.escucharSoket();
-
-
   }
 
   // ngOnDestroy() {

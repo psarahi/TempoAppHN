@@ -123,6 +123,7 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
       cuentas: this.infoLogin.idCuenta,
       proyectos: this.detalleProyecto._id,
       tiempoReal: 0,
+      tiempoMuerto: 0
     };
 
     this.serviceProgramacionProyectos.postProgramacionProyecto(this.dataProgramacionProyecto)
@@ -138,7 +139,7 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
           this.barChartData = [
             { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
             { data: [this.horasAsiganadas], label: 'Asiganado' },
-            { data: [this.detalleProyecto.tiempoRealPro], label: 'Trabajado' }
+            { data: [Math.round(this.detalleProyecto.tiempoRealPro)], label: 'Trabajado' }
           ];
           this.createMessage('success', 'Registro creado con exito');
 
@@ -275,6 +276,7 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
         (data: ProgramacionProyectoModel[]) => {
 
           if (data.length > 0) {
+            // tslint:disable-next-line: prefer-for-of
             for (let index = 0; index < data.length; index++) {
               this.horasAsiganadas += data[index].tiempoProyectado;
             }
@@ -287,7 +289,7 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
           this.barChartData = [
             { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
             { data: [this.horasAsiganadas], label: 'Asiganado' },
-            { data: [this.detalleProyecto.tiempoRealPro], label: 'Trabajado' }
+            { data: [Math.round(this.detalleProyecto.tiempoRealPro)], label: 'Trabajado' }
           ];
 
           this.listaProgramacionProyectos = data;

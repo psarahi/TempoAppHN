@@ -14,45 +14,6 @@
                     </li>
                 </ul>
             </li>
-            <!-- <li nz-menu-item nz-tooltip nzTooltipPlacement="right" nzMatchRouter routerLink="/dashboard" [nzTitle]="isCollapsed ? 'Dashboard' : ''">
-                <i nz-icon nzType="dashboard"></i>
-                <span>Dashboard</span>
-            </li> -->
-            <!-- <li nz-submenu nzOpen nzTitle="Tablero" nzIcon="dashboard">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/actividadActiva">Actividad</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/dashboard">Reporte</a>
-                    </li>
-                </ul>
-            </li>
-            <li nz-submenu nzTitle="Mantenimiento" nzIcon="tool">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/equipo">Tus Miembros</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/actividades">Tus Actividades</a>
-                    </li>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/proyecto">Tus Proyectos</a>
-                    </li> -->
-
-            <!-- <li nz-menu-item nzMatchRouter>
-                        <a routerLink="/pruebas">PRUEBAS</a>
-                    </li> -->
-            <!-- </ul>
-            </li> -->
-            <!-- <li nz-submenu nzOpen nzTitle="Reportes" nzIcon="line-chart">
-                <ul>
-                    <li nz-menu-item nzMatchRouter>
-                        <a routerLink='/report'>Reporte</a>
-                    </li>
-                </ul>
-            </li> -->
-            <!-- <li nz-submenu nzOpen nzTitle="Con" nzIcon="line-chart"> -->
             <li nz-submenu nzTitle="Configuración" nzIcon="setting">
                 <ul>
                     <li nz-menu-item nzMatchRouter>
@@ -64,9 +25,6 @@
                 <i nz-icon nzType="alert"></i>
                 <span>Conectados</span>
             </li>
-
-            <!-- <nz-alert nzType="info" nzMessage="Conectados" nzShowIcon></nz-alert> -->
-            <!-- </li> -->
         </ul>
 
     </nz-sider>
@@ -77,7 +35,7 @@
                     <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
                 </span>
                 <span class="header-trigger-time" (click)="showModal()">
-                    <label class="label-inicio-tiempo">Inicia tu tiempo</label>
+                    <label class="label-inicio-tiempo">Inicia tu actividad</label>
                     <i class="trigger" nz-icon nzType="clock-circle" nzTheme="outline"></i>
                 </span>
                 <span class="info">
@@ -96,60 +54,38 @@
     </nz-layout>
 </nz-layout>
 
-<nz-modal [(nzVisible)]="isVisible" nzTitle="Registra tu tiempo" nzOkDisabled="false" (nzOnCancel)="handleCancel()" nzFooter="null">
+<nz-modal [(nzVisible)]="isVisible" nzWidth="480" nzTitle="Registra tu tiempo" nzOkDisabled="false" (nzOnCancel)="handleCancel()">
+    <div class="detalle">
+        <form *ngIf="formilario" nz-form [formGroup]="validateForm" nzLayout="vertical" (ngSubmit)="submitForm(validateForm.value)">
+            <nz-form-item>
+                <nz-form-label nzRequired>Programación asiganada</nz-form-label>
+                <nz-form-control>
+                    <nz-select formControlName="programacionequipos" id="programacionequipos" nzPlaceHolder="Seleccione una actividad">
+                        <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
+                        </nz-option>
+                    </nz-select>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-label nzRequired>Descripción</nz-form-label>
+                <nz-form-control nzErrorTip="Por favor escriba una descripción">
+                    <textarea formControlName="descripcion" nz-input rows="2" placeholder="Escriba una descripción"></textarea>
+                </nz-form-control>
+            </nz-form-item>
+            <nz-form-item>
+                <nz-form-control>
+                    <button style="width: 100%;" nz-button nzType="primary" [disabled]="!validateForm.valid">Iniciar actividad</button>
+                </nz-form-control>
+            </nz-form-item>
+        </form>
+    </div>
 
-    <div class="timer">
-        <div class="etiqueta">
-            <span *ngIf="empezo" class="badge badge-pill badge-success">{{ empezo }}</span>
-        </div>
-        <div class="tiempo">
-            <div class="buttons" *ngIf="modoReloj">
-                <button nz-button nzType="primary" *ngIf="btnStart" (click)="start()" [disabled]="enviar" nzSize="large" nzShape="circle" nzTooltipTitle="Play" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
-                        nzType="play-circle"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnResumen" (click)="resume()" nzShape="circle" nzTooltipTitle="Resumen" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzType="redo"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnPause" (click)="pause()" nzSize="large" nzShape="circle" nzTooltipTitle="Pause" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
-                        nzType="pause-circle"></i></button>
-                <button nz-button nzType="primary" *ngIf="btnStop" (click)="stop()" nzShape="circle" nzTooltipTitle="Stop" nzTooltipPlacement="top" nz-tooltip><i nz-icon nzTheme="fill"
-                        nzType="stop"></i></button>
-            </div>
-            <div class="cronometro" *ngIf="modoReloj">
-                <div> {{ hh }} : {{ mm }} : {{ ss }} </div>
-            </div>
-            <br>
+    <div *ngIf="limiteAct" class="vacio">
+        <img style="width: 65%;" src="assets/no-start.svg" alt="">
+    </div>
 
-            <!-- <div class="manual" *ngIf="modoManual">
-                <nz-time-picker [(ngModel)]="inicio" nzTooltipTitle="Hora inicio" nzTooltipPlacement="top" nz-tooltip>
-                </nz-time-picker>
-                <i class="icon-time" nz-icon nzType="arrow-right" nzTheme="outline"></i>
-                <nz-time-picker [(ngModel)]="fin" nzTooltipTitle="Hora fin" nzTooltipPlacement="top" nz-tooltip>
-                </nz-time-picker>
-                <button nz-button nzType="primary" [disabled]="enviar" (click)="guardar()" nzShape="circle"><i nz-icon
-                        nzTheme="fill" nzType="check-circle"></i></button>
-            </div>
-            <div class="modos">
-                <i class="icon-time" nzTooltipTitle="Cronometro" nzTooltipPlacement="topLeft" (click)="reloj()" nz-icon nzType="clock-circle" nzTheme="fill" nz-tooltip></i>
-                <i class="icon-time" nzTooltipTitle="Tiempo manual" nzTooltipPlacement="topLeft" nz-icon nzType="menu" (click)="manual()" nzTheme="outline" nz-tooltip></i>
-            </div> -->
-        </div>
-
-        <!-- <label *ngIf="pausa" style="text-align: center;"> Pausa: {{ pausa }} </label> -->
-        <!-- <nz-alert *ngIf="pausa" nzType="warning" [nzMessage]="pausa"></nz-alert> -->
-        <div class="etiqueta">
-            <span *ngIf="pausa" class="badge badge-pill badge-warning"> {{ pausa }} </span>
-        </div>
-        <div *ngIf="up" class="detalle">
-
-            <hr style="width: 85%; opacity: 0.2;">
-            <label class="label-datos"> Programación </label>
-            <nz-select [(ngModel)]="programacionequipos" (ngModelChange)="changeProgramacion()" [ngModelOptions]="{standalone: true}" nzPlaceHolder="Seleccione una actividad">
-                <nz-option *ngFor="let programacion of listaProgramacion" [nzValue]="programacion._id" [nzLabel]="programacion.programacionproyecto.proyectos.nombreProyecto + ' - ' + programacion.programacionproyecto.actividades.nombre">
-                </nz-option>
-            </nz-select>
-            <label class="label-datos"> Descripción </label>
-            <textarea [(ngModel)]="descripcion" [ngModelOptions]="{standalone: true}" cols="43" rows="2"></textarea>
-        </div>
-        <i *ngIf="down" (click)="mostrar()" nz-icon nzType="down" nzTheme="outline"></i>
-        <i *ngIf="up" (click)="ocultar()" nz-icon nzType="up" nzTheme="outline"></i>
+    <div *ngIf="pausar" class="vacio">
+        <img style="width: 60%;" src="assets/pause-act.svg" alt="">
     </div>
 </nz-modal>
 
