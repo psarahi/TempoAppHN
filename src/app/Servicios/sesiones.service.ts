@@ -63,9 +63,9 @@ export class SesionesService {
         const userSesion = {
           cuentas: idCuenta,
           miembros: idMiembro,
-          fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-          fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-          fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+          fechaLogin: moment(localInfoSesion.fechaLogin).toISOString(),
+          fechaLoginTemp: moment().toISOString(),
+          fechaLogout: moment().toISOString(),
           tiempoLogin: localInfoSesion.tiempoLogin + difMin,
           estado: false
         };
@@ -103,9 +103,9 @@ export class SesionesService {
         const userSesion = {
           cuentas: idCuenta,
           miembros: idMiembro,
-          fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-          fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-          fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+          fechaLogin: moment(localInfoSesion.fechaLogin).toISOString(),
+          fechaLoginTemp: moment().toISOString(),
+          fechaLogout: moment().toISOString(),
           tiempoLogin: localInfoSesion.tiempoLogin + difMin,
           estado: false
         };
@@ -145,9 +145,9 @@ export class SesionesService {
           const userSesion = {
             cuentas: idCuenta,
             miembros: idMiembro,
-            fechaLogin: moment(localInfoSesion.fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogin: moment(localInfoSesion.fechaLogin).toISOString(),
+            fechaLoginTemp: moment().toISOString(),
+            fechaLogout: moment().toISOString(),
             tiempoLogin: localInfoSesion.tiempoLogin + difMin,
             estado: true
           };
@@ -169,9 +169,9 @@ export class SesionesService {
           const userSesion = {
             cuentas: idCuenta,
             miembros: idMiembro,
-            fechaLogin: moment(sesion[0].fechaLogin).format('YYYY-MM-DD HH:mm:ss'),
-            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogin: moment(sesion[0].fechaLogin).toISOString(),
+            fechaLoginTemp: moment().toISOString(),
+            fechaLogout: moment().toISOString(),
             tiempoLogin: sesion[0].tiempoLogin,
             estado: true
           };
@@ -188,9 +188,9 @@ export class SesionesService {
           const userSesion = {
             cuentas: idCuenta,
             miembros: idMiembro,
-            fechaLogin: moment().format('YYYY-MM-DD HH:mm:ss'),
-            fechaLoginTemp: moment().format('YYYY-MM-DD HH:mm:ss'),
-            fechaLogout: moment().format('YYYY-MM-DD HH:mm:ss'),
+            fechaLogin: moment().toISOString(),
+            fechaLoginTemp: moment().toISOString(),
+            fechaLogout: moment().toISOString(),
             tiempoLogin: 0,
             estado: true
           };
