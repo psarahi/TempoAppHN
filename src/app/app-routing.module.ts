@@ -15,6 +15,8 @@ import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { ActividadActivasComponent } from './pages/actividadActivas/actividadActivas.component';
 import { LoginGuard } from './Servicios/Guards/login.guard';
 import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
+import { ReporteDiarioComponent } from './Reportes/reporteDiario/reporteDiario.component';
+import { ReporteDiarioAdminComponent } from './Reportes/reporteDiarioAdmin/reporteDiarioAdmin.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -27,7 +29,7 @@ const routes: Routes = [
     component: WelcomeComponent,
     canActivate: [LoginGuard],
     children: [
-      { path: 'proyecto', component: ProyectoComponent},
+      { path: 'proyecto', component: ProyectoComponent },
       { path: 'equipo', component: EquipoComponent },
       { path: 'cuentas', component: CuentasComponent },
       { path: 'actividades', component: ActividadesComponent },
@@ -35,7 +37,9 @@ const routes: Routes = [
       { path: 'pruebas', component: PruebasComponent },
       { path: 'dashboard', component: DashboardComponent },
       { path: 'actividadActiva', component: ActividadActivasComponent },
-      { path: 'asinacion', component: AsignacionesComponent }
+      { path: 'asinacion', component: AsignacionesComponent },
+      { path: 'reporteDiario', component: ReporteDiarioComponent },
+      { path: 'reporteDiarioAdmin', component: ReporteDiarioAdminComponent }
     ]
   }
 ];

@@ -1,0 +1,19 @@
+<div>
+    <h1 style="text-align: center;"> Reporte diario </h1>
+    <h3>Tiempo proyectado <span class="badge badge-primary">{{ tiempoProyectado }} Hrs </span></h3>
+    <h5>Tiempo total registrado <span class="badge badge-secondary">{{ tiempoTotal }} Hrs  </span></h5>
+    <div *ngIf="grafico" class="grafico">
+        <fusioncharts type='doughnut2d' width='600' height='400' [dataSource]='dataSource'>
+        </fusioncharts>
+    </div>
+
+    <hr>
+    <div class="card" style="width: 80%; margin: 0 auto">
+        <div class="card-header" style="background-color: rgb(203 233 245);;">
+            Detalle de tiempo improductivo
+        </div>
+        <ul class="list-group list-group-flush" *ngFor="let act of actividadesPausadas">
+            <li class="list-group-item"> <span class="badge badge-primary"> {{ act.programacionequipos.programacionproyecto.tiempoMuerto }} Hrs </span> <span class="badge badge-secondary"> {{ act.programacionequipos.miembros.nombre + ' ' + act.programacionequipos.miembros.apellido }} </span>                {{ act.descripcion }} </li>
+        </ul>
+    </div>
+</div>

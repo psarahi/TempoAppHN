@@ -55,5 +55,17 @@ export class DetalleActividadService {
     return this.http.get(`${apiUrl}/detalleActividad/miembrosDetalleActivos/${idCuenta}/${id}`);
   }
 
+  /// Reportes
+  getDetalleReporteDiarioMiembro() {
+    const { idCuenta, id } = this.userService.getInfoLogin();
+    return this.http.get(`${apiUrl}/detalleActividad/reporteDiarioMiembro/${id}`);
+  }
+
+  getDetalleReporteDiarioAdmin() {
+    const { idCuenta, id } = this.userService.getInfoLogin();
+    return this.http.get(`${apiUrl}/detalleActividad/reporteDiario/${idCuenta}`);
+  }
+
+
 }
 

@@ -10,6 +10,16 @@ import { AppComponent } from './app.component';
 
 import { FullCalendarModule } from '@fullcalendar/angular'; // for FullCalendar!
 
+import { FusionChartsModule } from "angular-fusioncharts";
+
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
+
+// Pass the fusioncharts library and chart modules
+FusionChartsModule.fcRoot(FusionCharts, charts, FusionTheme);
+
 // Importaciones de componentes
 import { CuentasComponent } from './pages/cuentas/cuentas.component';
 import { ActividadesComponent } from './pages/actividades/actividades.component';
@@ -21,7 +31,8 @@ import { WelcomeComponent } from './pages/welcome/welcome.component';
 import { LoginComponent } from './login/login.component';
 import { PruebasComponent } from './pages/pruebas/pruebas.component';
 import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
-
+import { ReporteDiarioComponent } from './Reportes/reporteDiario/reporteDiario.component';
+import { ReporteDiarioAdminComponent } from './Reportes/reporteDiarioAdmin/reporteDiarioAdmin.component';
 
 // Servicios
 import { ActividadesService } from './Servicios/actividades.service';
@@ -100,7 +111,9 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       PruebasComponent,
       DashboardComponent,
       ActividadActivasComponent,
-      AsignacionesComponent
+      AsignacionesComponent,
+      ReporteDiarioComponent,
+      ReporteDiarioAdminComponent
    ],
    imports: [
       BrowserModule,
@@ -113,6 +126,7 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       ReactiveFormsModule,
       SocketIoModule.forRoot(config),
       FullCalendarModule, // for FullCalendar!
+      FusionChartsModule,
       //////////////////////////////
       NzCardModule,
       NzGridModule,

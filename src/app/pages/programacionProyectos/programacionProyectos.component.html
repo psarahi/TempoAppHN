@@ -5,7 +5,7 @@
 
     <div class="container-fluid">
         <div class="row" style="text-align: center; ">
-            <div class="col-4">
+            <div class="col">
                 <nz-card nzTitle="Responsable" nzBordered="false">
                     <div class="responsable">
                         <button id="detalleMmiembro" nz-button nzTooltipTitle="Detalle miembro" nzTooltipPlacement="top" nz-tooltip></button>
@@ -21,8 +21,8 @@
                     <p> Tiempo trabajado: <span> <strong>{{ detalleProyecto.tiempoRealPro }} </strong> </span> </p> -->
                     <div>
                         <div class="chart">
-                            <canvas baseChart [datasets]="barChartData" [labels]="barChartLabels" [options]="barChartOptions" [plugins]="barChartPlugins" [legend]="barChartLegend" [chartType]="barChartType" [colors]="barChartColors">
-                            </canvas>
+                            <fusioncharts [chartConfig]=chartConfig [dataSource]=dataSource>
+                            </fusioncharts>
                         </div>
                     </div>
 

@@ -21,7 +21,7 @@
                     </li>
                 </ul>
             </li>
-            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" style="background-color: rgb(4, 91, 163); margin-top: 635px;" (click)="openUsuarios()" [nzTitle]="isCollapsed ? 'Conectados' : ''">
+            <li nz-menu-item nz-tooltip nzTooltipPlacement="right" *ngIf="this.infoLogin.perfil !== '5e8e222fce7ae6c0d4926b88'" style="background-color: rgb(4, 91, 163); margin-top: 635px;" (click)="openUsuarios()" [nzTitle]="isCollapsed ? 'Conectados' : ''">
                 <i nz-icon nzType="alert"></i>
                 <span>Conectados</span>
             </li>
@@ -74,7 +74,8 @@
             </nz-form-item>
             <nz-form-item>
                 <nz-form-control>
-                    <button style="width: 100%;" nz-button nzType="primary" [disabled]="!validateForm.valid">Iniciar actividad</button>
+                    <button style="width: 100%;" nz-button nzType="primary" [disabled]="!validateForm.valid">Iniciar
+                        actividad</button>
                 </nz-form-control>
             </nz-form-item>
         </form>

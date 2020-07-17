@@ -48,6 +48,8 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
   formulario: boolean = false;
   sinMiembro: boolean = false;
   infoMiembro: boolean = false;
+  dataSource: Object;
+  chartConfig: Object;
 
   barChartOptions: ChartOptions = {
     responsive: true,
@@ -97,6 +99,13 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
 
   ) {
     this.detalleProyecto = this.router.getCurrentNavigation().extras.state || this.rutaService.getInfoNavegacion;
+
+    this.chartConfig = {
+      width: '700',
+      height: '400',
+      type: 'column2d',
+      dataFormat: 'json',
+    };
   }
 
   createNotification(type: string, titulo: string, message: string): void {
@@ -136,11 +145,28 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
 
           this.horasAsignables -= this.validateFormActividades.value.tiempoProyectado;
           this.horasAsiganadas += this.validateFormActividades.value.tiempoProyectado;
-          this.barChartData = [
-            { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
-            { data: [this.horasAsiganadas], label: 'Asiganado' },
-            { data: [Math.round(this.detalleProyecto.tiempoRealPro)], label: 'Trabajado' }
-          ];
+
+          this.dataSource = {
+            'chart': {
+              'caption': 'Estado del proyecto',
+             // 'subCaption': 'In MMbbl = One Million barrels',
+              'xAxisName': 'Tiempo',
+              'yAxisName': 'Horas',
+              'numberSuffix': '(hrs)',
+              'theme': 'fusion',
+            },
+            'data': [{
+              'label': 'Proyectado',
+              'value': this.detalleProyecto.tiempoProyectadoPro
+            }, {
+              'label': 'Asiganado',
+              'value': this.horasAsiganadas
+            }, {
+              'label': 'Trabajado',
+              'value': Math.round(this.detalleProyecto.tiempoRealPro*100)/100
+            }]
+          };
+
           this.createMessage('success', 'Registro creado con exito');
 
           this.validateFormActividades = this.fb.group({
@@ -187,7 +213,6 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
           this.formulario = (this.dataMiembro.length > 0) ? false : false;
 
           this.createNotification('success', 'Éxito', '¡Se agrego correctamente el equipo!');
-
           //  this.idProgramaAct = '';
           this.validateFormMiembros = this.fb.group({
             miembros: [null, [Validators.required]],
@@ -286,11 +311,26 @@ export class ProgramacionProyectosComponent implements OnInit, OnDestroy {
           //  this.horasProyecto = this.detalleProyecto.tiempoProyectadoPro;
           this.horasAsignables = this.detalleProyecto.tiempoProyectadoPro - this.horasAsiganadas;
 
-          this.barChartData = [
-            { data: [this.detalleProyecto.tiempoProyectadoPro], label: 'Proyectado' },
-            { data: [this.horasAsiganadas], label: 'Asiganado' },
-            { data: [Math.round(this.detalleProyecto.tiempoRealPro)], label: 'Trabajado' }
-          ];
+          this.dataSource = {
+            'chart': {
+              'caption': 'Estado del proyecto',
+             // 'subCaption': 'In MMbbl = One Million barrels',
+              'xAxisName': 'Tiempo',
+              'yAxisName': 'Horas',
+              'numberSuffix': '(hrs)',
+              'theme': 'fusion',
+            },
+            'data': [{
+              'label': 'Proyectado',
+              'value': this.detalleProyecto.tiempoProyectadoPro
+            }, {
+              'label': 'Asiganado',
+              'value': this.horasAsiganadas
+            }, {
+              'label': 'Trabajado',
+              'value': Math.round(this.detalleProyecto.tiempoRealPro*100)/100
+            }]
+          };
 
           this.listaProgramacionProyectos = data;
           this.listOfDisplayData = [...this.listaProgramacionProyectos];

@@ -37,6 +37,7 @@ export interface Programacionproyecto {
   actividades: Actividades;
   tiempoProyectado: number;
   tiempoReal: number;
+  tiempoMuerto: number;
 }
 
 export interface Actividades {
