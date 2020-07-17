@@ -33,6 +33,7 @@ import { PruebasComponent } from './pages/pruebas/pruebas.component';
 import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
 import { ReporteDiarioComponent } from './Reportes/reporteDiario/reporteDiario.component';
 import { ReporteDiarioAdminComponent } from './Reportes/reporteDiarioAdmin/reporteDiarioAdmin.component';
+import { ReportePorMiembrosComponent } from './Reportes/reportePorMiembros/reportePorMiembros.component';
 
 // Servicios
 import { ActividadesService } from './Servicios/actividades.service';
@@ -113,7 +114,8 @@ const config: SocketIoConfig = { url: environment.apiUrlSocket, options: {} };
       ActividadActivasComponent,
       AsignacionesComponent,
       ReporteDiarioComponent,
-      ReporteDiarioAdminComponent
+      ReporteDiarioAdminComponent,
+      ReportePorMiembrosComponent
    ],
    imports: [
       BrowserModule,

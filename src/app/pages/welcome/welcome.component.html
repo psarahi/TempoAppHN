@@ -34,7 +34,7 @@
                 <span class="header-trigger" (click)="isCollapsed = !isCollapsed">
                     <i class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"></i>
                 </span>
-                <span class="header-trigger-time" (click)="showModal()">
+                <span *ngIf="this.infoLogin.perfil !== '5e8e2246ce7ae6c0d4926b89'" class="header-trigger-time" (click)="showModal()">
                     <label class="label-inicio-tiempo">Inicia tu actividad</label>
                     <i class="trigger" nz-icon nzType="clock-circle" nzTheme="outline"></i>
                 </span>
@@ -90,7 +90,7 @@
     </div>
 </nz-modal>
 
-<nz-drawer [nzClosable]="false" [nzVisible]="visibleUsuarios" nzPlacement="right" [nzWidth]="300" nzTitle="Miembros Conectados" (nzOnClose)="closeUsuarios()">
+<nz-drawer [nzClosable]="false" [nzVisible]="visibleUsuarios" nzPlacement="right" [nzWidth]="400" nzTitle="Miembros Conectados" (nzOnClose)="closeUsuarios()">
     <ul nz-list [nzDataSource]="miembrosCuenta" [nzBordered]="false" nzSize="small">
         <li nz-list-item *ngFor="let miembro of miembrosConectados" nzNoFlex>
             <div class="conectados">

@@ -1,0 +1,16 @@
+<h2 style="text-align: center;"> Reporte diario por miembros </h2>
+<div *ngIf="grafico" class="grafico">
+    <fusioncharts type="mscolumn2d" width='100%' height='60%' [dataSource]='dataSource'>
+    </fusioncharts>
+</div>
+<hr>
+<div class="card" style="width: 80%; margin: 0 auto">
+    <div class="card-header" style="background-color: rgb(203 233 245);;">
+        Detalle de tiempo improductivo
+    </div>
+    <ul class="list-group list-group-flush" *ngFor="let act of actividadesPausadas">
+        <li class="list-group-item"> <span class="badge badge-primary">
+                {{ act.programacionequipos.programacionproyecto.tiempoMuerto }} Hrs </span> <span class="badge badge-secondary">
+                {{ act.programacionequipos.miembros.nombre + ' ' + act.programacionequipos.miembros.apellido }} </span> {{ act.descripcion }} </li>
+    </ul>
+</div>

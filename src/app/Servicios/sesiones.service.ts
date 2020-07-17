@@ -205,6 +205,10 @@ export class SesionesService {
         }
         break;
       }
+      case 'admin': {
+
+        break;
+      }
       default:
         break;
     }

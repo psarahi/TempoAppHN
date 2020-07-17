@@ -56,7 +56,7 @@ export class LoginComponent implements OnInit {
       (data: any) => {
         const { nombre, apellido, idCuenta, id } = this.userService.executeLogin(data[0]);
 
-        this.sesionService.manejoSesiones(idCuenta, id, data[1], 'login');
+        this.sesionService.manejoSesiones(idCuenta, id, data[1], data[2]);
 
         this.route.navigate(['/actividadActiva']);
         this.createMessage('success', `Bienvenido ${nombre} ${apellido}`);
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
       (error) => {
         // this.createNotification('error');
         // this.createMessage('error', 'Credenciales invalidas');
-        if (error.status == 0) {
+        if (error.status === 0) {
           swal('Lo sentimos', 'No se pudo establecer conexión con el servidor', 'error');
 
         } else {

@@ -1,7 +1,7 @@
 <div>
     <h1 style="text-align: center;"> Reporte diario </h1>
     <h3>Tiempo proyectado <span class="badge badge-primary">{{ tiempoProyectado }} Hrs </span></h3>
-    <h5>Tiempo total registrado <span class="badge badge-secondary">{{ tiempoTotal }} Hrs  </span></h5>
+    <h5>Tiempo total registrado <span class="badge badge-secondary">{{ tiempoTotal | number}} Hrs  </span></h5>
     <div *ngIf="grafico" class="grafico">
         <fusioncharts type='doughnut2d' width='600' height='400' [dataSource]='dataSource'>
         </fusioncharts>

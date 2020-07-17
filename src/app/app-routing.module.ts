@@ -17,6 +17,7 @@ import { LoginGuard } from './Servicios/Guards/login.guard';
 import { AsignacionesComponent } from './pages/asignaciones/asignaciones.component';
 import { ReporteDiarioComponent } from './Reportes/reporteDiario/reporteDiario.component';
 import { ReporteDiarioAdminComponent } from './Reportes/reporteDiarioAdmin/reporteDiarioAdmin.component';
+import { ReportePorMiembrosComponent } from './Reportes/reportePorMiembros/reportePorMiembros.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
@@ -39,7 +40,8 @@ const routes: Routes = [
       { path: 'actividadActiva', component: ActividadActivasComponent },
       { path: 'asinacion', component: AsignacionesComponent },
       { path: 'reporteDiario', component: ReporteDiarioComponent },
-      { path: 'reporteDiarioAdmin', component: ReporteDiarioAdminComponent }
+      { path: 'reporteDiarioAdmin', component: ReporteDiarioAdminComponent },
+      { path: 'reportePorMiembro', component: ReportePorMiembrosComponent }
     ]
   }
 ];

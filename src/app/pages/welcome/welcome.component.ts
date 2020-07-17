@@ -98,11 +98,11 @@ export class WelcomeComponent implements OnInit {
   miembrosCuenta: any[] = [];
   miembrosConectados: Conectado[] = [];
   arrayConectados: any[] = [];
-
-
+  arrayHoraLogin: any[] = [];
+  temporal: any[] = [];;
   @HostListener('window:unload', ['$event'])
   async unloadHandler(event) {
-    if (this.infoLogin) {
+    if (this.infoLogin && this.infoLogin.perfil !== '5e8e2246ce7ae6c0d4926b89') {
       this.pageRecargado = true;
 
       await this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logout');
@@ -382,8 +382,13 @@ export class WelcomeComponent implements OnInit {
                 }
               });
           } else {
-            this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logoutFinal');
-            this.userService.clearInfoLogin();
+            if (this.infoLogin.perfil !== '5e8e2246ce7ae6c0d4926b89') {
+              this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [1], 'logoutFinal');
+              this.userService.clearInfoLogin();
+            } else {
+              this.userService.clearInfoLogin();
+            }
+
           }
 
         });
@@ -423,6 +428,8 @@ export class WelcomeComponent implements OnInit {
             .toPromise()
             .then(
               (data: any[]) => {
+                console.log(data);
+
                 data.forEach(element => {
                   this.arrayConectados.push(element.miembros);
                 });
@@ -453,7 +460,7 @@ export class WelcomeComponent implements OnInit {
     this.escucharSoket();
     this.infoLogin = this.userService.getInfoLogin();
 
-    if (this.pageRecargado === true) {
+    if (this.pageRecargado === true && this.infoLogin.perfil !== '5e8e2246ce7ae6c0d4926b89') {
       this.sesionesService.manejoSesiones(this.infoLogin.idCuenta, this.infoLogin.id, [0], 'refresh');
     }
 
@@ -463,8 +470,6 @@ export class WelcomeComponent implements OnInit {
         (data: any) => {
           this.actividadActiva = data[0];
           this.actividadPausada = data[1];
-
-          console.log(data);
 
           this.actividadActiva.forEach(element => {
             console.log(element.estado._id);
